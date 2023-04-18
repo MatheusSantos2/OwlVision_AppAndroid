@@ -1,0 +1,10 @@
+apply plugin: 'de.undercouch.download'
+
+task downloadModelFile(type: Download) {
+    src 'https://drive.google.com/drive/u/0/folders/1H7y3eNZ0boT3cpGsgj_o-L1nUnkM83mm'
+    dest project.ext.ASSET_DIR + '/model_depth.tflite'
+    overwrite false
+}
+
+
+preBuild.dependsOn downloadModelFile

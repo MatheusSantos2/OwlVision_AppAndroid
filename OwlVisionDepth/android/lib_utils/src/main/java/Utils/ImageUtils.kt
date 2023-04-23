@@ -1,19 +1,3 @@
-/*
- * Copyright 2019 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package Utils
 
 import android.graphics.Bitmap
@@ -24,22 +8,12 @@ import androidx.exifinterface.media.ExifInterface
 import java.io.File
 import java.nio.FloatBuffer
 
-/**
- * Collection of image reading and manipulation utilities in the form of static functions.
- */
 abstract class ImageUtils {
   companion object {
 
-    /**
-     * Helper function used to convert an EXIF orientation enum into a transformation matrix
-     * that can be applied to a bitmap.
-     *
-     * @param orientation - One of the constants from [ExifInterface]
-     */
     private fun decodeExifOrientation(orientation: Int): Matrix {
       val matrix = Matrix()
 
-      // Apply transformation corresponding to declared EXIF orientation
       when (orientation) {
         ExifInterface.ORIENTATION_NORMAL, ExifInterface.ORIENTATION_UNDEFINED -> Unit
         ExifInterface.ORIENTATION_ROTATE_90 -> matrix.postRotate(90F)
@@ -56,21 +30,12 @@ abstract class ImageUtils {
           matrix.postRotate(90F)
         }
 
-        // Error out if the EXIF orientation is invalid
         else -> throw IllegalArgumentException("Invalid orientation: $orientation")
       }
 
-      // Return the resulting matrix
       return matrix
     }
 
-    /**
-     * sets the Exif orientation of an image.
-     * this method is used to fix the exit of pictures taken by the camera
-     *
-     * @param filePath - The image file to change
-     * @param value - the orientation of the file
-     */
     fun setExifOrientation(
       filePath: String,
       value: String
@@ -82,7 +47,6 @@ abstract class ImageUtils {
       exif.saveAttributes()
     }
 
-    /** Transforms rotation and mirroring information into one of the [ExifInterface] constants */
     fun computeExifOrientation(rotationDegrees: Int, mirrored: Boolean) = when {
       rotationDegrees == 0 && !mirrored -> ExifInterface.ORIENTATION_NORMAL
       rotationDegrees == 0 && mirrored -> ExifInterface.ORIENTATION_FLIP_HORIZONTAL
@@ -96,14 +60,8 @@ abstract class ImageUtils {
       else -> ExifInterface.ORIENTATION_UNDEFINED
     }
 
-    /**
-     * Decode a bitmap from a file and apply the transformations described in its EXIF data
-     *
-     * @param file - The image file to be read using [BitmapFactory.decodeFile]
-     */
     fun decodeBitmap(file: File): Bitmap
     {
-      // First, decode EXIF data and retrieve transformation matrix
       val exif = ExifInterface(file.absolutePath)
       val transformation =
         decodeExifOrientation(
@@ -112,7 +70,6 @@ abstract class ImageUtils {
           )
         )
 
-      // Read bitmap using factory methods, and transform it using EXIF data
       val options = BitmapFactory.Options()
       val bitmap = BitmapFactory.decodeFile(file.absolutePath, options)
       return Bitmap.createBitmap(

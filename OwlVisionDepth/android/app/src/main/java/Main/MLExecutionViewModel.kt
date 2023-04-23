@@ -17,7 +17,6 @@ private const val TAG = "MLExecutionViewModel"
 
 class MLExecutionViewModel : ViewModel()
 {
-
   private val _resultingBitmap = MutableLiveData<ModelExecutionResult>()
 
   val resultingBitmap: LiveData<ModelExecutionResult>
@@ -26,8 +25,6 @@ class MLExecutionViewModel : ViewModel()
   private val viewModelJob = Job()
   private val viewModelScope = CoroutineScope(viewModelJob)
 
-  // the execution of the model has to be on the same thread where the interpreter
-  // was created
   fun onApplyModel(filePath: String, imageSegmentationModel: ImageSegmentationModelExecutor?, inferenceThread: ExecutorCoroutineDispatcher)
   {
     viewModelScope.launch(inferenceThread)

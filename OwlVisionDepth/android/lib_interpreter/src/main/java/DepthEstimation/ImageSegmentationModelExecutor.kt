@@ -20,11 +20,67 @@ class ImageSegmentationModelExecutor(context: Context, private var useGPU: Boole
   private val depthMasks: FloatBuffer
   private val interpreter: Interpreter
 
+  companion object
+  {
+    public const val TAG = "DepthInterpreter"
+    private const val imageSegmentationModel = "model_depth.tflite"
+    private const val imageInputSizeWidth = 640
+    private const val imageInputSizeHeight = 192
+    private const val imageOutputSizeWidth = 160
+    private const val imageOutputSizeHeight = 48
+    const val NUM_CLASSES = 19
+  }
+
   init
   {
     interpreter = getInterpreter(context, imageSegmentationModel, useGPU)
     depthMasks = FloatBuffer.allocate(1 * imageOutputSizeHeight * imageOutputSizeWidth)
     depthMasks.order()
+  }
+
+  @Throws(IOException::class)
+  private fun getInterpreter(context: Context, modelName: String, useGpu: Boolean = false): Interpreter
+  {
+      try
+      {
+          val tfliteOptions = Interpreter.Options()
+          tfliteOptions.setNumThreads(numberThreads)
+
+          gpuDelegate = null
+          if (useGpu)
+          {
+              gpuDelegate = GpuDelegate()
+              tfliteOptions.addDelegate(gpuDelegate)
+          }
+          return Interpreter(loadModelFile(context, modelName), tfliteOptions)
+      }
+      catch (e: Exception)
+      {
+          Log.e(TAG, "Fail to create Interpreter: ${e.message}")
+          throw e
+      }
+  }
+
+  @Throws(IOException::class)
+  private fun loadModelFile(context: Context, modelFile: String): MappedByteBuffer
+  {
+    val fileDescriptor = context.assets.openFd(modelFile)
+    val inputStream = FileInputStream(fileDescriptor.fileDescriptor)
+    val fileChannel = inputStream.channel
+    val startOffset = fileDescriptor.startOffset
+    val declaredLength = fileDescriptor.declaredLength
+    val retFile = fileChannel.map(FileChannel.MapMode.READ_ONLY, startOffset, declaredLength)
+    fileDescriptor.close()
+    return retFile
+  }
+
+  fun close()
+  {
+    interpreter.close()
+    if (gpuDelegate != null)
+    {
+      gpuDelegate!!.close()
+    }
   }
 
   fun execute(data: Bitmap): ModelExecutionResult
@@ -54,42 +110,6 @@ class ImageSegmentationModelExecutor(context: Context, private var useGPU: Boole
     }
   }
 
-  @Throws(IOException::class)
-  private fun loadModelFile(context: Context, modelFile: String): MappedByteBuffer
-  {
-    val fileDescriptor = context.assets.openFd(modelFile)
-    val inputStream = FileInputStream(fileDescriptor.fileDescriptor)
-    val fileChannel = inputStream.channel
-    val startOffset = fileDescriptor.startOffset
-    val declaredLength = fileDescriptor.declaredLength
-    val retFile = fileChannel.map(FileChannel.MapMode.READ_ONLY, startOffset, declaredLength)
-    fileDescriptor.close()
-    return retFile
-  }
-
-  @Throws(IOException::class)
-  private fun getInterpreter(context: Context, modelName: String, useGpu: Boolean = false): Interpreter
-  {
-      try
-      {
-          val tfliteOptions = Interpreter.Options()
-          tfliteOptions.setNumThreads(numberThreads)
-
-          gpuDelegate = null
-          if (useGpu)
-          {
-              gpuDelegate = GpuDelegate()
-              tfliteOptions.addDelegate(gpuDelegate)
-          }
-          return Interpreter(loadModelFile(context, modelName), tfliteOptions)
-      }
-      catch (e: Exception)
-      {
-          Log.e(TAG, "Fail to create Interpreter: ${e.message}")
-          throw e
-      }
-  }
-
   private fun formatExecutionLog(): String
   {
     val sb = StringBuilder()
@@ -98,25 +118,5 @@ class ImageSegmentationModelExecutor(context: Context, private var useGPU: Boole
     sb.append("Number of threads: $numberThreads\n")
     sb.append("Full execution time: $fullTimeExecutionTime ms\n")
     return sb.toString()
-  }
-
-  fun close()
-  {
-    interpreter.close()
-    if (gpuDelegate != null)
-    {
-      gpuDelegate!!.close()
-    }
-  }
-
-  companion object
-  {
-    public const val TAG = "DepthInterpreter"
-    private const val imageSegmentationModel = "model_depth.tflite"
-    private const val imageInputSizeWidth = 640
-    private const val imageInputSizeHeight = 192
-    private const val imageOutputSizeWidth = 160
-    private const val imageOutputSizeHeight = 48
-    const val NUM_CLASSES = 19
   }
 }

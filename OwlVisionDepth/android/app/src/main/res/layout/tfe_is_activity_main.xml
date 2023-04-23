@@ -7,24 +7,12 @@
     android:background="#00000000"
     tools:context="Main.MainActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@android:color/white">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/tfl2_logo_dark" />
-    </androidx.appcompat.widget.Toolbar>
-
     <LinearLayout
         android:id="@+id/images_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:gravity="center_horizontal"
+        android:orientation="vertical"
         android:paddingTop="?attr/actionBarSize">
 
         <LinearLayout
@@ -41,7 +29,8 @@
 
         <HorizontalScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            tools:ignore="SpeakableTextPresentCheck">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -50,21 +39,20 @@
 
                 <ImageView
                     android:id="@+id/original_imageview"
-                    android:layout_width="@dimen/tfe_is_preview_size"
-                    android:layout_height="@dimen/tfe_is_preview_size"
+                    android:layout_width="@dimen/owl_is_preview_size"
+                    android:layout_height="@dimen/owl_is_preview_size"
                     android:padding="8dp" />
 
                 <ImageView
                     android:id="@+id/result_imageview"
-                    android:layout_width="@dimen/tfe_is_preview_size"
-                    android:layout_height="@dimen/tfe_is_preview_size"
+                    android:layout_width="@dimen/owl_is_preview_size"
+                    android:layout_height="@dimen/owl_is_preview_size"
                     android:padding="8dp" />
 
             </LinearLayout>
         </HorizontalScrollView>
-    </LinearLayout>
 
-    <include layout="@layout/tfe_is_bottom_sheet_layout" />
+    </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/capture_button"
@@ -74,17 +62,18 @@
         android:layout_marginEnd="8dp"
         android:clickable="true"
         app:backgroundTint="@android:color/white"
-        app:layout_anchor="@id/bottom_sheet"
-        app:layout_anchorGravity="top|end"
-        app:srcCompat="@android:drawable/ic_menu_camera" />
+        app:layout_anchor="@+id/dummy"
+        app:layout_anchorGravity="bottom|center"
+        app:srcCompat="@android:drawable/ic_menu_camera"
+        tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
 
     <View
         android:id="@+id/dummy"
-        android:layout_width="1dp"
-        android:layout_height="80dp"
+        android:layout_width="358dp"
+        android:layout_height="70dp"
         android:layout_marginEnd="8dp"
-        app:layout_anchor="@id/capture_button"
-        app:layout_anchorGravity="top|right|end" />
+        app:layout_anchor="@+id/images_container"
+        app:layout_anchorGravity="bottom|center" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/toggle_button"
@@ -94,7 +83,8 @@
         android:layout_marginEnd="8dp"
         android:clickable="true"
         app:backgroundTint="@android:color/white"
-        app:layout_anchor="@id/dummy"
-        app:layout_anchorGravity="top|end"
-        app:srcCompat="@android:drawable/ic_popup_sync" />
+        app:layout_anchor="@+id/dummy"
+        app:layout_anchorGravity="end|bottom"
+        app:srcCompat="@android:drawable/ic_popup_sync"
+        tools:ignore="SpeakableTextPresentCheck" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

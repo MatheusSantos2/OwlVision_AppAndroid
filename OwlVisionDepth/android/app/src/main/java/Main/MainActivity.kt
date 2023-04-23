@@ -25,28 +25,20 @@ import android.hardware.camera2.CameraCharacteristics
 import android.os.Bundle
 import android.os.Process
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import android.util.Log
-import android.util.TypedValue
 import android.view.animation.AnimationUtils
 import android.view.animation.BounceInterpolator
-import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.ImageView
-import android.widget.Switch
-import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
-import com.google.android.material.chip.Chip
-import com.google.android.material.chip.ChipGroup
 import java.io.File
 import java.util.concurrent.Executors
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.asCoroutineDispatcher
-import kotlinx.coroutines.async
 import Main.Camera.CameraFragment
 import DepthEstimation.ImageSegmentationModelExecutor
 import DepthEstimation.ModelExecutionResult
@@ -71,8 +63,6 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
   private lateinit var viewFinder: FrameLayout
   private lateinit var resultImageView: ImageView
   private lateinit var originalImageView: ImageView
-  private lateinit var chipsGroup: ChipGroup
-  private lateinit var rerunButton: Button
   private lateinit var captureButton: ImageButton
 
   private var lastSavedFile = ""
@@ -88,16 +78,12 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
     super.onCreate(savedInstanceState)
     setContentView(R.layout.tfe_is_activity_main)
 
-    val toolbar: Toolbar = findViewById(R.id.toolbar)
-    setSupportActionBar(toolbar)
     supportActionBar?.setDisplayShowTitleEnabled(false)
 
     viewFinder = findViewById(R.id.view_finder)
     resultImageView = findViewById(R.id.result_imageview)
     originalImageView = findViewById(R.id.original_imageview)
-    chipsGroup = findViewById(R.id.chips_group)
     captureButton = findViewById(R.id.capture_button)
-    val useGpuSwitch: Switch = findViewById(R.id.switch_use_gpu)
 
     // Request camera permissions
     if (allPermissionsGranted())
@@ -122,23 +108,8 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
 
     createModelExecutor(useGPU)
 
-    useGpuSwitch.setOnCheckedChangeListener { _, isChecked ->
-      useGPU = isChecked
-      mainScope.async(inferenceThread) { createModelExecutor(useGPU) }
-    }
-
-    rerunButton = findViewById(R.id.rerun_button)
-    rerunButton.setOnClickListener {
-      if (lastSavedFile.isNotEmpty())
-      {
-        enableControls(false)
-        viewModel.onApplyModel(lastSavedFile, imageSegmentationModel, inferenceThread)
-      }
-    }
-
     animateCameraButton()
 
-    setChipsToLogView(HashMap<String, Int>())
     setupControls()
     enableControls(true)
   }
@@ -157,8 +128,6 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
     catch (e: Exception)
     {
       Log.e(TAG, "Fail to create ImageSegmentationModelExecutor: ${e.message}")
-      val logText: TextView = findViewById(R.id.log_view)
-      logText.text = e.message
     }
   }
 
@@ -170,29 +139,7 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
     captureButton.animation.start()
   }
 
-  private fun setChipsToLogView(itemsFound: Map<String, Int>)
-  {
-    chipsGroup.removeAllViews()
 
-    val paddingDp =
-      TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10F, resources.displayMetrics).toInt()
-
-    for ((label, color) in itemsFound) {
-      val chip = Chip(this)
-      chip.text = label
-      chip.chipBackgroundColor = getColorStateListForChip(color)
-      chip.isClickable = false
-      chip.setPadding(0, paddingDp, 0, paddingDp)
-      chipsGroup.addView(chip)
-    }
-    val labelsFoundTextView: TextView = findViewById(R.id.tfe_is_labels_found)
-    if (chipsGroup.childCount == 0) {
-      labelsFoundTextView.text = getString(R.string.tfe_is_no_labels_found)
-    } else {
-      labelsFoundTextView.text = getString(R.string.tfe_is_labels_found)
-    }
-    chipsGroup.parent.requestLayout()
-  }
 
   private fun getColorStateListForChip(color: Int): ColorStateList
   {
@@ -211,15 +158,11 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
     setImageView(resultImageView, modelExecutionResult.bitmapResult)
     setImageView(originalImageView, modelExecutionResult.bitmapOriginal)
 
-    val logText: TextView = findViewById(R.id.log_view)
-    logText.text = modelExecutionResult.executionLog
-
     enableControls(true)
   }
 
   private fun enableControls(enable: Boolean)
   {
-    rerunButton.isEnabled = enable && lastSavedFile.isNotEmpty()
     captureButton.isEnabled = enable
   }
 

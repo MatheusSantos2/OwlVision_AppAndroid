@@ -1,19 +1,3 @@
-/*
- * Copyright 2019 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package Main
 
 import androidx.lifecycle.ViewModel
@@ -25,33 +9,41 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExecutorCoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import DepthEstimation.ImageSegmentationModelExecutor
-import DepthEstimation.ModelExecutionResult
+import MLDepthEstimation.DepthEstimationModelExecutor
+import Models.ModelViewResult
+import MLSemanticSegmentation.SemanticSegmentationModelExecutor
 import Utils.ImageUtils
 
 private const val TAG = "MLExecutionViewModel"
 
 class MLExecutionViewModel : ViewModel()
 {
+  private val _resultingBitmap = MutableLiveData<ModelViewResult>()
 
-  private val _resultingBitmap = MutableLiveData<ModelExecutionResult>()
-
-  val resultingBitmap: LiveData<ModelExecutionResult>
+  val resultingBitmap: LiveData<ModelViewResult>
     get() = _resultingBitmap
 
   private val viewModelJob = Job()
   private val viewModelScope = CoroutineScope(viewModelJob)
 
-  // the execution of the model has to be on the same thread where the interpreter
-  // was created
-  fun onApplyModel(filePath: String, imageSegmentationModel: ImageSegmentationModelExecutor?, inferenceThread: ExecutorCoroutineDispatcher)
+  fun onApplyModel(filePath: String, depthEstimationModel: DepthEstimationModelExecutor?,
+                   semanticSegmentation: SemanticSegmentationModelExecutor?,
+                   inferenceThread: ExecutorCoroutineDispatcher)
   {
     viewModelScope.launch(inferenceThread)
     {
       val contentImage = ImageUtils.decodeBitmap(File(filePath))
+      val contentImage2 =  ImageUtils.decodeBitmap(File(filePath))
       try
       {
-        val result = imageSegmentationModel?.execute(contentImage)
+        val semanticResult = semanticSegmentation?.execute(contentImage)
+        val depthResult = depthEstimationModel?.execute(contentImage2)
+
+        val logResult = StringBuilder()
+        logResult.append("DepthResult: ${depthResult?.executionLog}")
+        logResult.append("SemanticResult: ${semanticResult?.executionLog}" )
+
+        val result =  ModelViewResult(semanticResult!!.bitmapResult, depthResult!!.bitmapResult, depthResult!!.bitmapOriginal, logResult.toString())
         _resultingBitmap.postValue(result)
       }
       catch (e: Exception)

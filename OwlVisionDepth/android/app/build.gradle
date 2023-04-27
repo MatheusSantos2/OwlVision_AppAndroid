@@ -6,7 +6,7 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
     defaultConfig {
-        applicationId "org.tensorflow.lite.examples.imagesegmentation"
+        applicationId "BrainVision.OwlVision"
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
@@ -26,24 +26,16 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    // If you find lint problem like:
-    // * What went wrong:
-    // A problem was found with the configuration of task ':app:lint'.
-    // > No value has been specified for property 'lintClassPath'.
-    //
-    // Probably you haven't set ANDROID_HOME. To fix:
-    // export ANDROID_HOME=$HOME/Android/Sdk   # Your Android SDK path.
+
     lintOptions {
       abortOnError false
     }
 
     flavorDimensions "tfliteInference"
     productFlavors {
-       // The TFLite inference is built using the TFLite Java interpreter.
        interpreter {
            dimension "tfliteInference"
        }
-       // Default: The TFLite inference is built using the TFLite Task library (high-level API).
        taskApi {
            getIsDefault().set(true)
            dimension "tfliteInference"
@@ -51,10 +43,8 @@ android {
    }
 }
 
-// App assets folder:
 project.ext.ASSET_DIR = projectDir.toString() + '/src/main/assets'
 
-// Download TF Lite model.
 apply from: 'download.gradle'
 
 dependencies {

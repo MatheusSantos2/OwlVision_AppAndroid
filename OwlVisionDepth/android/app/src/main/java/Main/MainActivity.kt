@@ -3,7 +3,6 @@ package Main
 import android.Manifest
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory
 import android.content.pm.PackageManager
-import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.hardware.camera2.CameraCharacteristics
 import android.os.Bundle
@@ -24,8 +23,10 @@ import java.util.concurrent.Executors
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.asCoroutineDispatcher
 import Main.Camera.CameraFragment
-import DepthEstimation.ImageSegmentationModelExecutor
-import DepthEstimation.ModelExecutionResult
+import MLDepthEstimation.DepthEstimationModelExecutor
+import Models.ModelExecutionResult
+import MLSemanticSegmentation.SemanticSegmentationModelExecutor
+import Models.ModelViewResult
 
 private const val REQUEST_CODE_PERMISSIONS = 10
 
@@ -35,17 +36,18 @@ private const val TAG = "MainActivity"
 
 class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
 {
-
   private lateinit var cameraFragment: CameraFragment
   private lateinit var viewModel: MLExecutionViewModel
   private lateinit var viewFinder: FrameLayout
-  private lateinit var resultImageView: ImageView
+  private lateinit var resultImageViewDepth: ImageView
+  private lateinit var resultImageViewSegmentation: ImageView
   private lateinit var originalImageView: ImageView
   private lateinit var captureButton: ImageButton
 
   private var lastSavedFile = ""
   private var useGPU = false
-  private var imageSegmentationModel: ImageSegmentationModelExecutor? = null
+  private var depthEstimationExecutor: DepthEstimationModelExecutor? = null
+  private var semanticSegmentationExecutor: SemanticSegmentationModelExecutor? = null
   private val inferenceThread = Executors.newSingleThreadExecutor().asCoroutineDispatcher()
   private val mainScope = MainScope()
 
@@ -59,7 +61,8 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
     supportActionBar?.setDisplayShowTitleEnabled(false)
 
     viewFinder = findViewById(R.id.view_finder)
-    resultImageView = findViewById(R.id.result_imageview)
+    resultImageViewDepth = findViewById(R.id.result_imageview_depth)
+    resultImageViewSegmentation = findViewById(R.id.result_imageview_segmentation)
     originalImageView = findViewById(R.id.original_imageview)
     captureButton = findViewById(R.id.capture_button)
 
@@ -77,7 +80,7 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
       this,
       Observer { resultImage ->
         if (resultImage != null) {
-          updateUIWithResults(resultImage as ModelExecutionResult)
+          updateUIWithResults(resultImage as ModelViewResult)
         }
         enableControls(true)
       }
@@ -123,10 +126,11 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
     supportFragmentManager.beginTransaction().replace(R.id.view_finder, cameraFragment).commit()
   }
 
-  private fun updateUIWithResults(modelExecutionResult: ModelExecutionResult)
+  private fun updateUIWithResults(modelViewResult: ModelViewResult)
   {
-    setImageView(resultImageView, modelExecutionResult.bitmapResult)
-    setImageView(originalImageView, modelExecutionResult.bitmapOriginal)
+    setImageView(resultImageViewDepth, modelViewResult.bitmapResult)
+    setImageView(resultImageViewSegmentation, modelViewResult.bitmapResult2)
+    setImageView(originalImageView, modelViewResult.bitmapOriginal)
 
     enableControls(true)
   }
@@ -143,18 +147,22 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
 
   private fun createModelExecutor(useGPU: Boolean)
   {
-    if (imageSegmentationModel != null)
+    if (depthEstimationExecutor != null && semanticSegmentationExecutor != null)
     {
-      imageSegmentationModel!!.close()
-      imageSegmentationModel = null
+      depthEstimationExecutor!!.close()
+      depthEstimationExecutor = null
+
+      semanticSegmentationExecutor!!.close()
+      semanticSegmentationExecutor = null
     }
     try
     {
-      imageSegmentationModel = ImageSegmentationModelExecutor(this, useGPU)
+      depthEstimationExecutor = DepthEstimationModelExecutor(this, useGPU)
+      semanticSegmentationExecutor = SemanticSegmentationModelExecutor(this, useGPU)
     }
     catch (e: Exception)
     {
-      Log.e(TAG, "Fail to create ImageSegmentationModelExecutor: ${e.message}")
+      Log.e(TAG, "Fail to create Executors depthEstimation and semanticSegmentation - Exception: ${e.message}")
     }
   }
 
@@ -191,6 +199,6 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
 
     lastSavedFile = file.absolutePath
     enableControls(false)
-    viewModel.onApplyModel(file.absolutePath, imageSegmentationModel, inferenceThread)
+    viewModel.onApplyModel(file.absolutePath, depthEstimationExecutor, semanticSegmentationExecutor, inferenceThread)
   }
 }

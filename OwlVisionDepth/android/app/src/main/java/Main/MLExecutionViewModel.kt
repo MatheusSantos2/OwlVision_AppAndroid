@@ -9,30 +9,41 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExecutorCoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import DepthEstimation.ImageSegmentationModelExecutor
-import DepthEstimation.ModelExecutionResult
+import MLDepthEstimation.DepthEstimationModelExecutor
+import Models.ModelViewResult
+import MLSemanticSegmentation.SemanticSegmentationModelExecutor
 import Utils.ImageUtils
 
 private const val TAG = "MLExecutionViewModel"
 
 class MLExecutionViewModel : ViewModel()
 {
-  private val _resultingBitmap = MutableLiveData<ModelExecutionResult>()
+  private val _resultingBitmap = MutableLiveData<ModelViewResult>()
 
-  val resultingBitmap: LiveData<ModelExecutionResult>
+  val resultingBitmap: LiveData<ModelViewResult>
     get() = _resultingBitmap
 
   private val viewModelJob = Job()
   private val viewModelScope = CoroutineScope(viewModelJob)
 
-  fun onApplyModel(filePath: String, imageSegmentationModel: ImageSegmentationModelExecutor?, inferenceThread: ExecutorCoroutineDispatcher)
+  fun onApplyModel(filePath: String, depthEstimationModel: DepthEstimationModelExecutor?,
+                   semanticSegmentation: SemanticSegmentationModelExecutor?,
+                   inferenceThread: ExecutorCoroutineDispatcher)
   {
     viewModelScope.launch(inferenceThread)
     {
       val contentImage = ImageUtils.decodeBitmap(File(filePath))
+      val contentImage2 =  ImageUtils.decodeBitmap(File(filePath))
       try
       {
-        val result = imageSegmentationModel?.execute(contentImage)
+        val semanticResult = semanticSegmentation?.execute(contentImage)
+        val depthResult = depthEstimationModel?.execute(contentImage2)
+
+        val logResult = StringBuilder()
+        logResult.append("DepthResult: ${depthResult?.executionLog}")
+        logResult.append("SemanticResult: ${semanticResult?.executionLog}" )
+
+        val result =  ModelViewResult(semanticResult!!.bitmapResult, depthResult!!.bitmapResult, depthResult!!.bitmapOriginal, logResult.toString())
         _resultingBitmap.postValue(result)
       }
       catch (e: Exception)

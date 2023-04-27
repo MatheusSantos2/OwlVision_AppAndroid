@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-package DepthEstimation
+package Models
 
 import android.graphics.Bitmap
 
-data class ModelExecutionResult(
+data class ModelViewResult(
   val bitmapResult: Bitmap,
+  val bitmapResult2: Bitmap,
   val bitmapOriginal: Bitmap,
   val executionLog: String
 )

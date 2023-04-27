@@ -1,5 +1,6 @@
-package DepthEstimation
+package MLDepthEstimation
 
+import Models.ModelExecutionResult
 import android.content.Context
 import android.graphics.Bitmap
 import android.os.SystemClock
@@ -12,7 +13,7 @@ import Utils.ImageUtils
 import org.tensorflow.lite.gpu.GpuDelegate
 import java.nio.*
 
-class ImageSegmentationModelExecutor(context: Context, private var useGPU: Boolean = false)
+class DepthEstimationModelExecutor(context: Context, private var useGPU: Boolean = false)
 {
   private var gpuDelegate: GpuDelegate? = null
   private var fullTimeExecutionTime = 0L
@@ -23,7 +24,7 @@ class ImageSegmentationModelExecutor(context: Context, private var useGPU: Boole
   companion object
   {
     public const val TAG = "DepthInterpreter"
-    private const val imageSegmentationModel = "model_depth.tflite"
+    private const val depthEstimationModel = "model_depth.tflite"
     private const val imageInputSizeWidth = 640
     private const val imageInputSizeHeight = 192
     private const val imageOutputSizeWidth = 160
@@ -33,7 +34,7 @@ class ImageSegmentationModelExecutor(context: Context, private var useGPU: Boole
 
   init
   {
-    interpreter = getInterpreter(context, imageSegmentationModel, useGPU)
+    interpreter = getInterpreter(context, depthEstimationModel, useGPU)
     depthMasks = FloatBuffer.allocate(1 * imageOutputSizeHeight * imageOutputSizeWidth)
     depthMasks.order()
   }

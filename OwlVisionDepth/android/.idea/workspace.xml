@@ -5,24 +5,34 @@
       <config />
     </shared>
   </component>
-  <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
-  </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="65eca80f-fc20-43a1-9c0a-2c83e645e9ae" name="Changes" comment="[Code] Aplicando o clean code, reorganizando a ordem em que os métodos sao chamados">
-      <change afterPath="$PROJECT_DIR$/lib_interpreter/src/main/java/MLSemanticSegmentation/SemanticSegmentationModelExecutor.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib_interpreter/src/main/java/Models/ModelViewResult.kt" afterDir="false" />
+    <list default="true" id="6611f3e8-6667-43a0-98cf-13c4bc7575db" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/lib_core/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib_core/build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib_core/src/main/AndroidManifest.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib_core/src/main/java/Core/Entities/Point.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib_core/src/main/java/Core/Entities/Points.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README_INTERNAL.md" beforeDir="false" afterPath="$PROJECT_DIR$/README_INTERNAL.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/download.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/download.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/Main/MLExecutionViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/Main/MLExecutionViewModel.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/Main/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/Main/MainActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/tfe_is_activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/tfe_is_activity_main.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib_interpreter/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/lib_interpreter/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib_interpreter/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/lib_interpreter/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_interpreter/src/main/java/DepthEstimation/ImageSegmentationModelExecutor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/lib_interpreter/src/main/java/MLDepthEstimation/DepthEstimationModelExecutor.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_interpreter/src/main/java/DepthEstimation/ModelExecutionResult.kt" beforeDir="false" afterPath="$PROJECT_DIR$/lib_interpreter/src/main/java/Models/ModelExecutionResult.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib_interpreter/src/main/java/MLDepthEstimation/DepthEstimationModelExecutor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/lib_interpreter/src/main/java/Interpreter/MLDepthEstimation/DepthEstimationModelExecutor.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib_interpreter/src/main/java/MLSemanticSegmentation/SemanticSegmentationModelExecutor.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib_interpreter/src/main/java/Models/ModelExecutionResult.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib_interpreter/src/main/java/Models/ModelViewResult.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib_utils/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/lib_utils/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib_utils/src/main/java/Utils/ImageUtils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/lib_utils/src/main/java/Utils/ImageUtils.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,52 +66,32 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Kotlin Class" />
+        <option value="Class" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$/../.." value="main" />
-      </map>
-    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProblemsViewState">
-    <option name="selectedTabId" value="ProjectErrors" />
-  </component>
-  <component name="ProjectId" id="2OZsDMwuwTvjG4YBBQ0qw0xQSmc" />
+  <component name="ProjectId" id="2P3jPsb3apMghXWa9oJUcrfGJs1" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="PROJECT_TRUSTED_KEY" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
-    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="android-custom-viewC:/Source/BrainVision/OwlVisionDepth/android/app/src/main/java/Main/Camera/AutoFitSurfaceView.kt_SELECTED" value="AutoFitSurfaceView" />
     <property name="cidr.known.project.marker" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib_interpreter/src/main/java" />
-  </component>
-  <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Source\BrainVision\OwlVisionDepth\android\lib_interpreter\src\main\java" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Source\BrainVision\OwlVisionDepth\android\app\src\main\res\drawable-v24" />
-    </key>
-    <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
-      <recent name="Models" />
-    </key>
-    <key name="CopyKotlinDeclarationDialog.RECENTS_KEY">
-      <recent name="Models" />
-    </key>
+    <property name="last_directory_selection" value="$PROJECT_DIR$/lib_core/src/main/java/Core" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.17" />
+    <property name="project.structure.side.proportion" value="0.2" />
   </component>
   <component name="RunManager">
     <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
@@ -167,27 +157,12 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="65eca80f-fc20-43a1-9c0a-2c83e645e9ae" name="Changes" comment="" />
-      <created>1681779318260</created>
+      <changelist id="6611f3e8-6667-43a0-98cf-13c4bc7575db" name="Changes" comment="" />
+      <created>1682692644143</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1681779318260</updated>
+      <updated>1682692644143</updated>
     </task>
-    <task id="LOCAL-00001" summary="[Code] Removendo usos desnecessarios e renomeando componentes para refletir o OwlVision">
-      <created>1682284155341</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1682284155341</updated>
-    </task>
-    <task id="LOCAL-00002" summary="[Code] Removendo usos desnecessarios e renomeando componentes para refletir o OwlVision">
-      <created>1682284195902</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1682284195902</updated>
-    </task>
-    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -200,28 +175,5 @@
         </entry>
       </map>
     </option>
-  </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="[Code] Removendo usos desnecessarios e renomeando componentes para refletir o OwlVision" />
-    <option name="LAST_COMMIT_MESSAGE" value="[Code] Removendo usos desnecessarios e renomeando componentes para refletir o OwlVision" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/Main/MLExecutionViewModel.kt</url>
-          <line>48</line>
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/Main/MLExecutionViewModel.kt</url>
-          <line>45</line>
-          <properties>
-            <option name="lambda-ordinal" value="-1" />
-          </properties>
-          <option name="timeStamp" value="11" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

@@ -3,7 +3,6 @@ package Utils
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
-import android.util.Log
 import androidx.exifinterface.media.ExifInterface
 import java.io.File
 import java.nio.FloatBuffer
@@ -134,7 +133,7 @@ abstract class ImageUtils {
       return resizedBitmap;
     }
 
-    fun convertFloatBufferToBitmap(floatBuffer: FloatBuffer, width: Int, height: Int): Bitmap
+    fun convertFloatBufferToBitmapGrayScale(floatBuffer: FloatBuffer, width: Int, height: Int): Bitmap
     {
       floatBuffer?.rewind()
       val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
@@ -149,6 +148,26 @@ abstract class ImageUtils {
         floatBuffer?.rewind()
 
         pixels[i] = a shl 24 or (r.toInt() shl 16) or (g.toInt() shl 8) or b.toInt()
+      }
+      bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
+      return bitmap
+    }
+
+    fun convertFloatBufferToBitmapRGB(floatBuffer: FloatBuffer, width: Int, height: Int): Bitmap
+    {
+      floatBuffer?.rewind()
+      val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
+      val pixels = IntArray(width * height)
+
+      for (i in 0 until width * height)
+      {
+        val a = 0xFF
+        val r: Float = floatBuffer?.get(i)!! * 31.0f
+        val g: Float = floatBuffer?.get(i)!! * 63.0f
+        val b: Float = floatBuffer?.get(i)!! * 31.0f
+        floatBuffer?.rewind()
+
+        pixels[i] = a shl 24 or (r.toInt() and 0x1F shl 11) or (g.toInt() and 0x3F shl 5) or (b.toInt() and 0x1F)
       }
       bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
       return bitmap

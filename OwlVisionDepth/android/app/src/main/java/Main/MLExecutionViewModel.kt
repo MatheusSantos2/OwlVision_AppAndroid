@@ -1,5 +1,8 @@
 package Main
 
+import Interpreter.MLDepthEstimation.DepthEstimationModelExecutor
+import Interpreter.MLSemanticSegmentation.SemanticSegmentationModelExecutor
+import Interpreter.Models.ModelViewResult
 import androidx.lifecycle.ViewModel
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -9,9 +12,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExecutorCoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import MLDepthEstimation.DepthEstimationModelExecutor
-import Models.ModelViewResult
-import MLSemanticSegmentation.SemanticSegmentationModelExecutor
 import Utils.ImageUtils
 
 private const val TAG = "MLExecutionViewModel"

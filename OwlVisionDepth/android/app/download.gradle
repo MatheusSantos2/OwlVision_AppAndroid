@@ -6,5 +6,4 @@ task downloadModelFile(type: Download) {
     overwrite false
 }
 
-
 preBuild.dependsOn downloadModelFile

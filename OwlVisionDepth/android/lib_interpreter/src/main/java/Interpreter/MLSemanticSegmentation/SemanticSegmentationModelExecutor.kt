@@ -1,6 +1,6 @@
-package MLSemanticSegmentation
+package Interpreter.MLSemanticSegmentation
 
-import Models.ModelExecutionResult
+import Interpreter.Models.ModelExecutionResult
 import Utils.ImageUtils
 import android.content.Context
 import android.graphics.Bitmap

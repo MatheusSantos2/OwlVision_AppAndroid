@@ -1,5 +1,8 @@
 package Main
 
+import Interpreter.MLDepthEstimation.DepthEstimationModelExecutor
+import Interpreter.MLSemanticSegmentation.SemanticSegmentationModelExecutor
+import Interpreter.Models.ModelViewResult
 import android.Manifest
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory
 import android.content.pm.PackageManager
@@ -23,10 +26,6 @@ import java.util.concurrent.Executors
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.asCoroutineDispatcher
 import Main.Camera.CameraFragment
-import MLDepthEstimation.DepthEstimationModelExecutor
-import Models.ModelExecutionResult
-import MLSemanticSegmentation.SemanticSegmentationModelExecutor
-import Models.ModelViewResult
 
 private const val REQUEST_CODE_PERMISSIONS = 10
 

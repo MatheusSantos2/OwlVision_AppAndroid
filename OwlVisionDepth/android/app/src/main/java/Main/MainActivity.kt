@@ -3,14 +3,13 @@ package Main
 import Interpreter.MLDepthEstimation.DepthEstimationModelExecutor
 import Interpreter.MLSemanticSegmentation.SemanticSegmentationModelExecutor
 import Interpreter.Models.ModelViewResult
+import Main.Camera.CameraFragment
 import android.Manifest
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.hardware.camera2.CameraCharacteristics
 import android.os.Bundle
 import android.os.Process
-import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 import android.view.animation.AnimationUtils
 import android.view.animation.BounceInterpolator
@@ -18,19 +17,19 @@ import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory
 import com.bumptech.glide.Glide
+import kotlinx.coroutines.asCoroutineDispatcher
+import org.opencv.android.OpenCVLoader
 import java.io.File
 import java.util.concurrent.Executors
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.asCoroutineDispatcher
-import Main.Camera.CameraFragment
-
-private const val REQUEST_CODE_PERMISSIONS = 10
 
 private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
 
+private const val REQUEST_CODE_PERMISSIONS = 10
 private const val TAG = "MainActivity"
 
 class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
@@ -48,16 +47,19 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
   private var depthEstimationExecutor: DepthEstimationModelExecutor? = null
   private var semanticSegmentationExecutor: SemanticSegmentationModelExecutor? = null
   private val inferenceThread = Executors.newSingleThreadExecutor().asCoroutineDispatcher()
-  private val mainScope = MainScope()
 
   private var lensFacing = CameraCharacteristics.LENS_FACING_FRONT
 
   override fun onCreate(savedInstanceState: Bundle?)
   {
     super.onCreate(savedInstanceState)
+
     setContentView(R.layout.tfe_is_activity_main)
 
     supportActionBar?.setDisplayShowTitleEnabled(false)
+
+    if (OpenCVLoader.initDebug()) Log.d(TAG, "OpenCV - Sucess")
+    else Log.d(TAG, "OpenCV - Fail")
 
     viewFinder = findViewById(R.id.view_finder)
     resultImageViewDepth = findViewById(R.id.result_imageview_depth)

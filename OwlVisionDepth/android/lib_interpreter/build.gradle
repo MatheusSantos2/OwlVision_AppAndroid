@@ -3,13 +3,11 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 32
+    compileSdkVersion 33
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 32
-        versionCode 1
-        versionName "1.0"
+        targetSdkVersion 33
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -18,13 +16,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    aaptOptions {
-        noCompress "tflite"
+    androidResources {
+        noCompress 'tflite'
     }
+    lint {
+        abortOnError false
+    }
+    namespace 'Interpreter'
 
-    lintOptions {
-      abortOnError false
-    }
 }
 
 dependencies {
@@ -36,4 +35,7 @@ dependencies {
 
     implementation 'org.tensorflow:tensorflow-lite:0.0.0-nightly-SNAPSHOT'
     implementation 'org.tensorflow:tensorflow-lite-gpu:0.0.0-nightly-SNAPSHOT'
+    implementation 'org.tensorflow:tensorflow-lite:2.8.0'
+    implementation 'org.tensorflow:tensorflow-lite-support:0.2.0'
+    implementation project(path: ':openCV')
 }

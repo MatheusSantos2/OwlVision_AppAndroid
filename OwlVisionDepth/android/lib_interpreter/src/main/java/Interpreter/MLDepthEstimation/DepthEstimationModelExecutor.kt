@@ -1,6 +1,7 @@
 package Interpreter.MLDepthEstimation
 
 import Interpreter.Models.ModelExecutionResult
+import Interpreter.OpenCV.OpenCVHelper
 import android.content.Context
 import android.graphics.Bitmap
 import android.os.SystemClock
@@ -14,9 +15,10 @@ import java.nio.*
 
 class DepthEstimationModelExecutor(context: Context, private var useGPU: Boolean = false)
 {
+  private var inputData: FloatBuffer
   private var fullTimeExecutionTime = 0L
   private var numberThreads = 4
-  private val depthMasks: FloatBuffer
+  private val outputData: FloatBuffer
   private val interpreter: Interpreter
 
   companion object
@@ -32,8 +34,14 @@ class DepthEstimationModelExecutor(context: Context, private var useGPU: Boolean
   init
   {
     interpreter = getInterpreter(context, depthEstimationModel, useGPU)
-    depthMasks = FloatBuffer.allocate(1 * imageOutputSizeHeight * imageOutputSizeWidth)
-    depthMasks.order()
+
+    outputData = ByteBuffer.allocateDirect(1 * 160 * 48 * 1 * 4).apply {
+      order(ByteOrder.nativeOrder())
+    }.asFloatBuffer()
+
+    inputData = ByteBuffer.allocateDirect(1 * 192 * 640 * 3 * 4).apply {
+      order(ByteOrder.nativeOrder())
+    }.asFloatBuffer()
   }
 
   @Throws(IOException::class)
@@ -77,16 +85,21 @@ class DepthEstimationModelExecutor(context: Context, private var useGPU: Boolean
     {
       fullTimeExecutionTime = SystemClock.uptimeMillis()
       val scaledBitmap = ImageUtils.scaleBitmapAndKeepRatio(data, imageInputSizeHeight, imageInputSizeWidth)
-      val contentArray = ImageUtils.convertBitmapToFloatBuffer(scaledBitmap, imageInputSizeWidth, imageInputSizeHeight)
+      val inputArray = bitmapToArray(scaledBitmap)
 
-      interpreter.run(contentArray, depthMasks)
-      val outputBitmap = ImageUtils.convertFloatBufferToBitmapRGB(depthMasks, imageOutputSizeWidth, imageOutputSizeHeight)
+      inputData.rewind()
+      inputData.put(inputArray)
+
+      interpreter.run(inputData, outputData)
+
+      val outputBitmap = ImageUtils.convertFloatBufferToBitmapGrayScale(outputData, imageOutputSizeWidth, imageOutputSizeHeight)
       val outputBitmapResized = ImageUtils.scaleBitmapAndKeepRatio(outputBitmap, imageInputSizeHeight, imageInputSizeWidth)
 
+      val output = OpenCVHelper().depthEstimationVisualization(scaledBitmap, outputBitmapResized)
       fullTimeExecutionTime = SystemClock.uptimeMillis() - fullTimeExecutionTime
       Log.d(TAG, "Total time execution $fullTimeExecutionTime")
 
-      return ModelExecutionResult(outputBitmapResized, scaledBitmap, formatExecutionLog())
+      return ModelExecutionResult(output, scaledBitmap, formatExecutionLog())
     }
     catch (e: Exception)
     {
@@ -105,5 +118,30 @@ class DepthEstimationModelExecutor(context: Context, private var useGPU: Boolean
     sb.append("Number of threads: $numberThreads\n")
     sb.append("Full execution time: $fullTimeExecutionTime ms\n")
     return sb.toString()
+  }
+
+  fun bitmapToArray(bitmap: Bitmap): FloatArray {
+    val width = bitmap.width
+    val height = bitmap.height
+
+    val pixels = IntArray(width * height)
+
+    bitmap.getPixels(pixels, 0, width, 0, 0, width, height)
+
+    val pixelValues = FloatArray(width * height * 3)
+
+    for (i in pixels.indices) {
+      val pixel = pixels[i]
+
+      val red = ((pixel shr 16) and 0xff) / 255.0f
+      val green = ((pixel shr 8) and 0xff) / 255.0f
+      val blue = (pixel and 0xff) / 255.0f
+
+      pixelValues[i * 3] = red
+      pixelValues[i * 3 + 1] = green
+      pixelValues[i * 3 + 2] = blue
+    }
+
+    return pixelValues
   }
 }

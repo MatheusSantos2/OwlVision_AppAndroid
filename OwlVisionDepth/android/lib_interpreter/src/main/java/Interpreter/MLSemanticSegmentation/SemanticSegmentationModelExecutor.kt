@@ -20,9 +20,9 @@ import kotlin.collections.HashMap
 
 class SemanticSegmentationModelExecutor(context: Context, private var useGPU: Boolean = false)
 {
-  private var gpuDelegate: GpuDelegate? = null
+  private var outputData: FloatBuffer
+  private var inputData: FloatBuffer
 
-  private val segmentationMasks: FloatBuffer
   private val interpreter: Interpreter
 
   private var fullTimeExecutionTime = 0L
@@ -59,8 +59,14 @@ class SemanticSegmentationModelExecutor(context: Context, private var useGPU: Bo
   init
   {
     interpreter = getInterpreter(context, imageSegmentationModel, useGPU)
-    segmentationMasks = FloatBuffer.allocate(1 * imageHeightSize * imageWidthSize * NUM_CLASSES)
-    segmentationMasks.order()
+
+    outputData = ByteBuffer.allocateDirect(1 * imageHeightSize * imageWidthSize * NUM_CLASSES * 4).apply {
+      order(ByteOrder.nativeOrder())
+    }.asFloatBuffer()
+
+    inputData = ByteBuffer.allocateDirect(1 * imageHeightSize * imageWidthSize * 3 * 4).apply {
+      order(ByteOrder.nativeOrder())
+    }.asFloatBuffer()
   }
 
   @Throws(IOException::class)
@@ -68,13 +74,6 @@ class SemanticSegmentationModelExecutor(context: Context, private var useGPU: Bo
   {
     val tfliteOptions = Interpreter.Options()
     tfliteOptions.setNumThreads(numberThreads)
-
-    gpuDelegate = null
-    if (useGpu)
-    {
-      gpuDelegate = GpuDelegate()
-      tfliteOptions.addDelegate(gpuDelegate)
-    }
 
     return Interpreter(loadModelFile(context, modelName), tfliteOptions)
   }
@@ -90,9 +89,6 @@ class SemanticSegmentationModelExecutor(context: Context, private var useGPU: Bo
 
   fun close() {
     interpreter.close()
-    if (gpuDelegate != null) {
-      gpuDelegate!!.close()
-    }
   }
 
   fun execute(data: Bitmap): ModelExecutionResult
@@ -102,10 +98,14 @@ class SemanticSegmentationModelExecutor(context: Context, private var useGPU: Bo
       fullTimeExecutionTime = SystemClock.uptimeMillis()
 
       val scaledBitmap = ImageUtils.scaleBitmapAndKeepRatio(data, imageHeightSize, imageWidthSize)
-      val contentArray = ImageUtils.convertBitmapToFloatBuffer(scaledBitmap, imageWidthSize, imageHeightSize, IMAGE_MEAN, IMAGE_STD)
+      val inputArray = ImageUtils.bitmapToArray(scaledBitmap)
 
-      interpreter.run(contentArray, segmentationMasks)
-      val (maskImageApplied, maskOnly, itemsFound) = convertBytebufferMaskToBitmap(segmentationMasks, imageWidthSize, imageHeightSize, scaledBitmap, segmentColors)
+      inputData.rewind()
+      inputData.put(inputArray)
+
+      interpreter.run(inputData, outputData)
+
+      val (maskImageApplied, maskOnly, itemsFound) = convertBytebufferMaskToBitmap(outputData, imageWidthSize, imageHeightSize, scaledBitmap, segmentColors)
       fullTimeExecutionTime = SystemClock.uptimeMillis() - fullTimeExecutionTime
 
       return ModelExecutionResult(maskImageApplied, scaledBitmap, formatExecutionLog())

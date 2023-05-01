@@ -172,5 +172,30 @@ abstract class ImageUtils {
       bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
       return bitmap
     }
+
+    fun bitmapToArray(bitmap: Bitmap): FloatArray {
+      val width = bitmap.width
+      val height = bitmap.height
+
+      val pixels = IntArray(width * height)
+
+      bitmap.getPixels(pixels, 0, width, 0, 0, width, height)
+
+      val pixelValues = FloatArray(width * height * 3)
+
+      for (i in pixels.indices) {
+        val pixel = pixels[i]
+
+        val red = ((pixel shr 16) and 0xff) / 255.0f
+        val green = ((pixel shr 8) and 0xff) / 255.0f
+        val blue = (pixel and 0xff) / 255.0f
+
+        pixelValues[i * 3] = red
+        pixelValues[i * 3 + 1] = green
+        pixelValues[i * 3 + 2] = blue
+      }
+
+      return pixelValues
+    }
   }
 }

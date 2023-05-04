@@ -16,7 +16,7 @@ open class SegmentColors
                 "Pedestrian" to Color.parseColor("#16a085"), // green
                 "Pole" to Color.parseColor("#d35400"), // pumpkin
                 "RoadLine" to Color.parseColor("#f1c40f"), // yellow
-                "Road" to Color.parseColor("#e74c3c"), // red
+                "Road" to Color.parseColor("#e74c3c"), // road
                 "SideWalk" to Color.parseColor("#2ecc71"), // emerald
                 "Vegetation" to Color.parseColor("#27ae60"), // green sea
                 "Vehicles" to Color.parseColor("#3498db"), // peter river

@@ -14,24 +14,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="171e0032-8938-43c8-b95a-e91b7fa23100" name="Changes" comment="Subindo a alteração da classe de interpretação do modelo de segmentação semantica">
-      <change afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Entities/Point3D.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Entities/VehicleTrafficZone/NormalizeTrajectory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Entities/VehicleTrafficZone/RoadSegmentator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Entities/VehicleTrafficZone/TrajectoryGenerator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib_utils/src/main/java/Utils/SegmentColors.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_core/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Entities/Point.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Entities/Point2D.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Entities/Points.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Senders/MqttSender.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Senders/MqttSender.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/RoadSegmentator.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_interpreter/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/lib_interpreter/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_interpreter/src/main/java/Interpreter/MLSemanticSegmentation/SemanticSegmentationModelExecutor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/lib_interpreter/src/main/java/Interpreter/MLSemanticSegmentation/SemanticSegmentationModelExecutor.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_utils/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/lib_utils/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_utils/src/main/java/Utils/ImageUtils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/lib_utils/src/main/java/Utils/ImageUtils.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/Main/MLExecutionViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/Main/MLExecutionViewModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Entities/VehicleTrafficZone/NormalizeTrajectory.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/NormalizeTrajectory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Entities/VehicleTrafficZone/RoadSegmentator.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/RoadSegmentator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Entities/VehicleTrafficZone/TrajectoryGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/TrajectoryGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib_utils/src/main/java/Utils/SegmentColors.kt" beforeDir="false" afterPath="$PROJECT_DIR$/lib_utils/src/main/java/Utils/SegmentColors.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -229,17 +217,32 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/lib_interpreter/src/main/java/Interpreter/OpenCV/OpenCVHelper.kt</url>
-          <line>22</line>
-          <option name="timeStamp" value="21" />
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/RoadSegmentator.java</url>
+          <line>87</line>
+          <option name="timeStamp" value="35" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/lib_interpreter/src/main/java/Interpreter/MLDepthEstimation/DepthEstimationModelExecutor.kt</url>
-          <line>100</line>
-          <option name="timeStamp" value="24" />
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/RoadSegmentator.java</url>
+          <line>34</line>
+          <option name="timeStamp" value="42" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <watches-manager>
+      <configuration name="app-java">
+        <watch expression="imageResult" />
+        <watch expression="getColorForLabel(&quot;Road&quot;)" />
+      </configuration>
+      <inline-watch fileUrl="file://$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/RoadSegmentator.java" line="49">
+        <watch expression="depth &gt;= minDepthLimit" />
+      </inline-watch>
+      <inline-watch fileUrl="file://$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/RoadSegmentator.java" line="49">
+        <watch expression="depth &lt; maxDepthLimit" />
+      </inline-watch>
+      <inline-watch fileUrl="file://$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/RoadSegmentator.java" line="49">
+        <watch expression="depth &gt;= minDepthLimit &amp;&amp; depth &lt; maxDepthLimit" />
+      </inline-watch>
+    </watches-manager>
   </component>
 </project>

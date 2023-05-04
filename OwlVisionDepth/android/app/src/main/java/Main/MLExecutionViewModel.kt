@@ -1,5 +1,6 @@
 package Main
 
+import Infraestructure.VehicleTrafficZone.RoadSegmentator
 import Interpreter.MLDepthEstimation.DepthEstimationModelExecutor
 import Interpreter.MLSemanticSegmentation.SemanticSegmentationModelExecutor
 import Interpreter.Models.ModelViewResult
@@ -43,7 +44,10 @@ class MLExecutionViewModel : ViewModel()
         logResult.append("DepthResult: ${depthResult?.executionLog}")
         logResult.append("SemanticResult: ${semanticResult?.executionLog}" )
 
-        val result =  ModelViewResult(semanticResult!!.bitmapResult, depthResult!!.bitmapResult, depthResult!!.bitmapOriginal, logResult.toString())
+        val generate = RoadSegmentator(semanticResult!!.bitmapResult, depthResult!!.bitmapResult, 7)
+        val imageResult = generate.fillTraversableZone(semanticResult!!.bitmapOriginal, 0.001F, 0.001F)
+
+        val result =  ModelViewResult(semanticResult!!.bitmapResult, depthResult!!.bitmapResult, imageResult.first, logResult.toString())
         _resultingBitmap.postValue(result)
       }
       catch (e: Exception)

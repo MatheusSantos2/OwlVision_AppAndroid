@@ -2,6 +2,7 @@ package Interpreter.MLSemanticSegmentation
 
 import Interpreter.Models.ModelExecutionResult
 import Utils.ImageUtils
+import Utils.SegmentColors
 import android.content.Context
 import android.graphics.Bitmap
 import android.os.SystemClock
@@ -10,9 +11,7 @@ import java.io.FileInputStream
 import java.io.IOException
 import java.nio.channels.FileChannel
 import org.tensorflow.lite.Interpreter
-import android.graphics.Color
 import androidx.core.graphics.ColorUtils
-import org.tensorflow.lite.gpu.GpuDelegate
 import java.nio.*
 import java.util.*
 import kotlin.collections.HashMap
@@ -38,22 +37,8 @@ class SemanticSegmentationModelExecutor(context: Context, private var useGPU: Bo
     private const val IMAGE_MEAN = 127.5f
     private const val IMAGE_STD = 127.5f
 
-    val segmentColors = IntArray(NUM_CLASSES)
-    val labelsArrays = arrayOf("Unlabeled", "Building", "Fence", "Other", "Pedestrian", "Pole", "RoadLine", "Road", "SideWalk", "Vegetation",
-            "Vehicles", "Wall", "TrafficSign", "Sky", "Ground", "Bridge", "RailTrack", "GuardRail", "TrafficLight", "Static", "Dynamic",
-            "Water", "Terrain")
-
-    init
-    {
-      val random = Random(System.currentTimeMillis())
-      segmentColors[0] = Color.TRANSPARENT
-      for (i in 1 until NUM_CLASSES)
-      {
-        segmentColors[i] = Color.argb((128), getRandomRGBInt(random), getRandomRGBInt(random), getRandomRGBInt(random))
-      }
-    }
-
-    private fun getRandomRGBInt(random: Random) = (255 * random.nextFloat()).toInt()
+    val segmentColors = SegmentColors().getColors()
+    val labelsArrays = SegmentColors().getLabels()
   }
 
   init

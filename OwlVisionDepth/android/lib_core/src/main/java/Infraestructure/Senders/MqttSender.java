@@ -5,8 +5,8 @@ import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
 public class MqttSender {
-    private final String BROKER_URI = "tcp://192.168.1.100:1883"; // URI do broker MQTT no ESP32
-    private final String CLIENT_ID = "AndroidClient"; // Identificador do cliente MQTT
+    private final String BROKER_URI = "tcp://192.168.1.100:1883";
+    private final String CLIENT_ID = "AndroidClient";
     private MqttClient mqttClient;
 
     public void connect() {
@@ -25,8 +25,24 @@ public class MqttSender {
             connect();
         }
 
-        String topic = "myTopic"; // Tópico MQTT a ser usado para enviar as coordenadas
-        String payload = x + "," + y; // Coordenadas a serem enviadas
+        String topic = "myTopic";
+        String payload = x + "," + y;
+        try {
+            mqttClient.publish(topic, payload.getBytes(), 0, false);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void sendPosition(String[] stringPayload)
+    {
+        if (mqttClient == null || !mqttClient.isConnected()) {
+            connect();
+        }
+
+        String topic = "myTopic";
+        String payload = String.join(" ", stringPayload);
+
         try {
             mqttClient.publish(topic, payload.getBytes(), 0, false);
         } catch (Exception e) {

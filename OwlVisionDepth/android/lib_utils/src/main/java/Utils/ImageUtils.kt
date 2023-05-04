@@ -7,9 +7,10 @@ import androidx.exifinterface.media.ExifInterface
 import java.io.File
 import java.nio.FloatBuffer
 
-abstract class ImageUtils {
-  companion object {
-
+abstract class ImageUtils
+{
+  companion object
+  {
     private fun decodeExifOrientation(orientation: Int): Matrix {
       val matrix = Matrix()
 

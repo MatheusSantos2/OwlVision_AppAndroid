@@ -3,6 +3,7 @@ package Utils
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
+import android.graphics.PointF
 import androidx.exifinterface.media.ExifInterface
 import java.io.File
 import java.nio.FloatBuffer
@@ -197,6 +198,13 @@ abstract class ImageUtils
       }
 
       return pixelValues
+    }
+
+    public fun convertListInString(points:List<PointF> ) : Array<String>
+    {
+      val pointsAsString = points.joinToString(",") { "${it.x},${it.y}" }
+
+      return pointsAsString.split(",").toTypedArray()
     }
   }
 }

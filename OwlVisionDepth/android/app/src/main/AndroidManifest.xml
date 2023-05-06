@@ -6,6 +6,9 @@
     <!-- Do not remove, it is needed for internal build system -->
     <uses-sdk />
 
+  <uses-permission android:name="android.permission.ACCELEROMETER" />
+  <uses-permission android:name="android.permission.GYROSCOPE" />
+
   <uses-permission android:name="android.permission.CAMERA" />
   <uses-feature android:name="android.hardware.camera.any" />
   <application

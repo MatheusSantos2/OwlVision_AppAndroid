@@ -31,7 +31,7 @@ public class RoadSegmentator extends SegmentColors {
         calculateDepthLimits();
     }
 
-    public Pair<Bitmap, List<PointF>> fillTraversableZone(Bitmap originalImage, float vehicleWidth, float vehicleLength) {
+    public Pair<Bitmap, List<PointF>> getTraversableZone(Bitmap originalImage, float vehicleWidth, float vehicleLength) {
         int width = semanticMap.getWidth();
         int height = semanticMap.getHeight();
         List<PointF> points = new ArrayList<>();
@@ -41,8 +41,8 @@ public class RoadSegmentator extends SegmentColors {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 int pixelColor = semanticMap.getPixel(x, y);
-                int label = getColorForLabel("Road");
-                if (pixelColor == label)
+                int roadColor = getColorForLabel("Road");
+                if (pixelColor == roadColor)
                 { // red pixel indicates road
                     int depthColor = depthMap.getPixel(x, y);
                     float depth = getDepth(depthColor);
@@ -78,7 +78,8 @@ public class RoadSegmentator extends SegmentColors {
                         if (isTraversable) {
                             traversableImage.setPixel(x, y, color);
                             PointF point = new PointF(x, y);
-                            points.add(new PointF(point.x, point.y * depthRatio));
+                            float z = pointDepth * (1 - depthRatio);
+                            points.add(new PointF(point.x, z));
                         }
                     }
                 }

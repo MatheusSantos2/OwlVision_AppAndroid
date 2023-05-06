@@ -49,10 +49,6 @@ open class SegmentColors
         return colorMap[label] ?: Color.WHITE
     }
 
-    fun getLabelForColor(color: Int): String {
-        return colorMap.filterValues { it == color }.keys.firstOrNull() ?: "Unlabeled"
-    }
-
     fun getColors(): IntArray {
         val colors = IntArray(NUM_CLASSES)
         for (i in 0 until NUM_CLASSES) {

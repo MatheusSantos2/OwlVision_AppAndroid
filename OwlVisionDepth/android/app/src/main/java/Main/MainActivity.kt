@@ -1,14 +1,18 @@
 package Main
 
+import Infraestructure.Sensors.SensorsListener
 import Interpreter.MLDepthEstimation.DepthEstimationModelExecutor
 import Interpreter.MLSemanticSegmentation.SemanticSegmentationModelExecutor
 import Interpreter.Models.ModelViewResult
 import Main.Camera.CameraFragment
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.hardware.SensorManager
 import android.hardware.camera2.CameraCharacteristics
 import android.os.Bundle
+import android.os.HandlerThread
 import android.os.Process
 import android.util.Log
 import android.view.animation.AnimationUtils
@@ -26,9 +30,11 @@ import kotlinx.coroutines.asCoroutineDispatcher
 import org.opencv.android.OpenCVLoader
 import java.io.File
 import java.util.concurrent.Executors
+import android.os.Handler
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 
 private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
-
 private const val REQUEST_CODE_PERMISSIONS = 10
 private const val TAG = "MainActivity"
 
@@ -41,6 +47,11 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
   private lateinit var resultImageViewSegmentation: ImageView
   private lateinit var originalImageView: ImageView
   private lateinit var captureButton: ImageButton
+  private lateinit var pauseButton: ImageButton
+  private lateinit var sensorManager: SensorManager
+  private lateinit var sensorListener: SensorsListener
+  private lateinit var captureHandlerThread: HandlerThread
+  private lateinit var captureHandler: Handler
 
   private var lastSavedFile = ""
   private var useGPU = false
@@ -49,13 +60,12 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
   private val inferenceThread = Executors.newSingleThreadExecutor().asCoroutineDispatcher()
 
   private var lensFacing = CameraCharacteristics.LENS_FACING_FRONT
+  private var isCapturing = false
 
   override fun onCreate(savedInstanceState: Bundle?)
   {
     super.onCreate(savedInstanceState)
-
     setContentView(R.layout.tfe_is_activity_main)
-
     supportActionBar?.setDisplayShowTitleEnabled(false)
 
     if (OpenCVLoader.initDebug()) Log.d(TAG, "OpenCV - Sucess")
@@ -66,13 +76,15 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
     resultImageViewSegmentation = findViewById(R.id.result_imageview_segmentation)
     originalImageView = findViewById(R.id.original_imageview)
     captureButton = findViewById(R.id.capture_button)
+    pauseButton = findViewById(R.id.pause_button)
 
-    if (allPermissionsGranted())
-    {
+    sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+    sensorListener = SensorsListener(sensorManager)
+
+    if (allPermissionsGranted()) {
       addCameraFragment()
     }
-    else
-    {
+    else {
       ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
     }
 
@@ -83,7 +95,6 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
         if (resultImage != null) {
           updateUIWithResults(resultImage as ModelViewResult)
         }
-        enableControls(true)
       }
     )
 
@@ -92,14 +103,23 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
     animateCameraButton()
 
     setupControls()
-    enableControls(true)
   }
 
   private fun setupControls()
   {
     captureButton.setOnClickListener {
       it.clearAnimation()
-      cameraFragment.takePicture()
+      if (!isCapturing) {
+        startCaptureTimer()
+
+      }
+
+      pauseButton.setOnClickListener{
+        it.clearAnimation()
+        if (isCapturing) {
+          stopCaptureTimer()
+        }
+      }
     }
 
     findViewById<ImageButton>(R.id.toggle_button).setOnClickListener {
@@ -132,13 +152,6 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
     setImageView(resultImageViewDepth, modelViewResult.bitmapResult)
     setImageView(resultImageViewSegmentation, modelViewResult.bitmapResult2)
     setImageView(originalImageView, modelViewResult.bitmapOriginal)
-
-    enableControls(true)
-  }
-
-  private fun enableControls(enable: Boolean)
-  {
-    captureButton.isEnabled = enable
   }
 
   private fun setImageView(imageView: ImageView, image: Bitmap)
@@ -193,13 +206,63 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
     }
   }
 
+  private fun enableControls(enable: Boolean)
+  {
+    captureButton.isEnabled = enable
+    pauseButton.isEnabled = !enable
+  }
+
+
+  private fun startCaptureTimer()
+  {
+    isCapturing = true
+    enableControls(false)
+
+    // Start a new HandlerThread for capturing photos
+    captureHandlerThread = HandlerThread("CaptureThread").apply { start() }
+    captureHandler = Handler(captureHandlerThread.looper)
+
+    // Start capturing photos every 3 seconds
+    captureHandler.postDelayed({
+      runBlocking {
+        capturePhoto()
+        delay(3000) // Delay for 3 seconds
+        if (isCapturing) {
+          startCaptureTimer() // Repeat the process
+        }
+      }
+    }, 0)
+  }
+
+  private fun capturePhoto() {
+    cameraFragment.takePicture()
+  }
+
+  private fun stopCaptureTimer()
+  {
+    isCapturing = false
+
+    captureHandler.removeCallbacksAndMessages(null)
+    captureHandlerThread.quitSafely()
+    enableControls(true)
+  }
+
   override fun onCaptureFinished(file: File)
   {
     val msg = "Photo capture succeeded: ${file.absolutePath}"
     Log.d(TAG, msg)
 
     lastSavedFile = file.absolutePath
-    enableControls(false)
-    viewModel.onApplyModel(file.absolutePath, depthEstimationExecutor, semanticSegmentationExecutor, inferenceThread)
+    viewModel.onApplyModel(file.absolutePath, depthEstimationExecutor, semanticSegmentationExecutor, inferenceThread, sensorListener)
+  }
+
+  override fun onResume() {
+    super.onResume()
+    sensorListener.register()
+  }
+
+  override fun onPause() {
+    super.onPause()
+    sensorListener.unregister()
   }
 }

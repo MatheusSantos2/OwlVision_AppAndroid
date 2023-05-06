@@ -1,5 +1,8 @@
 package Main
 
+import Infraestructure.Senders.MqttSender
+import Infraestructure.Sensors.SensorsListener
+import Infraestructure.VehicleTrafficZone.BufferListHelper
 import Infraestructure.VehicleTrafficZone.RoadSegmentator
 import Interpreter.MLDepthEstimation.DepthEstimationModelExecutor
 import Interpreter.MLSemanticSegmentation.SemanticSegmentationModelExecutor
@@ -19,17 +22,16 @@ private const val TAG = "MLExecutionViewModel"
 
 class MLExecutionViewModel : ViewModel()
 {
-  private val _resultingBitmap = MutableLiveData<ModelViewResult>()
-
-  val resultingBitmap: LiveData<ModelViewResult>
-    get() = _resultingBitmap
-
   private val viewModelJob = Job()
   private val viewModelScope = CoroutineScope(viewModelJob)
+  private val _resultingBitmap = MutableLiveData<ModelViewResult>()
+  val resultingBitmap: LiveData<ModelViewResult>
+  get() = _resultingBitmap
+
 
   fun onApplyModel(filePath: String, depthEstimationModel: DepthEstimationModelExecutor?,
                    semanticSegmentation: SemanticSegmentationModelExecutor?,
-                   inferenceThread: ExecutorCoroutineDispatcher)
+                   inferenceThread: ExecutorCoroutineDispatcher, sensorListener : SensorsListener)
   {
     viewModelScope.launch(inferenceThread)
     {
@@ -44,10 +46,14 @@ class MLExecutionViewModel : ViewModel()
         logResult.append("DepthResult: ${depthResult?.executionLog}")
         logResult.append("SemanticResult: ${semanticResult?.executionLog}" )
 
-        val generate = RoadSegmentator(semanticResult!!.bitmapResult, depthResult!!.bitmapResult, 7)
-        val imageResult = generate.fillTraversableZone(semanticResult!!.bitmapOriginal, 0.001F, 0.001F)
+        val imageResult = RoadSegmentator(semanticResult!!.bitmapResult, depthResult!!.bitmapResult, 7)
+                .getTraversableZone(semanticResult.bitmapOriginal, 0.001F, 0.001F)
 
-        val result =  ModelViewResult(semanticResult!!.bitmapResult, depthResult!!.bitmapResult, imageResult.first, logResult.toString())
+        val bufferList = BufferListHelper().getBufferedPoints(imageResult.second)
+
+        //MqttSender().sendPosition(ImageUtils.convertListInString(bufferList))
+
+        val result =  ModelViewResult(semanticResult.bitmapResult, depthResult.bitmapResult, imageResult.first, logResult.toString())
         _resultingBitmap.postValue(result)
       }
       catch (e: Exception)
@@ -57,4 +63,5 @@ class MLExecutionViewModel : ViewModel()
       }
     }
   }
+
 }

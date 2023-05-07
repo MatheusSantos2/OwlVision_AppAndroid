@@ -1,6 +1,6 @@
 package Main
 
-import Infraestructure.Senders.MqttSender
+import Infraestructure.Senders.TCPClient
 import Infraestructure.Sensors.SensorsListener
 import Infraestructure.VehicleTrafficZone.BufferListHelper
 import Infraestructure.VehicleTrafficZone.RoadSegmentator
@@ -16,7 +16,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExecutorCoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import Utils.ImageUtils
+import Utils.ImageHelper
+import Utils.StringHelper
 
 private const val TAG = "MLExecutionViewModel"
 
@@ -35,8 +36,8 @@ class MLExecutionViewModel : ViewModel()
   {
     viewModelScope.launch(inferenceThread)
     {
-      val contentImage = ImageUtils.decodeBitmap(File(filePath))
-      val contentImage2 =  ImageUtils.decodeBitmap(File(filePath))
+      val contentImage = ImageHelper.decodeBitmap(File(filePath))
+      val contentImage2 =  ImageHelper.decodeBitmap(File(filePath))
       try
       {
         val semanticResult = semanticSegmentation?.execute(contentImage)
@@ -51,7 +52,11 @@ class MLExecutionViewModel : ViewModel()
 
         val bufferList = BufferListHelper().getBufferedPoints(imageResult.second)
 
-        //MqttSender().sendPosition(ImageUtils.convertListInString(bufferList))
+        val message = StringHelper().convertPointsToString(bufferList)
+
+        val client = TCPClient()
+        client.connect()
+        client.sendMessage(message)
 
         val result =  ModelViewResult(semanticResult.bitmapResult, depthResult.bitmapResult, imageResult.first, logResult.toString())
         _resultingBitmap.postValue(result)

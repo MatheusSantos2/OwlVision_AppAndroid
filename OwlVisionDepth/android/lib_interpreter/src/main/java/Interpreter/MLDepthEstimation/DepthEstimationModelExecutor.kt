@@ -10,7 +10,7 @@ import java.io.FileInputStream
 import java.io.IOException
 import java.nio.channels.FileChannel
 import org.tensorflow.lite.Interpreter
-import Utils.ImageUtils
+import Utils.ImageHelper
 import java.nio.*
 
 class DepthEstimationModelExecutor(context: Context, private var useGPU: Boolean = false)
@@ -86,17 +86,17 @@ class DepthEstimationModelExecutor(context: Context, private var useGPU: Boolean
     try
     {
       fullTimeExecutionTime = SystemClock.uptimeMillis()
-      val originalBitmap = ImageUtils.scaleBitmapAndKeepRatio(data, imageInputSizeHeight, imageInputSizeWidth)
-      val inputArray = ImageUtils.bitmapToArray(originalBitmap)
+      val originalBitmap = ImageHelper.scaleBitmapAndKeepRatio(data, imageInputSizeHeight, imageInputSizeWidth)
+      val inputArray = ImageHelper.bitmapToArray(originalBitmap)
 
       inputData.rewind()
       inputData.put(inputArray)
 
       interpreter.run(inputData, outputData)
 
-      val outputBitmap = ImageUtils.convertFloatBufferToBitmapGrayScale(outputData, imageOutputSizeWidth, imageOutputSizeHeight)
-      val outputBitmapResized = ImageUtils.scaleBitmapAndKeepRatio(outputBitmap, imageHeightSizeDefault, imageWidthSizeDefault)
-      val originalBitmapResized = ImageUtils.scaleBitmapAndKeepRatio(originalBitmap, imageHeightSizeDefault, imageWidthSizeDefault)
+      val outputBitmap = ImageHelper.convertFloatBufferToBitmapGrayScale(outputData, imageOutputSizeWidth, imageOutputSizeHeight)
+      val outputBitmapResized = ImageHelper.scaleBitmapAndKeepRatio(outputBitmap, imageHeightSizeDefault, imageWidthSizeDefault)
+      val originalBitmapResized = ImageHelper.scaleBitmapAndKeepRatio(originalBitmap, imageHeightSizeDefault, imageWidthSizeDefault)
 
       val output = OpenCVHelper().depthEstimationVisualization(originalBitmapResized, outputBitmapResized)
       fullTimeExecutionTime = SystemClock.uptimeMillis() - fullTimeExecutionTime
@@ -109,7 +109,7 @@ class DepthEstimationModelExecutor(context: Context, private var useGPU: Boolean
       val exceptionLog = "something went wrong: ${e.message}"
       Log.d(TAG, exceptionLog)
 
-      val emptyBitmap = ImageUtils.createEmptyBitmap(imageInputSizeWidth, imageInputSizeHeight)
+      val emptyBitmap = ImageHelper.createEmptyBitmap(imageInputSizeWidth, imageInputSizeHeight)
       return ModelExecutionResult(emptyBitmap, emptyBitmap, exceptionLog)
     }
   }

@@ -1,7 +1,7 @@
 package Interpreter.MLSemanticSegmentation
 
 import Interpreter.Models.ModelExecutionResult
-import Utils.ImageUtils
+import Utils.ImageHelper
 import Utils.SegmentColors
 import android.content.Context
 import android.graphics.Bitmap
@@ -82,8 +82,8 @@ class SemanticSegmentationModelExecutor(context: Context, private var useGPU: Bo
     {
       fullTimeExecutionTime = SystemClock.uptimeMillis()
 
-      val scaledBitmap = ImageUtils.scaleBitmapAndKeepRatio(data, imageHeightSize, imageWidthSize)
-      val inputArray = ImageUtils.bitmapToArray(scaledBitmap)
+      val scaledBitmap = ImageHelper.scaleBitmapAndKeepRatio(data, imageHeightSize, imageWidthSize)
+      val inputArray = ImageHelper.bitmapToArray(scaledBitmap)
 
       inputData.rewind()
       inputData.put(inputArray)
@@ -100,7 +100,7 @@ class SemanticSegmentationModelExecutor(context: Context, private var useGPU: Bo
       val exceptionLog = "something went wrong: ${e.message}"
       Log.d(TAG, exceptionLog)
 
-      val emptyBitmap = ImageUtils.createEmptyBitmap(imageWidthSize, imageHeightSize)
+      val emptyBitmap = ImageHelper.createEmptyBitmap(imageWidthSize, imageHeightSize)
       return ModelExecutionResult(emptyBitmap, emptyBitmap, exceptionLog)
     }
   }
@@ -124,7 +124,7 @@ class SemanticSegmentationModelExecutor(context: Context, private var useGPU: Bo
     val conf = Bitmap.Config.ARGB_8888
     val maskBitmap = Bitmap.createBitmap(imageWidth, imageHeight, conf)
     val resultBitmap = Bitmap.createBitmap(imageWidth, imageHeight, conf)
-    val scaledBackgroundImage = ImageUtils.scaleBitmapAndKeepRatio(backgroundImage, imageHeight, imageWidth)
+    val scaledBackgroundImage = ImageHelper.scaleBitmapAndKeepRatio(backgroundImage, imageHeight, imageWidth)
     val mSegmentBits = Array(imageWidth) { IntArray(imageHeight) }
     val itemsFound = HashMap<String, Int>()
     inputBuffer.rewind()

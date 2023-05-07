@@ -42,7 +42,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
-import Utils.ImageUtils
+import Utils.ImageHelper
 
 class CameraFragment : Fragment()
 {
@@ -250,7 +250,7 @@ class CameraFragment : Fragment()
         // If the result is a JPEG file, update EXIF metadata with orientation info
         if (output.extension == "jpg")
         {
-          ImageUtils.setExifOrientation(output.absolutePath, result.orientation.toString())
+          ImageHelper.setExifOrientation(output.absolutePath, result.orientation.toString())
         }
 
         // Display the photo taken to user
@@ -326,7 +326,7 @@ class CameraFragment : Fragment()
               val mirrored =
                 characteristics.get(CameraCharacteristics.LENS_FACING) ==
                   CameraCharacteristics.LENS_FACING_FRONT
-              val exifOrientation = ImageUtils.computeExifOrientation(rotation, mirrored)
+              val exifOrientation = ImageHelper.computeExifOrientation(rotation, mirrored)
 
               // Build the result and resume progress
               cont.resume(

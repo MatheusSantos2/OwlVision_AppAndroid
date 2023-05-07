@@ -17,6 +17,7 @@
       android:label="@string/owl_is_app_name"
       android:supportsRtl="true"
       android:theme="@style/AppTheme.OwlVision"
+      android:icon="@mipmap/ic_launcher"
       tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".MainActivity"

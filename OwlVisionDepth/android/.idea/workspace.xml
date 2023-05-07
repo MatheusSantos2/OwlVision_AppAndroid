@@ -13,11 +13,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="171e0032-8938-43c8-b95a-e91b7fa23100" name="Changes" comment="Subindo as alterações de bufferização da lista de pontos de trajetoria e remoção do filtro de kalman, e adição de estrutura para obtenção de dados de sensores de movimento e criação de estrura de captura automatica de fotos">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-v24/mipmap-anydpi-v26/ic_launcher.xml" beforeDir="false" />
-    </list>
+    <list default="true" id="171e0032-8938-43c8-b95a-e91b7fa23100" name="Changes" comment="subindo ic laucher atualizado" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -184,7 +180,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683414092963</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="subindo ic laucher atualizado">
+      <created>1683423528951</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1683423528951</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -231,7 +234,8 @@
     <MESSAGE value="Subindo a alteração da classe de interpretação do modelo de segmentação semantica" />
     <MESSAGE value="Subindo a alteração para utilização dos metodos que determinam a zona transitavel" />
     <MESSAGE value="Subindo as alterações de bufferização da lista de pontos de trajetoria e remoção do filtro de kalman, e adição de estrutura para obtenção de dados de sensores de movimento e criação de estrura de captura automatica de fotos" />
-    <option name="LAST_COMMIT_MESSAGE" value="Subindo as alterações de bufferização da lista de pontos de trajetoria e remoção do filtro de kalman, e adição de estrutura para obtenção de dados de sensores de movimento e criação de estrura de captura automatica de fotos" />
+    <MESSAGE value="subindo ic laucher atualizado" />
+    <option name="LAST_COMMIT_MESSAGE" value="subindo ic laucher atualizado" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

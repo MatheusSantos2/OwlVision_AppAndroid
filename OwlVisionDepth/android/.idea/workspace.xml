@@ -13,16 +13,8 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="171e0032-8938-43c8-b95a-e91b7fa23100" name="Changes" comment="subindo ic laucher atualizado">
-      <change afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Senders/TCPClient.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib_utils/src/main/java/Utils/StringHelper.kt" afterDir="false" />
+    <list default="true" id="171e0032-8938-43c8-b95a-e91b7fa23100" name="Changes" comment="subindo alteração da classe de envio de posições">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/Main/Camera/CameraFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/Main/Camera/CameraFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/Main/MLExecutionViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/Main/MLExecutionViewModel.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Senders/MqttSender.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Senders/MqttClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_interpreter/src/main/java/Interpreter/MLDepthEstimation/DepthEstimationModelExecutor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/lib_interpreter/src/main/java/Interpreter/MLDepthEstimation/DepthEstimationModelExecutor.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_interpreter/src/main/java/Interpreter/MLSemanticSegmentation/SemanticSegmentationModelExecutor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/lib_interpreter/src/main/java/Interpreter/MLSemanticSegmentation/SemanticSegmentationModelExecutor.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_utils/src/main/java/Utils/ImageUtils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/lib_utils/src/main/java/Utils/ImageHelper.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -204,7 +196,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683423582885</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="subindo alteração da classe de envio de posições">
+      <created>1683490080589</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1683490080589</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -252,7 +251,8 @@
     <MESSAGE value="Subindo a alteração para utilização dos metodos que determinam a zona transitavel" />
     <MESSAGE value="Subindo as alterações de bufferização da lista de pontos de trajetoria e remoção do filtro de kalman, e adição de estrutura para obtenção de dados de sensores de movimento e criação de estrura de captura automatica de fotos" />
     <MESSAGE value="subindo ic laucher atualizado" />
-    <option name="LAST_COMMIT_MESSAGE" value="subindo ic laucher atualizado" />
+    <MESSAGE value="subindo alteração da classe de envio de posições" />
+    <option name="LAST_COMMIT_MESSAGE" value="subindo alteração da classe de envio de posições" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

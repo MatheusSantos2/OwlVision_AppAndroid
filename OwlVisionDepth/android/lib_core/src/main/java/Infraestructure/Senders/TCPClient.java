@@ -8,7 +8,7 @@ import java.net.Socket;
 
 public class TCPClient {
 
-    private String ipAddress = "";
+    private String ipAddress = "192.168.3.114";
     private int port = 80;
     private Socket socket;
     private PrintWriter out;

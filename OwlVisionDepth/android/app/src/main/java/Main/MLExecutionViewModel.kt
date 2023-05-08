@@ -1,7 +1,6 @@
 package Main
 
 import Infraestructure.Senders.TCPClient
-import Infraestructure.Sensors.SensorsListener
 import Infraestructure.VehicleTrafficZone.BufferListHelper
 import Infraestructure.VehicleTrafficZone.RoadSegmentator
 import Interpreter.MLDepthEstimation.DepthEstimationModelExecutor
@@ -32,7 +31,7 @@ class MLExecutionViewModel : ViewModel()
 
   fun onApplyModel(filePath: String, depthEstimationModel: DepthEstimationModelExecutor?,
                    semanticSegmentation: SemanticSegmentationModelExecutor?,
-                   inferenceThread: ExecutorCoroutineDispatcher, sensorListener : SensorsListener)
+                   inferenceThread: ExecutorCoroutineDispatcher)
   {
     viewModelScope.launch(inferenceThread)
     {

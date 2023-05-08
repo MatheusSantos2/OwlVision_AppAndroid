@@ -13,7 +13,7 @@ import org.tensorflow.lite.Interpreter
 import Utils.ImageHelper
 import java.nio.*
 
-class DepthEstimationModelExecutor(context: Context, private var useGPU: Boolean = false)
+class DepthEstimationModelExecutor(context: Context)
 {
   private var inputData: FloatBuffer
   private var fullTimeExecutionTime = 0L
@@ -35,7 +35,7 @@ class DepthEstimationModelExecutor(context: Context, private var useGPU: Boolean
 
   init
   {
-    interpreter = getInterpreter(context, depthEstimationModel, useGPU)
+    interpreter = getInterpreter(context, depthEstimationModel)
 
     outputData = ByteBuffer.allocateDirect(1 * 160 * 48 * 1 * 4).apply {
       order(ByteOrder.nativeOrder())

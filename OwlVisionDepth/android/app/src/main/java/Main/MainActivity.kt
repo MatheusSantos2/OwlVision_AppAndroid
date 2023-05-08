@@ -1,5 +1,7 @@
 package Main
 
+import Infraestructure.DataAccess.FileDac
+import Infraestructure.Senders.TCPClient
 import Infraestructure.Sensors.SensorsListener
 import Interpreter.MLDepthEstimation.DepthEstimationModelExecutor
 import Interpreter.MLSemanticSegmentation.SemanticSegmentationModelExecutor
@@ -11,9 +13,7 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.hardware.SensorManager
 import android.hardware.camera2.CameraCharacteristics
-import android.os.Bundle
-import android.os.HandlerThread
-import android.os.Process
+import android.os.*
 import android.util.Log
 import android.view.animation.AnimationUtils
 import android.view.animation.BounceInterpolator
@@ -27,12 +27,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.asCoroutineDispatcher
-import org.opencv.android.OpenCVLoader
-import java.io.File
-import java.util.concurrent.Executors
-import android.os.Handler
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
+import org.opencv.android.OpenCVLoader
+import java.io.File
+import java.io.IOException
+import java.util.concurrent.Executors
+
 
 private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
 private const val REQUEST_CODE_PERMISSIONS = 10
@@ -52,15 +53,21 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
   private lateinit var sensorListener: SensorsListener
   private lateinit var captureHandlerThread: HandlerThread
   private lateinit var captureHandler: Handler
+  private lateinit var receiveHandler: Handler
 
   private var lastSavedFile = ""
-  private var useGPU = false
   private var depthEstimationExecutor: DepthEstimationModelExecutor? = null
   private var semanticSegmentationExecutor: SemanticSegmentationModelExecutor? = null
   private val inferenceThread = Executors.newSingleThreadExecutor().asCoroutineDispatcher()
 
   private var lensFacing = CameraCharacteristics.LENS_FACING_FRONT
   private var isCapturing = false
+
+  private val messageBuffer = mutableListOf<String>()
+  private val timerRunnable = Runnable {
+    saveMessage()
+    messageBuffer.clear()
+  }
 
   override fun onCreate(savedInstanceState: Bundle?)
   {
@@ -98,11 +105,13 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
       }
     )
 
-    createModelExecutor(useGPU)
+    createModelExecutor()
 
     animateCameraButton()
 
     setupControls()
+
+    startDataReceiver()
   }
 
   private fun setupControls()
@@ -159,7 +168,7 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
     Glide.with(baseContext).load(image).override(512, 512).fitCenter().into(imageView)
   }
 
-  private fun createModelExecutor(useGPU: Boolean)
+  private fun createModelExecutor()
   {
     if (depthEstimationExecutor != null && semanticSegmentationExecutor != null)
     {
@@ -171,8 +180,8 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
     }
     try
     {
-      depthEstimationExecutor = DepthEstimationModelExecutor(this, useGPU)
-      semanticSegmentationExecutor = SemanticSegmentationModelExecutor(this, useGPU)
+      depthEstimationExecutor = DepthEstimationModelExecutor(this)
+      semanticSegmentationExecutor = SemanticSegmentationModelExecutor(this)
     }
     catch (e: Exception)
     {
@@ -253,7 +262,7 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
     Log.d(TAG, msg)
 
     lastSavedFile = file.absolutePath
-    viewModel.onApplyModel(file.absolutePath, depthEstimationExecutor, semanticSegmentationExecutor, inferenceThread, sensorListener)
+    viewModel.onApplyModel(file.absolutePath, depthEstimationExecutor, semanticSegmentationExecutor, inferenceThread)
   }
 
   override fun onResume() {
@@ -264,5 +273,45 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
   override fun onPause() {
     super.onPause()
     sensorListener.unregister()
+  }
+
+  private fun startDataReceiver() {
+    val thread = Thread {
+      try
+      {
+        val serverSocket = TCPClient()
+        serverSocket.connect()
+
+        var message :String
+        while (true)
+        {
+          if(serverSocket != null) {
+            message = serverSocket.receiveMessage()
+            messageBuffer.add(message)
+          }
+          receiveData()
+        }
+      } catch (e: IOException) {
+        e.printStackTrace()
+      }
+    }
+
+    thread.start()
+    receiveHandler.postDelayed(timerRunnable, 60000)
+  }
+
+  private fun receiveData() {
+    runOnUiThread {
+      saveMessage()
+    }
+    receiveHandler.removeCallbacks(timerRunnable)
+    receiveHandler.postDelayed(timerRunnable, 60000)
+  }
+
+  private fun saveMessage() {
+    for (message in messageBuffer) {
+      val fileName = "mensagens.txt"
+      FileDac.saveMessageToFile(applicationContext, message, fileName)
+    }
   }
 }

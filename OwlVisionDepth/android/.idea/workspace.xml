@@ -14,7 +14,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="171e0032-8938-43c8-b95a-e91b7fa23100" name="Changes" comment="subindo alteração da classe de envio de posições">
+      <change afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/DataAccess/FileDac.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/Main/Camera/OrientationLiveData.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/Main/Camera/OrientationLiveData.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/Main/MLExecutionViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/Main/MLExecutionViewModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/Main/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/Main/MainActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Senders/TCPClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Senders/TCPClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib_interpreter/src/main/java/Interpreter/MLDepthEstimation/DepthEstimationModelExecutor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/lib_interpreter/src/main/java/Interpreter/MLDepthEstimation/DepthEstimationModelExecutor.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib_interpreter/src/main/java/Interpreter/MLSemanticSegmentation/SemanticSegmentationModelExecutor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/lib_interpreter/src/main/java/Interpreter/MLSemanticSegmentation/SemanticSegmentationModelExecutor.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,6 +86,7 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
+      <recent name="Main" />
       <recent name="Utils" />
       <recent name="Interpreter.OpenCV" />
       <recent name="Main.OpenCV" />
@@ -203,7 +211,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683490080589</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="subindo alteração da classe de envio de posições">
+      <created>1683490340537</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1683490340537</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -258,14 +273,9 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/Main/MLExecutionViewModel.kt</url>
-          <line>65</line>
-          <option name="timeStamp" value="123" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/Main/MLExecutionViewModel.kt</url>
-          <line>58</line>
-          <option name="timeStamp" value="135" />
+          <url>file://$PROJECT_DIR$/app/src/main/java/Main/MainActivity.kt</url>
+          <line>287</line>
+          <option name="timeStamp" value="138" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -273,6 +283,7 @@
       <configuration name="app-java">
         <watch expression="imageResult" />
         <watch expression="getColorForLabel(&quot;Road&quot;)" />
+        <watch expression="serverSocket" />
       </configuration>
     </watches-manager>
   </component>

@@ -17,7 +17,7 @@ import java.util.*
 import kotlin.collections.HashMap
 
 
-class SemanticSegmentationModelExecutor(context: Context, private var useGPU: Boolean = false)
+class SemanticSegmentationModelExecutor(context: Context)
 {
   private var outputData: FloatBuffer
   private var inputData: FloatBuffer
@@ -43,7 +43,7 @@ class SemanticSegmentationModelExecutor(context: Context, private var useGPU: Bo
 
   init
   {
-    interpreter = getInterpreter(context, imageSegmentationModel, useGPU)
+    interpreter = getInterpreter(context, imageSegmentationModel)
 
     outputData = ByteBuffer.allocateDirect(1 * imageHeightSize * imageWidthSize * NUM_CLASSES * 4).apply {
       order(ByteOrder.nativeOrder())
@@ -55,7 +55,7 @@ class SemanticSegmentationModelExecutor(context: Context, private var useGPU: Bo
   }
 
   @Throws(IOException::class)
-  private fun getInterpreter(context: Context, modelName: String, useGpu: Boolean = false): Interpreter
+  private fun getInterpreter(context: Context, modelName: String): Interpreter
   {
     val tfliteOptions = Interpreter.Options()
     tfliteOptions.setNumThreads(numberThreads)
@@ -66,7 +66,6 @@ class SemanticSegmentationModelExecutor(context: Context, private var useGPU: Bo
   private fun formatExecutionLog(): String {
     val sb = StringBuilder()
     sb.append("Input Image Size: $imageWidthSize x $imageHeightSize\n")
-    sb.append("GPU enabled: $useGPU\n")
     sb.append("Number of threads: $numberThreads\n")
     sb.append("Full execution time: $fullTimeExecutionTime ms\n")
     return sb.toString()

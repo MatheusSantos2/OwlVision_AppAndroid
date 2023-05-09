@@ -14,6 +14,7 @@ import android.graphics.Bitmap
 import android.hardware.SensorManager
 import android.hardware.camera2.CameraCharacteristics
 import android.os.*
+import android.text.TextUtils
 import android.util.Log
 import android.view.animation.AnimationUtils
 import android.view.animation.BounceInterpolator
@@ -53,7 +54,7 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
   private lateinit var sensorListener: SensorsListener
   private lateinit var captureHandlerThread: HandlerThread
   private lateinit var captureHandler: Handler
-  private lateinit var receiveHandler: Handler
+  private lateinit var messageHandler: Handler
 
   private var lastSavedFile = ""
   private var depthEstimationExecutor: DepthEstimationModelExecutor? = null
@@ -64,9 +65,12 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
   private var isCapturing = false
 
   private val messageBuffer = mutableListOf<String>()
-  private val timerRunnable = Runnable {
-    saveMessage()
-    messageBuffer.clear()
+  private val timerRunnable = object : Runnable {
+    override fun run() {
+      saveMessage()
+      messageBuffer.clear()
+      messageHandler.postDelayed(this, 60000L) // Repete a execução a cada 1 minuto
+    }
   }
 
   override fun onCreate(savedInstanceState: Bundle?)
@@ -112,6 +116,9 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
     setupControls()
 
     startDataReceiver()
+
+    messageHandler = Handler()
+    messageHandler.postDelayed(timerRunnable, 60000L) // Inicia o temporizador para executar o Runnable a cada 1 minuto
   }
 
   private fun setupControls()
@@ -235,7 +242,7 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
     captureHandler.postDelayed({
       runBlocking {
         capturePhoto()
-        delay(3000) // Delay for 3 seconds
+        delay(10000) // Delay for 3 seconds
         if (isCapturing) {
           startCaptureTimer() // Repeat the process
         }
@@ -279,17 +286,19 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
     val thread = Thread {
       try
       {
-        val serverSocket = TCPClient()
-        serverSocket.connect()
+        val serverSocket = TCPClient.getInstance()
 
         var message :String
         while (true)
         {
-          if(serverSocket != null) {
+          serverSocket.connect()
+
+          if(serverSocket.hasConnected())
+          {
             message = serverSocket.receiveMessage()
-            messageBuffer.add(message)
+            if(!TextUtils.isEmpty(message))
+              messageBuffer.add(message)
           }
-          receiveData()
         }
       } catch (e: IOException) {
         e.printStackTrace()
@@ -297,21 +306,21 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
     }
 
     thread.start()
-    receiveHandler.postDelayed(timerRunnable, 60000)
   }
 
-  private fun receiveData() {
-    runOnUiThread {
-      saveMessage()
-    }
-    receiveHandler.removeCallbacks(timerRunnable)
-    receiveHandler.postDelayed(timerRunnable, 60000)
-  }
+  private fun saveMessage()
+  {
+    val copyBuffer = messageBuffer.toList() // Cria uma cópia da lista messageBuffer
 
-  private fun saveMessage() {
-    for (message in messageBuffer) {
+    var count = 0
+    for (message in copyBuffer)
+    {
+      if(count > 100)
+        break
+
       val fileName = "mensagens.txt"
       FileDac.saveMessageToFile(applicationContext, message, fileName)
+      count++
     }
   }
 }

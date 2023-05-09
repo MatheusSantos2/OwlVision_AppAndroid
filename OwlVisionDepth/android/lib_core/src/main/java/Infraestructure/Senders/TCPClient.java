@@ -11,21 +11,37 @@ import java.net.Socket;
 
 
 public class TCPClient {
+    private static TCPClient instance;
+
     private Socket socket;
     private PrintWriter out;
     private BufferedReader in;
+    private boolean connected = false;
 
-    public void connect() {
+    public static synchronized TCPClient getInstance() {
+        if (instance == null) {
+            instance = new TCPClient();
+        }
+        return instance;
+    }
+
+    public void connect()
+    {
         try {
-            String ipAddress = "192.168.3.114";
-            int port = 80;
-            socket = new Socket(ipAddress, port);
-            out = new PrintWriter(socket.getOutputStream(), true);
-            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            if (!connected)
+            {
+                String ipAddress = "192.168.3.114";
+                int port = 80;
+                socket = new Socket(ipAddress, port);
+                out = new PrintWriter(socket.getOutputStream(), true);
+                in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                connected = true;
+            }
         } catch (IOException e)
         {
+            connected = false;
             String TAG = "TCPClient";
-            Log.e(TAG, "Fail to execute ImageSegmentationModelExecutor: ${e.message}");
+            Log.e(TAG, "Fail to execute TCP Client Connect: ${e.message}");
             e.printStackTrace();
         }
     }
@@ -45,7 +61,7 @@ public class TCPClient {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return message;
+        return message != null ? message : "";
     }
 
     public void disconnect() {
@@ -64,4 +80,8 @@ public class TCPClient {
         }
     }
 
+    public boolean hasConnected()
+    {
+        return connected;
+    }
 }

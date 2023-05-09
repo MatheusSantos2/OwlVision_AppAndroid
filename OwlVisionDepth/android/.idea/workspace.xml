@@ -14,21 +14,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="171e0032-8938-43c8-b95a-e91b7fa23100" name="Changes" comment="subindo alteração da classe de envio de posições">
-      <change afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/DataAccess/FileDac.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/Main/Camera/OrientationLiveData.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/Main/Camera/OrientationLiveData.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/Main/MLExecutionViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/Main/MLExecutionViewModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/Main/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/Main/MainActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/DataAccess/FileDac.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/DataAccess/FileDac.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Senders/TCPClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Senders/TCPClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_interpreter/src/main/java/Interpreter/MLDepthEstimation/DepthEstimationModelExecutor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/lib_interpreter/src/main/java/Interpreter/MLDepthEstimation/DepthEstimationModelExecutor.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_interpreter/src/main/java/Interpreter/MLSemanticSegmentation/SemanticSegmentationModelExecutor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/lib_interpreter/src/main/java/Interpreter/MLSemanticSegmentation/SemanticSegmentationModelExecutor.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[e54c42aa]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -272,10 +269,25 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Senders/TCPClient.java</url>
+          <line>42</line>
+          <option name="timeStamp" value="142" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Senders/TCPClient.java</url>
+          <line>31</line>
+          <option name="timeStamp" value="149" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/Main/MLExecutionViewModel.kt</url>
+          <line>64</line>
+          <option name="timeStamp" value="144" />
+        </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="kotlin-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/Main/MainActivity.kt</url>
-          <line>287</line>
-          <option name="timeStamp" value="138" />
+          <line>297</line>
+          <option name="timeStamp" value="151" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

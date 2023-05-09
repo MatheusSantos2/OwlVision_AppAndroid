@@ -10,7 +10,7 @@ import java.util.List;
 
 import Utils.SegmentColors;
 
-public class RoadSegmentator extends SegmentColors {
+public class TrafficableTrajectoryEstimator extends SegmentColors {
     protected Bitmap semanticMap;
     protected Bitmap depthMap;
     protected int roadLabel;
@@ -24,30 +24,34 @@ public class RoadSegmentator extends SegmentColors {
     protected float minDepthLimit;
     protected float maxDepthLimit;
 
-    public RoadSegmentator(Bitmap semanticMap, Bitmap depthMap, int roadLabel) {
+    public TrafficableTrajectoryEstimator(Bitmap semanticMap, Bitmap depthMap, int roadLabel)
+    {
         this.semanticMap = semanticMap;
         this.depthMap = depthMap;
         this.roadLabel = roadLabel;
-        calculateDepthLimits();
+        //calculateDepthLimits();
     }
 
-    public Pair<Bitmap, List<PointF>> getTraversableZone(Bitmap originalImage, float vehicleWidth, float vehicleLength) {
+    public Pair<Bitmap, List<PointF>> getTraversableZone(Bitmap originalImage, float vehicleWidth, float vehicleLength)
+    {
         int width = semanticMap.getWidth();
         int height = semanticMap.getHeight();
         List<PointF> points = new ArrayList<>();
 
         Bitmap traversableImage = originalImage.copy(Bitmap.Config.ARGB_8888, true);
 
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
                 int pixelColor = semanticMap.getPixel(x, y);
                 int roadColor = getColorForLabel("Road");
                 if (pixelColor == roadColor)
                 { // red pixel indicates road
                     int depthColor = depthMap.getPixel(x, y);
-                    float depth = getDepth(depthColor);
+                    float depth = getDepthRatio(depthColor);
 
-                    if (depth >= minDepthLimit && depth < maxDepthLimit)
+                    if (depth <= 0.5f)
                     {
                         float scale = realObjectSize / (referenceObjectSizeInImage * focalLength);
                         float pointDepth = scale * depth;
@@ -56,16 +60,24 @@ public class RoadSegmentator extends SegmentColors {
                         int color = Color.BLACK;
 
                         boolean isTraversable = true;
-                        for (int i = -(int) vehicleWidth / 2; i < (int) vehicleWidth / 2; i++) {
-                            for (int j = -(int) vehicleLength / 2; j < (int) vehicleLength / 2; j++) {
+
+                        for (int i = -(int) vehicleWidth / 2; i < (int) vehicleWidth / 2; i++)
+                        {
+                            for (int j = -(int) vehicleLength / 2; j < (int) vehicleLength / 2; j++)
+                            {
                                 int x_ = x + i;
                                 int y_ = y + j;
-                                if (x_ < 0 || x_ >= width || y_ < 0 || y_ >= height) {
+
+                                if (x_ < 0 || x_ >= width || y_ < 0 || y_ >= height)
+                                {
                                     continue;
                                 }
+
                                 int pixelColor_ = semanticMap.getPixel(x_, y_);
                                 int red_ = Color.red(pixelColor_);
-                                if (red_ != 255) { // non-red pixel indicates non-road
+
+                                if (red_ != 255)
+                                {
                                     isTraversable = false;
                                     break;
                                 }
@@ -93,7 +105,7 @@ public class RoadSegmentator extends SegmentColors {
         return ((color & 0x000000ff)) / 255.0f * (maxDepth - minDepth) + minDepth;
     }
 
-    protected void calculateDepthLimits() {
+    /*protected void calculateDepthLimits() {
         minDepth = 2;
         maxDepth = distanceToObject;
 
@@ -122,5 +134,20 @@ public class RoadSegmentator extends SegmentColors {
 
         minDepthLimit = 2;
         maxDepthLimit = 80;
+    }*/
+
+    protected float getDepthRatio(int color) {
+
+        int red = Color.red(color);
+        int green = Color.green(color);
+        int blue = Color.blue(color);
+
+        int total = blue + red + green;
+
+        if (total == 0) {
+            return 0.5f; // Return 0.5 as default ratio for pure blue (when no red component)
+        }
+
+        return (float) blue / total;
     }
 }

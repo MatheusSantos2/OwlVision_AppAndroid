@@ -2,21 +2,23 @@ package Main
 
 import Infraestructure.Senders.TCPClient
 import Infraestructure.VehicleTrafficZone.BufferListHelper
-import Infraestructure.VehicleTrafficZone.RoadSegmentator
+import Infraestructure.VehicleTrafficZone.TrafficableTrajectoryEstimator
+import Infraestructure.VehicleTrafficZone.TrajectoryEstimationValidator
 import Interpreter.MLDepthEstimation.DepthEstimationModelExecutor
 import Interpreter.MLSemanticSegmentation.SemanticSegmentationModelExecutor
 import Interpreter.Models.ModelViewResult
-import androidx.lifecycle.ViewModel
+import Utils.ImageHelper
+import Utils.StringHelper
+import android.graphics.PointF
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import java.io.File
+import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExecutorCoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import Utils.ImageHelper
-import Utils.StringHelper
+import java.io.File
 
 private const val TAG = "MLExecutionViewModel"
 
@@ -28,7 +30,6 @@ class MLExecutionViewModel : ViewModel()
   val resultingBitmap: LiveData<ModelViewResult>
   get() = _resultingBitmap
 
-
   fun onApplyModel(filePath: String, depthEstimationModel: DepthEstimationModelExecutor?,
                    semanticSegmentation: SemanticSegmentationModelExecutor?,
                    inferenceThread: ExecutorCoroutineDispatcher)
@@ -36,7 +37,9 @@ class MLExecutionViewModel : ViewModel()
     viewModelScope.launch(inferenceThread)
     {
       val contentImage = ImageHelper.decodeBitmap(File(filePath))
-      val contentImage2 =  ImageHelper.decodeBitmap(File(filePath))
+      val contentImage2 = ImageHelper.decodeBitmap(File(filePath))
+      var bufferList: List<PointF> = ArrayList()
+
       try
       {
         val semanticResult = semanticSegmentation?.execute(contentImage)
@@ -46,10 +49,15 @@ class MLExecutionViewModel : ViewModel()
         logResult.append("DepthResult: ${depthResult?.executionLog}")
         logResult.append("SemanticResult: ${semanticResult?.executionLog}" )
 
-        val imageResult = RoadSegmentator(semanticResult!!.bitmapResult, depthResult!!.bitmapResult, 7)
+        var imageResult = TrafficableTrajectoryEstimator(semanticResult!!.bitmapResult, depthResult!!.bitmapResult, 7)
                 .getTraversableZone(semanticResult.bitmapOriginal, 0.001F, 0.001F)
 
-        val bufferList = BufferListHelper().getBufferedPoints(imageResult.second)
+        if (TrajectoryEstimationValidator().isTraversableInCenter(imageResult.first)) {
+          val bufferList = BufferListHelper().getBufferedPoints(imageResult.second)
+        }else{
+          imageResult = TrajectoryEstimationValidator().processTraversablePixels(depthResult.bitmapOriginal, semanticResult.bitmapResult, depthResult.bitmapResult,0.001F, 0.001F)
+          bufferList = BufferListHelper().getBufferedPoints(imageResult.second)
+        }
 
         val message = StringHelper().convertPointsToString(bufferList)
 

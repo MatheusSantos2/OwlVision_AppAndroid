@@ -51,7 +51,7 @@ public class TrafficableTrajectoryEstimator extends SegmentColors {
                     int depthColor = depthMap.getPixel(x, y);
                     float depth = getDepthRatio(depthColor);
 
-                    if (depth <= 0.5f)
+                    if (depth > 0.5f)
                     {
                         float scale = realObjectSize / (referenceObjectSizeInImage * focalLength);
                         float pointDepth = scale * depth;
@@ -137,17 +137,16 @@ public class TrafficableTrajectoryEstimator extends SegmentColors {
     }*/
 
     protected float getDepthRatio(int color) {
-
         int red = Color.red(color);
         int green = Color.green(color);
         int blue = Color.blue(color);
 
-        int total = blue + red + green;
-
-        if (total == 0) {
-            return 0.5f; // Return 0.5 as default ratio for pure blue (when no red component)
+        int validColorSpectrum = green + blue;
+        if (validColorSpectrum > red) {
+            return 0.5f; // Return 0.5 as default ratio for pure red (when no green component)
         }
 
-        return (float) blue / total;
+        int total = red + green + blue;
+        return (float) red / total;
     }
 }

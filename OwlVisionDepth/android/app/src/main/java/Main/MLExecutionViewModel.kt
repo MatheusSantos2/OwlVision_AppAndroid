@@ -7,6 +7,7 @@ import Infraestructure.VehicleTrafficZone.TrajectoryEstimationValidator
 import Interpreter.MLDepthEstimation.DepthEstimationModelExecutor
 import Interpreter.MLSemanticSegmentation.SemanticSegmentationModelExecutor
 import Interpreter.Models.ModelViewResult
+import Interpreter.OpenCV.OpenCVGenerateTrajectory
 import Utils.ImageHelper
 import Utils.StringHelper
 import android.graphics.PointF
@@ -38,8 +39,6 @@ class MLExecutionViewModel : ViewModel()
     {
       val contentImage = ImageHelper.decodeBitmap(File(filePath))
       val contentImage2 = ImageHelper.decodeBitmap(File(filePath))
-      var bufferList: List<PointF> = ArrayList()
-
       try
       {
         val semanticResult = semanticSegmentation?.execute(contentImage)
@@ -53,12 +52,12 @@ class MLExecutionViewModel : ViewModel()
                 .getTraversableZone(semanticResult.bitmapOriginal, 0.001F, 0.001F)
 
         if (TrajectoryEstimationValidator().isTraversableInCenter(imageResult.first)) {
-          val bufferList = BufferListHelper().getBufferedPoints(imageResult.second)
         }else{
           imageResult = TrajectoryEstimationValidator().processTraversablePixels(depthResult.bitmapOriginal, semanticResult.bitmapResult, depthResult.bitmapResult,0.001F, 0.001F)
-          bufferList = BufferListHelper().getBufferedPoints(imageResult.second)
         }
 
+        val trajectoryList = OpenCVGenerateTrajectory().generateTrajectory(imageResult.second)
+        val bufferList =  BufferListHelper().getBufferedPoints(trajectoryList)
         val message = StringHelper().convertPointsToString(bufferList)
 
         val client = TCPClient()

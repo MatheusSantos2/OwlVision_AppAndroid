@@ -14,7 +14,6 @@ public class TrajectoryEstimationValidator
 {
     public Pair<Bitmap, List<PointF>> processTraversablePixels(Bitmap originalImage, Bitmap segmentationImage, Bitmap depthImage, float vehicleWidth, float vehicleLength)
     {
-
         Pair<Bitmap, Bitmap> images = divideImage(originalImage);
         int countLeftBlackPoints = countBlackPixels(images.first);
         int countRightBlackPoints = countBlackPixels(images.second);
@@ -122,5 +121,25 @@ public class TrajectoryEstimationValidator
         }
 
         return partialImage;
+    }
+
+    public static List<PointF> generateMidpoints(List<PointF> points)  {
+        List<PointF> midpoints = new ArrayList<>();
+
+        int numPoints = points.size();
+
+        for (int i = 0; i < numPoints - 1; i++) {
+            float x1 = points.get(i).x;
+            float z1 = points.get(i).y;
+            float x2 = points.get(i + 1).x;
+            float z2 = points.get(i + 1).y;
+
+            float midX = (x1 + x2) / 2;
+            float midZ = (z1 + z2) / 2;
+
+            midpoints.add(new PointF(midX, midZ));
+        }
+
+        return midpoints;
     }
 }

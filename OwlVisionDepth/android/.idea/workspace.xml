@@ -13,15 +13,17 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="171e0032-8938-43c8-b95a-e91b7fa23100" name="Changes" comment="Criando estrutura que divide a imagem em duas, nos casos em que no centro da imagem se tem um obstaculo">
-      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/TrafficableTrajectoryEstimator.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/TrafficableTrajectoryEstimator.java" afterDir="false" />
+    <list default="true" id="171e0032-8938-43c8-b95a-e91b7fa23100" name="Changes" comment="Subindo melhoria para obtermos a estimativa de profundidade com maior acertividade">
+      <change afterPath="$PROJECT_DIR$/lib_interpreter/src/main/java/Interpreter/OpenCV/OpenCVGenerateTrajectory.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/TrajectoryEstimationValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/TrajectoryEstimationValidator.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[e54c42aa]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -48,8 +50,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="resourceFile" />
-        <option value="Kotlin Class" />
         <option value="Class" />
+        <option value="Kotlin Class" />
       </list>
     </option>
   </component>
@@ -233,7 +235,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683675530459</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Subindo melhoria para obtermos a estimativa de profundidade com maior acertividade">
+      <created>1683676231154</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1683676231154</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -285,7 +294,8 @@
     <MESSAGE value="Subindo alteração para correção de erros" />
     <MESSAGE value="Removendo .idea das pastas" />
     <MESSAGE value="Criando estrutura que divide a imagem em duas, nos casos em que no centro da imagem se tem um obstaculo" />
-    <option name="LAST_COMMIT_MESSAGE" value="Criando estrutura que divide a imagem em duas, nos casos em que no centro da imagem se tem um obstaculo" />
+    <MESSAGE value="Subindo melhoria para obtermos a estimativa de profundidade com maior acertividade" />
+    <option name="LAST_COMMIT_MESSAGE" value="Subindo melhoria para obtermos a estimativa de profundidade com maior acertividade" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -297,7 +307,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/TrajectoryEstimationValidator.java</url>
-          <line>17</line>
+          <line>16</line>
           <option name="timeStamp" value="161" />
         </line-breakpoint>
       </breakpoints>

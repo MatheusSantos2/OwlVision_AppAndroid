@@ -1,6 +1,6 @@
 package Main
 
-import Infraestructure.DataAccess.FileDac
+import Infraestructure.DataAccess.DatabaseManager
 import Infraestructure.Senders.TCPClient
 import Infraestructure.Sensors.SensorsListener
 import Interpreter.MLDepthEstimation.DepthEstimationModelExecutor
@@ -282,7 +282,8 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
     sensorListener.unregister()
   }
 
-  private fun startDataReceiver() {
+  private fun startDataReceiver()
+  {
     val thread = Thread {
       try
       {
@@ -315,12 +316,12 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
     var count = 0
     for (message in copyBuffer)
     {
+      val database = DatabaseManager()
+      database.inicialize(this)
+      database.insert(message)
+
       if(count > 100)
         break
-
-      val fileName = "mensagens.txt"
-      FileDac.saveMessageToFile(applicationContext, message, fileName)
       count++
     }
-  }
-}
+  }}

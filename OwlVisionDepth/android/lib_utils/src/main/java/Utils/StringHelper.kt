@@ -27,4 +27,8 @@ class StringHelper
         }
         return stringBuilder.toString()
     }
+
+    fun stringToArray(input: String): Array<String> {
+        return input.split(",").map { it.trim() }.toTypedArray()
+    }
 }

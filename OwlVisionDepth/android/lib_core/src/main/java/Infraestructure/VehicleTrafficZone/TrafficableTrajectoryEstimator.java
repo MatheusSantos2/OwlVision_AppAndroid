@@ -19,40 +19,34 @@ public class TrafficableTrajectoryEstimator extends SegmentColors {
     protected float focalLength = 0.0028F;
     protected float realObjectSize = 32.085F;
     protected float referenceObjectSizeInImage = 1080;
-    protected float distanceToObject=50F;
+    protected float distanceToObject = 15F; // Distância alterada para 15 cm
 
     protected float minDepthLimit;
     protected float maxDepthLimit;
 
-    public TrafficableTrajectoryEstimator(Bitmap semanticMap, Bitmap depthMap, int roadLabel)
-    {
+    public TrafficableTrajectoryEstimator(Bitmap semanticMap, Bitmap depthMap, int roadLabel) {
         this.semanticMap = semanticMap;
         this.depthMap = depthMap;
         this.roadLabel = roadLabel;
-        //calculateDepthLimits();
+        calculateDepthLimits();
     }
 
-    public Pair<Bitmap, List<PointF>> getTraversableZone(Bitmap originalImage, float vehicleWidth, float vehicleLength)
-    {
+    public Pair<Bitmap, List<PointF>> getTraversableZone(Bitmap originalImage, float vehicleWidth, float vehicleLength) {
         int width = semanticMap.getWidth();
         int height = semanticMap.getHeight();
         List<PointF> points = new ArrayList<>();
 
         Bitmap traversableImage = originalImage.copy(Bitmap.Config.ARGB_8888, true);
 
-        for (int y = 0; y < height; y++)
-        {
-            for (int x = 0; x < width; x++)
-            {
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
                 int pixelColor = semanticMap.getPixel(x, y);
                 int roadColor = getColorForLabel("Road");
-                if (pixelColor == roadColor)
-                { // red pixel indicates road
+                if (pixelColor == roadColor) { // red pixel indicates road
                     int depthColor = depthMap.getPixel(x, y);
                     float depth = getDepthRatio(depthColor);
 
-                    if (depth > 0.5f)
-                    {
+                    if (depth > 0.5f) {
                         float scale = realObjectSize / (referenceObjectSizeInImage * focalLength);
                         float pointDepth = scale * depth;
 
@@ -61,23 +55,19 @@ public class TrafficableTrajectoryEstimator extends SegmentColors {
 
                         boolean isTraversable = true;
 
-                        for (int i = -(int) vehicleWidth / 2; i < (int) vehicleWidth / 2; i++)
-                        {
-                            for (int j = -(int) vehicleLength / 2; j < (int) vehicleLength / 2; j++)
-                            {
+                        for (int i = -(int) vehicleWidth / 2; i < (int) vehicleWidth / 2; i++) {
+                            for (int j = -(int) vehicleLength / 2; j < (int) vehicleLength / 2; j++) {
                                 int x_ = x + i;
                                 int y_ = y + j;
 
-                                if (x_ < 0 || x_ >= width || y_ < 0 || y_ >= height)
-                                {
+                                if (x_ < 0 || x_ >= width || y_ < 0 || y_ >= height) {
                                     continue;
                                 }
 
                                 int pixelColor_ = semanticMap.getPixel(x_, y_);
                                 int red_ = Color.red(pixelColor_);
 
-                                if (red_ != 255)
-                                {
+                                if (red_ != 255) {
                                     isTraversable = false;
                                     break;
                                 }
@@ -100,41 +90,9 @@ public class TrafficableTrajectoryEstimator extends SegmentColors {
 
         return new Pair<>(traversableImage, points);
     }
-
     protected float getDepth(int color) {
         return ((color & 0x000000ff)) / 255.0f * (maxDepth - minDepth) + minDepth;
     }
-
-    /*protected void calculateDepthLimits() {
-        minDepth = 2;
-        maxDepth = distanceToObject;
-
-        int width = semanticMap.getWidth();
-        int height = semanticMap.getHeight();
-
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                int semanticColor = semanticMap.getPixel(x, y);
-                int semanticLabel = getSemanticLabel(semanticColor).component2();
-
-                if (semanticLabel == roadLabel) {
-                    int depthColor = depthMap.getPixel(x, y);
-                    float depth = getDepth(depthColor);
-
-                    if (depth < minDepth) {
-                        minDepth = depth;
-                    }
-
-                    if (depth > maxDepth) {
-                        maxDepth = depth;
-                    }
-                }
-            }
-        }
-
-        minDepthLimit = 2;
-        maxDepthLimit = 80;
-    }*/
 
     protected float getDepthRatio(int color) {
         int red = Color.red(color);
@@ -143,10 +101,20 @@ public class TrafficableTrajectoryEstimator extends SegmentColors {
 
         int validColorSpectrum = green + blue;
         if (validColorSpectrum > red) {
-            return 0.5f; // Return 0.5 as default ratio for pure red (when no green component)
+            return 0.5f; // Retorna 0.5 como taxa padrão para vermelho puro (quando não há componente verde)
         }
 
         int total = red + green + blue;
         return (float) red / total;
+    }
+
+    protected void calculateDepthLimits() {
+        // Calcula os limites de profundidade com base nas novas informações fornecidas
+        float referenceObjectSizeAtDistance = referenceObjectSizeInImage * distanceToObject;
+        float objectSizeAtDistance = realObjectSize * (0.5f / 15f) * referenceObjectSizeAtDistance; // Objeto ocupa metade da imagem a 15 cm de distância
+        float objectSizeAt148cm = realObjectSize * (0.05f / 15f) * referenceObjectSizeAtDistance; // Objeto ocupa 5% da imagem a 148 cm de distância
+
+        minDepthLimit = objectSizeAtDistance / (objectSizeAtDistance + objectSizeAt148cm);
+        maxDepthLimit = objectSizeAt148cm / (objectSizeAtDistance + objectSizeAt148cm);
     }
 }

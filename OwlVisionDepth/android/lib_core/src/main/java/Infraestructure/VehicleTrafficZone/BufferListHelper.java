@@ -27,8 +27,13 @@ public class BufferListHelper {
                 sumY += point.y;
             }
 
-            float averageX = sumX / numPoints;
-            float averageY = sumY / numPoints;
+            float averageX = 0;
+            float averageY = 0;
+
+            if (numPoints > 0) {
+                averageX = sumX / numPoints;
+                averageY = sumY / numPoints;
+            }
 
             bufferedPoints.add(new PointF(averageX, averageY));
         }

@@ -7,10 +7,9 @@ import Infraestructure.VehicleTrafficZone.TrajectoryEstimationValidator
 import Interpreter.MLDepthEstimation.DepthEstimationModelExecutor
 import Interpreter.MLSemanticSegmentation.SemanticSegmentationModelExecutor
 import Interpreter.Models.ModelViewResult
-import Interpreter.OpenCV.OpenCVGenerateTrajectory
+import Interpreter.OpenCV.TrajectoryGenerator
 import Utils.ImageHelper
 import Utils.StringHelper
-import android.graphics.PointF
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -56,7 +55,7 @@ class MLExecutionViewModel : ViewModel()
           imageResult = TrajectoryEstimationValidator().processTraversablePixels(depthResult.bitmapOriginal, semanticResult.bitmapResult, depthResult.bitmapResult,0.001F, 0.001F)
         }
 
-        val trajectoryList = OpenCVGenerateTrajectory().generateTrajectory(imageResult.second)
+        val trajectoryList = TrajectoryGenerator().generateTrajectory(imageResult.second)
         val bufferList =  BufferListHelper().getBufferedPoints(trajectoryList)
         val message = StringHelper().convertPointsToString(bufferList)
 

@@ -13,29 +13,15 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="171e0032-8938-43c8-b95a-e91b7fa23100" name="Changes" comment="Subindo melhoria para obtermos a estimativa de profundidade com maior acertividade">
-      <change afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/DataAccess/DatabaseManager.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/DataAccess/IMonitoringDac.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/DataAccess/Monitoring.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/DataAccess/MonitoringDac.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/DataAccess/MonitoringDatabase.kt" afterDir="false" />
+    <list default="true" id="171e0032-8938-43c8-b95a-e91b7fa23100" name="Changes" comment="Subindo alteração para salvar os dados no sql lite">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/Main/MLExecutionViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/Main/MLExecutionViewModel.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/Main/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/Main/MainActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_core/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/DataAccess/FileDac.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Senders/TCPClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Senders/TCPClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/BufferListHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/BufferListHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/TrafficableTrajectoryEstimator.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/TrafficableTrajectoryEstimator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_interpreter/src/main/java/Interpreter/OpenCV/OpenCVGenerateTrajectory.kt" beforeDir="false" afterPath="$PROJECT_DIR$/lib_interpreter/src/main/java/Interpreter/OpenCV/OpenCVGenerateTrajectory.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_utils/src/main/java/Utils/StringHelper.kt" beforeDir="false" afterPath="$PROJECT_DIR$/lib_utils/src/main/java/Utils/StringHelper.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[e54c42aa]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -257,7 +243,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683676231154</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Subindo alteração para salvar os dados no sql lite">
+      <created>1686017008622</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1686017008622</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -310,7 +303,8 @@
     <MESSAGE value="Removendo .idea das pastas" />
     <MESSAGE value="Criando estrutura que divide a imagem em duas, nos casos em que no centro da imagem se tem um obstaculo" />
     <MESSAGE value="Subindo melhoria para obtermos a estimativa de profundidade com maior acertividade" />
-    <option name="LAST_COMMIT_MESSAGE" value="Subindo melhoria para obtermos a estimativa de profundidade com maior acertividade" />
+    <MESSAGE value="Subindo alteração para salvar os dados no sql lite" />
+    <option name="LAST_COMMIT_MESSAGE" value="Subindo alteração para salvar os dados no sql lite" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

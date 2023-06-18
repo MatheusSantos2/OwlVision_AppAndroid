@@ -1,6 +1,5 @@
 package Main
 
-import Infraestructure.Senders.TCPClient
 import Infraestructure.VehicleTrafficZone.BufferListHelper
 import Infraestructure.VehicleTrafficZone.TrafficableTrajectoryEstimator
 import Infraestructure.VehicleTrafficZone.TrajectoryEstimationValidator
@@ -50,20 +49,15 @@ class MLExecutionViewModel : ViewModel()
         var imageResult = TrafficableTrajectoryEstimator(semanticResult!!.bitmapResult, depthResult!!.bitmapResult, 7)
                 .getTraversableZone(semanticResult.bitmapOriginal, 0.001F, 0.001F)
 
-        if (TrajectoryEstimationValidator().isTraversableInCenter(imageResult.first)) {
-        }else{
+        if (!TrajectoryEstimationValidator().isTraversableInCenter(imageResult.first)){
           imageResult = TrajectoryEstimationValidator().processTraversablePixels(depthResult.bitmapOriginal, semanticResult.bitmapResult, depthResult.bitmapResult,0.001F, 0.001F)
         }
 
         val trajectoryList = TrajectoryGenerator().generateTrajectory(imageResult.second)
-        val bufferList =  BufferListHelper().getBufferedPoints(trajectoryList)
+        val bufferList =  BufferListHelper().getBufferedPoint(trajectoryList)
         val message = StringHelper().convertPointsToString(bufferList)
 
-        val client = TCPClient()
-        client.connect()
-        client.sendMessage(message)
-
-        val result =  ModelViewResult(semanticResult.bitmapResult, depthResult.bitmapResult, imageResult.first, logResult.toString())
+        val result =  ModelViewResult(semanticResult.bitmapResult, depthResult.bitmapResult, imageResult.first, message)
         _resultingBitmap.postValue(result)
       }
       catch (e: Exception)
@@ -73,5 +67,7 @@ class MLExecutionViewModel : ViewModel()
       }
     }
   }
+
+
 
 }

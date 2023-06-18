@@ -1,5 +1,6 @@
 package Infraestructure.DataAccess
 
+import Infraestructure.Entities.Monitoring
 import java.sql.Connection
 import java.sql.DriverManager
 

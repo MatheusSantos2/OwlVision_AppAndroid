@@ -4,12 +4,26 @@ import android.graphics.PointF;
 
 import org.ejml.simple.SimpleMatrix;
 
+import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BufferListHelper {
 
-    public List<PointF> getBufferedPoints(List<PointF> points) {
+    DecimalFormat decimalFormat = new DecimalFormat("#.##");
+
+    public List<PointF> getBufferedPoint(List<PointF> points)
+    {
+        try{
+            return getBufferedPoints(points);
+        }catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return points;
+    }
+
+    private List<PointF> getBufferedPoints(List<PointF> points) throws ParseException {
         List<PointF> bufferedPoints = new ArrayList<>();
         int bufferSize = 50;
         int startIndex = Math.max(0, points.size() - bufferSize); // Início do buffer
@@ -34,6 +48,9 @@ public class BufferListHelper {
                 averageX = sumX / numPoints;
                 averageY = sumY / numPoints;
             }
+
+            averageX =  decimalFormat.parse(decimalFormat.format(averageX)).floatValue();
+            averageY =  decimalFormat.parse(decimalFormat.format(averageY)).floatValue();
 
             bufferedPoints.add(new PointF(averageX, averageY));
         }

@@ -1,5 +1,6 @@
 package Infraestructure.DataAccess
 
+import Infraestructure.Entities.Monitoring
 import Utils.StringHelper
 import androidx.room.Room
 import android.content.Context
@@ -7,11 +8,11 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class DatabaseManager {
-    private lateinit var database: MonitoringDatabase
+    private lateinit var monitoringDatabase: MonitoringDatabase
 
     fun inicialize(context: Context)  {
-        if (database == null) {
-            database = Room.databaseBuilder(
+        if (monitoringDatabase == null) {
+            monitoringDatabase = Room.databaseBuilder(
                     context.applicationContext,
                     MonitoringDatabase::class.java,
                     "my_database.db"
@@ -23,18 +24,21 @@ class DatabaseManager {
     {
         val messageArray = StringHelper().stringToArray(message)
 
-        val monitoring = Monitoring(
-                data = getDateTime(),
-                ipCliente = "1",
-                velocidadeAtual = messageArray[0].toDouble(),
-                velocidadeAlmejada = messageArray[1].toDouble(),
-                posicaoXAlmejada = messageArray[2].toDouble(),
-                posicaoYAlmejada = messageArray[3].toDouble(),
-                posicaoXAtual = messageArray[4].toDouble(),
-                posicaoYAtual = messageArray[5].toDouble()
-        )
+        if(messageArray.size > 0)
+        {
+            val monitoring = Monitoring(
+                    data = getDateTime(),
+                    ipCliente = "1",
+                    velocidadeAtual = messageArray[0].toDouble(),
+                    velocidadeAlmejada = messageArray[1].toDouble(),
+                    posicaoXAlmejada = messageArray[2].toDouble(),
+                    posicaoYAlmejada = messageArray[3].toDouble(),
+                    posicaoXAtual = messageArray[4].toDouble(),
+                    posicaoYAtual = messageArray[5].toDouble()
+            )
 
-        database.MonitoringDac().insert(monitoring)
+            monitoringDatabase.MonitoringDac().insert(monitoring)
+        }
     }
 
     fun getDateTime() : String

@@ -1,12 +1,13 @@
 package Main
 
 import Infraestructure.DataAccess.DatabaseManager
-import Infraestructure.Senders.TCPClient
+import Infraestructure.Senders.TcpIpClient
 import Infraestructure.Sensors.SensorsListener
 import Interpreter.MLDepthEstimation.DepthEstimationModelExecutor
 import Interpreter.MLSemanticSegmentation.SemanticSegmentationModelExecutor
 import Interpreter.Models.ModelViewResult
 import Main.Camera.CameraFragment
+import Utils.StringHelper
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
@@ -35,7 +36,6 @@ import java.io.File
 import java.io.IOException
 import java.util.concurrent.Executors
 
-
 private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
 private const val REQUEST_CODE_PERMISSIONS = 10
 private const val TAG = "MainActivity"
@@ -60,9 +60,12 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
   private var depthEstimationExecutor: DepthEstimationModelExecutor? = null
   private var semanticSegmentationExecutor: SemanticSegmentationModelExecutor? = null
   private val inferenceThread = Executors.newSingleThreadExecutor().asCoroutineDispatcher()
+  private val client = TcpIpClient()
+
 
   private var lensFacing = CameraCharacteristics.LENS_FACING_FRONT
   private var isCapturing = false
+  private var canSendPosition = true
 
   private val messageBuffer = mutableListOf<String>()
   private val timerRunnable = object : Runnable {
@@ -92,6 +95,17 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
     sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
     sensorListener = SensorsListener(sensorManager)
 
+    sensorListener.setSensorUpdateCallback { positions ->
+      val message = StringHelper().convertFloatArrayToString(positions)
+      if(canSendPosition)
+      {
+        sendMessage("Position", message)
+        canSendPosition = false
+      }
+    }
+
+    sensorListener.register()
+
     if (allPermissionsGranted()) {
       addCameraFragment()
     }
@@ -104,7 +118,10 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
       this,
       Observer { resultImage ->
         if (resultImage != null) {
-          updateUIWithResults(resultImage as ModelViewResult)
+          var result = resultImage as ModelViewResult
+          sendMessage("Trajectory", result.message)
+          canSendPosition = true
+          updateUIWithResults(result)
         }
       }
     )
@@ -287,7 +304,7 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
     val thread = Thread {
       try
       {
-        val serverSocket = TCPClient.getInstance()
+        val serverSocket = client
 
         var message :String
         while (true)
@@ -311,7 +328,7 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
 
   private fun saveMessage()
   {
-    val copyBuffer = messageBuffer.toList() // Cria uma cópia da lista messageBuffer
+    val copyBuffer = messageBuffer.toList()
 
     var count = 0
     for (message in copyBuffer)
@@ -324,4 +341,31 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
         break
       count++
     }
-  }}
+  }
+
+  private fun sendMessage(label: String, message: String)
+  {
+    val thread = Thread {
+
+      try
+      {
+        val serverSocket = client
+
+        while (true)
+        {
+          serverSocket.connect()
+
+          if(serverSocket.hasConnected())
+          {
+            client.sendMessage(label, message)
+          }
+        }
+      }
+      catch (e: IOException)
+      {
+        Log.e(TAG, "Fail to send message - Exception: ${e.message}")
+      }
+    }
+    thread.start()
+  }
+}

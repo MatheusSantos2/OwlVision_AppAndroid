@@ -6,5 +6,6 @@ data class ModelViewResult(
   val bitmapResult: Bitmap,
   val bitmapResult2: Bitmap,
   val bitmapOriginal: Bitmap,
-  val executionLog: String
+  val message: String
 )
+

@@ -1,31 +1,22 @@
 package Infraestructure.Senders;
 
 import android.util.Log;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-public class TCPClient {
-    private static TCPClient instance;
+public class TcpIpClient {
 
     private Socket socket;
     private PrintWriter out;
     private BufferedReader in;
     private boolean isConnected = false;
-    private int timeout = 50000;
+    private int timeout = 500000;
     private int maxRetries = 3;
     private long retryDelayMillis = 2000L;
     private int retryCount = 0;
-
-    public static synchronized TCPClient getInstance() {
-        if (instance == null) {
-            instance = new TCPClient();
-        }
-        return instance;
-    }
 
     public void connect() throws InterruptedException
     {
@@ -59,9 +50,12 @@ public class TCPClient {
 
     }
 
-    public void sendMessage(String message) {
+    public void sendMessage(String label,String message)
+    {
+        String result = label.concat(";").concat(message);
+
         if (out != null) {
-            out.println(message);
+            out.println(result);
         }
     }
 
@@ -97,4 +91,5 @@ public class TCPClient {
     {
         return isConnected;
     }
+
 }

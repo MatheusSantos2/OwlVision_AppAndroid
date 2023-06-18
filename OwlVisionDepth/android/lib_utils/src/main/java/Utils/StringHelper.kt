@@ -31,4 +31,18 @@ class StringHelper
     fun stringToArray(input: String): Array<String> {
         return input.split(",").map { it.trim() }.toTypedArray()
     }
+
+    fun convertFloatArrayToString(floatArray: FloatArray): String
+    {
+        val stringBuilder = StringBuilder()
+
+        for (i in floatArray.indices) {
+            stringBuilder.append(floatArray[i])
+
+            if (i < floatArray.size - 1) {
+                stringBuilder.append(",")
+            }
+        }
+        return stringBuilder.toString()
+    }
 }

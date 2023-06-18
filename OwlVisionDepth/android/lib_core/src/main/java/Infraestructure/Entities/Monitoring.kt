@@ -1,4 +1,4 @@
-package Infraestructure.DataAccess
+package Infraestructure.Entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

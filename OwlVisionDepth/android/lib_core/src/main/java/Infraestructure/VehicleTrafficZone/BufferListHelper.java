@@ -25,7 +25,7 @@ public class BufferListHelper {
 
     private List<PointF> getBufferedPoints(List<PointF> points) throws ParseException {
         List<PointF> bufferedPoints = new ArrayList<>();
-        int bufferSize = 50;
+        int bufferSize = 5;
         int startIndex = Math.max(0, points.size() - bufferSize); // Início do buffer
 
         for (int i = startIndex; i < points.size(); i++) {

@@ -13,21 +13,25 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="171e0032-8938-43c8-b95a-e91b7fa23100" name="Changes" comment="Subindo alteração para salvar os dados no sql lite">
+    <list default="true" id="171e0032-8938-43c8-b95a-e91b7fa23100" name="Changes" comment="Subindo alteração para salvar os dados no sql lite e envio de dados do sensor">
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/xml/file_paths.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/DataAccess/DataExportHelper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/DataAccess/MonitoringSqlLiteHelper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/Main/MLExecutionViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/Main/MLExecutionViewModel.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/Main/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/Main/MainActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/DataAccess/DatabaseManager.kt" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/DataAccess/DatabaseManager.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/DataAccess/IMonitoringDac.kt" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/DataAccess/IMonitoringDac.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/DataAccess/Monitoring.kt" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Entities/Monitoring.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/DataAccess/MonitoringDac.kt" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/DataAccess/MonitoringDac.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/DataAccess/MonitoringDatabase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/DataAccess/MonitoringDatabase.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Senders/TCPClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Senders/TcpIpClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/tfe_is_activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/tfe_is_activity_main.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/DataAccess/DatabaseManager.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/DataAccess/IMonitoringDac.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/DataAccess/MonitoringDac.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/DataAccess/MonitoringDatabase.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Entities/Monitoring.kt" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Entities/Monitoring.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Senders/TcpIpClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Senders/TcpIpClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Sensors/SensorsListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Sensors/SensorsListener.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/BufferListHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/BufferListHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_interpreter/src/main/java/Interpreter/Models/ModelViewResult.kt" beforeDir="false" afterPath="$PROJECT_DIR$/lib_interpreter/src/main/java/Interpreter/Models/ModelViewResult.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_utils/src/main/java/Utils/StringHelper.kt" beforeDir="false" afterPath="$PROJECT_DIR$/lib_utils/src/main/java/Utils/StringHelper.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib_interpreter/src/main/java/Interpreter/MLDepthEstimation/DepthEstimationModelExecutor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/lib_interpreter/src/main/java/Interpreter/MLDepthEstimation/DepthEstimationModelExecutor.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,11 +64,11 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="resourceFile" />
-        <option value="Class" />
         <option value="Interface" />
         <option value="Kotlin Interface" />
         <option value="Kotlin Class" />
+        <option value="Class" />
+        <option value="resourceFile" />
       </list>
     </option>
   </component>
@@ -76,6 +80,7 @@
   </component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
+    <option name="showPreview" value="true" />
   </component>
   <component name="ProjectId" id="2P8K4Y8R2srxPLIDafEzit0D0TL" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -90,8 +95,13 @@
     <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="android-custom-viewC:/Source/BrainVision/OwlVisionDepth/android/app/src/main/java/Main/Camera/AutoFitSurfaceView.kt_SELECTED" value="AutoFitSurfaceView" />
+    <property name="android-custom-viewC:/Source/OwlVision_AppAndroid/OwlVisionDepth/android/app/src/main/java/Main/Camera/AutoFitSurfaceView.kt_SELECTED" value="AutoFitSurfaceView" />
     <property name="cidr.known.project.marker" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.17" />
+    <property name="project.structure.side.proportion" value="0.21218275" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RecentsManager">
@@ -271,7 +281,14 @@
       <option name="project" value="LOCAL" />
       <updated>1686095059840</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Subindo alteração para salvar os dados no sql lite e envio de dados do sensor">
+      <created>1687101288224</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1687101288224</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -325,20 +342,16 @@
     <MESSAGE value="Criando estrutura que divide a imagem em duas, nos casos em que no centro da imagem se tem um obstaculo" />
     <MESSAGE value="Subindo melhoria para obtermos a estimativa de profundidade com maior acertividade" />
     <MESSAGE value="Subindo alteração para salvar os dados no sql lite" />
-    <option name="LAST_COMMIT_MESSAGE" value="Subindo alteração para salvar os dados no sql lite" />
+    <MESSAGE value="Subindo alteração para salvar os dados no sql lite e envio de dados do sensor" />
+    <option name="LAST_COMMIT_MESSAGE" value="Subindo alteração para salvar os dados no sql lite e envio de dados do sensor" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/DataAccess/DatabaseManager.kt</url>
-          <line>24</line>
-          <option name="timeStamp" value="182" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/DataAccess/MonitoringDac.kt</url>
-          <line>38</line>
-          <option name="timeStamp" value="190" />
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/DataAccess/MonitoringSqlLiteHelper.java</url>
+          <line>48</line>
+          <option name="timeStamp" value="5" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -347,6 +360,7 @@
         <watch expression="imageResult" />
         <watch expression="getColorForLabel(&quot;Road&quot;)" />
         <watch expression="serverSocket" />
+        <watch expression="canSendPosition" />
       </configuration>
     </watches-manager>
   </component>

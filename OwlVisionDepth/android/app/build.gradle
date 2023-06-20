@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 33
@@ -46,6 +47,7 @@ android {
 project.ext.ASSET_DIR = projectDir.toString() + '/src/main/assets'
 
 dependencies {
+    //Room
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(path: ':lib_interpreter')
     implementation project(path: ':lib_core')
@@ -53,6 +55,7 @@ dependencies {
     interpreterImplementation project(":lib_interpreter")
     implementation project(":lib_utils")
 
+    implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.1.0'
@@ -69,4 +72,5 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.0'
     implementation 'org.tensorflow:tensorflow-lite:0.0.0-nightly-SNAPSHOT'
     implementation 'org.tensorflow:tensorflow-lite-select-tf-ops:0.0.0-nightly-SNAPSHOT'
+
 }

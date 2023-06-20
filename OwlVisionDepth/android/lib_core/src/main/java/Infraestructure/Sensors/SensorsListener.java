@@ -11,7 +11,7 @@ import java.text.ParseException;
 public class SensorsListener implements SensorEventListener
 {
     private SensorManager sensorManager;
-    private static final int SENSOR_BUFFER_SIZE = 10;
+    private static final int SENSOR_BUFFER_SIZE = 20;
 
     private float[] currentPosition = {0f, 0f, 0f};
     private float[] currentVelocity = {0f, 0f, 0f};
@@ -93,7 +93,6 @@ public class SensorsListener implements SensorEventListener
                     if (sensorUpdateCallback != null) {
                         sensorUpdateCallback.onSensorUpdate(currentPosition);
                     }
-
                 }
             }
         }

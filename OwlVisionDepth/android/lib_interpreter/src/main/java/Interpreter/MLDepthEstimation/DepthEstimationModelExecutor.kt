@@ -18,8 +18,8 @@ class DepthEstimationModelExecutor(context: Context)
   private var inputData: FloatBuffer
   private var fullTimeExecutionTime = 0L
   private var numberThreads = 4
-  private val outputData: FloatBuffer
-  private val interpreter: Interpreter
+  private var outputData: FloatBuffer
+  private var interpreter: Interpreter
 
   companion object
   {

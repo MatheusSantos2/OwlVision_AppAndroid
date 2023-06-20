@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 data class Monitoring(
         @PrimaryKey(autoGenerate = true) val id: Int = 0,
         val data: String,
-        val ipCliente: String,
+        val label: String,
         val velocidadeAtual: Double,
         val velocidadeAlmejada: Double,
         val posicaoXAlmejada: Double,

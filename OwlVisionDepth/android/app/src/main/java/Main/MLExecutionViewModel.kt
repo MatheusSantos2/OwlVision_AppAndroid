@@ -35,14 +35,14 @@ class MLExecutionViewModel : ViewModel()
   {
     viewModelScope.launch(inferenceThread)
     {
-      val contentImage = ImageHelper.decodeBitmap(File(filePath))
-      val contentImage2 = ImageHelper.decodeBitmap(File(filePath))
+      var contentImage = ImageHelper.decodeBitmap(File(filePath))
+      var contentImage2 = ImageHelper.decodeBitmap(File(filePath))
       try
       {
-        val semanticResult = semanticSegmentation?.execute(contentImage)
-        val depthResult = depthEstimationModel?.execute(contentImage2)
+        var semanticResult = semanticSegmentation?.execute(contentImage)
+        var depthResult = depthEstimationModel?.execute(contentImage2)
 
-        val logResult = StringBuilder()
+        var logResult = StringBuilder()
         logResult.append("DepthResult: ${depthResult?.executionLog}")
         logResult.append("SemanticResult: ${semanticResult?.executionLog}" )
 
@@ -53,11 +53,11 @@ class MLExecutionViewModel : ViewModel()
           imageResult = TrajectoryEstimationValidator().processTraversablePixels(depthResult.bitmapOriginal, semanticResult.bitmapResult, depthResult.bitmapResult,0.001F, 0.001F)
         }
 
-        val trajectoryList = TrajectoryGenerator().generateTrajectory(imageResult.second)
-        val bufferList =  BufferListHelper().getBufferedPoint(trajectoryList)
-        val message = StringHelper().convertPointsToString(bufferList)
+        var trajectoryList = TrajectoryGenerator().generateTrajectory(imageResult.second)
+        var bufferList =  BufferListHelper().getBufferedPoint(trajectoryList)
+        var message = StringHelper().convertPointsToString(bufferList)
 
-        val result =  ModelViewResult(semanticResult.bitmapResult, depthResult.bitmapResult, imageResult.first, message)
+        var result =  ModelViewResult(semanticResult.bitmapResult, depthResult.bitmapResult, imageResult.first, message)
         _resultingBitmap.postValue(result)
       }
       catch (e: Exception)
@@ -67,7 +67,4 @@ class MLExecutionViewModel : ViewModel()
       }
     }
   }
-
-
-
 }

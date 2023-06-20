@@ -1,6 +1,7 @@
 package Main
 
-import Infraestructure.DataAccess.DatabaseManager
+import Infraestructure.DataAccess.DataExportHelper
+import Infraestructure.DataAccess.MonitoringSqlLiteHelper
 import Infraestructure.Senders.TcpIpClient
 import Infraestructure.Sensors.SensorsListener
 import Interpreter.MLDepthEstimation.DepthEstimationModelExecutor
@@ -14,7 +15,10 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.hardware.SensorManager
 import android.hardware.camera2.CameraCharacteristics
-import android.os.*
+import android.os.Bundle
+import android.os.Handler
+import android.os.HandlerThread
+import android.os.Process
 import android.text.TextUtils
 import android.util.Log
 import android.view.animation.AnimationUtils
@@ -36,6 +40,7 @@ import java.io.File
 import java.io.IOException
 import java.util.concurrent.Executors
 
+
 private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
 private const val REQUEST_CODE_PERMISSIONS = 10
 private const val TAG = "MainActivity"
@@ -50,6 +55,8 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
   private lateinit var originalImageView: ImageView
   private lateinit var captureButton: ImageButton
   private lateinit var pauseButton: ImageButton
+  private lateinit var exportButton: ImageButton
+
   private lateinit var sensorManager: SensorManager
   private lateinit var sensorListener: SensorsListener
   private lateinit var captureHandlerThread: HandlerThread
@@ -59,20 +66,20 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
   private var lastSavedFile = ""
   private var depthEstimationExecutor: DepthEstimationModelExecutor? = null
   private var semanticSegmentationExecutor: SemanticSegmentationModelExecutor? = null
-  private val inferenceThread = Executors.newSingleThreadExecutor().asCoroutineDispatcher()
-  private val client = TcpIpClient()
-
+  private var inferenceThread = Executors.newSingleThreadExecutor().asCoroutineDispatcher()
+  private var client = TcpIpClient()
 
   private var lensFacing = CameraCharacteristics.LENS_FACING_FRONT
   private var isCapturing = false
-  private var canSendPosition = true
 
-  private val messageBuffer = mutableListOf<String>()
-  private val timerRunnable = object : Runnable {
+  private lateinit var database: MonitoringSqlLiteHelper
+
+  private var messageBuffer = mutableListOf<String>()
+  private var timerRunnable = object : Runnable {
     override fun run() {
       saveMessage()
       messageBuffer.clear()
-      messageHandler.postDelayed(this, 60000L) // Repete a execução a cada 1 minuto
+      messageHandler.postDelayed(this, 6000L)
     }
   }
 
@@ -91,18 +98,10 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
     originalImageView = findViewById(R.id.original_imageview)
     captureButton = findViewById(R.id.capture_button)
     pauseButton = findViewById(R.id.pause_button)
+    exportButton = findViewById(R.id.export_button)
 
     sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
     sensorListener = SensorsListener(sensorManager)
-
-    sensorListener.setSensorUpdateCallback { positions ->
-      val message = StringHelper().convertFloatArrayToString(positions)
-      if(canSendPosition)
-      {
-        sendMessage("Position", message)
-        canSendPosition = false
-      }
-    }
 
     sensorListener.register()
 
@@ -113,29 +112,36 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
       ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
     }
 
+    database = MonitoringSqlLiteHelper(this)
+
     viewModel = AndroidViewModelFactory(application).create(MLExecutionViewModel::class.java)
     viewModel.resultingBitmap.observe(
       this,
       Observer { resultImage ->
         if (resultImage != null) {
           var result = resultImage as ModelViewResult
-          sendMessage("Trajectory", result.message)
-          canSendPosition = true
           updateUIWithResults(result)
+
+          sensorListener.setSensorUpdateCallback { positions ->
+            var message = StringHelper().convertFloatArrayToString(positions)
+            database.insert(message)
+
+            message = "Position;" + message + ";Trajectory;" + result.message
+            sendMessage(message)
+          }
         }
       }
     )
 
     createModelExecutor()
-
     animateCameraButton()
 
     setupControls()
-
     startDataReceiver()
 
     messageHandler = Handler()
-    messageHandler.postDelayed(timerRunnable, 60000L) // Inicia o temporizador para executar o Runnable a cada 1 minuto
+    messageHandler.postDelayed(timerRunnable, 6000L)
+
   }
 
   private fun setupControls()
@@ -153,6 +159,11 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
           stopCaptureTimer()
         }
       }
+    }
+
+    exportButton.setOnClickListener{
+      it.clearAnimation()
+      exportDatabase()
     }
 
     findViewById<ImageButton>(R.id.toggle_button).setOnClickListener {
@@ -301,10 +312,10 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
 
   private fun startDataReceiver()
   {
-    val thread = Thread {
+    var thread = Thread {
       try
       {
-        val serverSocket = client
+        var serverSocket = client
 
         var message :String
         while (true)
@@ -329,12 +340,9 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
   private fun saveMessage()
   {
     val copyBuffer = messageBuffer.toList()
-
     var count = 0
     for (message in copyBuffer)
     {
-      val database = DatabaseManager()
-      database.inicialize(this)
       database.insert(message)
 
       if(count > 100)
@@ -343,29 +351,31 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
     }
   }
 
-  private fun sendMessage(label: String, message: String)
+  private fun sendMessage(message: String)
   {
-    val thread = Thread {
+    var thread = Thread {
 
-      try
+      var serverSocket = client
+
+      while (true)
       {
-        val serverSocket = client
-
-        while (true)
+        try
         {
           serverSocket.connect()
 
-          if(serverSocket.hasConnected())
-          {
-            client.sendMessage(label, message)
+          if(serverSocket.hasConnected()){
+            client.sendMessage(message)
           }
         }
-      }
-      catch (e: IOException)
-      {
-        Log.e(TAG, "Fail to send message - Exception: ${e.message}")
+        catch (e: IOException){
+          Log.e(TAG, "Fail to send message - Exception: ${e.message}")
+        }
       }
     }
     thread.start()
+  }
+
+  private fun exportDatabase() {
+    DataExportHelper.exportDatabase(this)
   }
 }

@@ -50,9 +50,11 @@ public class TcpIpClient {
 
     }
 
-    public void sendMessage(String label,String message)
+    public void sendMessage(String message)
     {
-        String result = label.concat(";").concat(message);
+        //String result = label.concat(";").concat(message).concat("\n");
+
+        String result = message;
 
         if (out != null) {
             out.println(result);

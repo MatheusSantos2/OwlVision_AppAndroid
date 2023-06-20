@@ -108,4 +108,17 @@
         app:layout_anchorGravity="bottom|center"
         app:srcCompat="@android:drawable/ic_media_play"
         tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/export_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_marginEnd="8dp"
+        android:clickable="true"
+        app:backgroundTint="@android:color/white"
+        app:layout_anchor="@+id/dummy"
+        app:layout_anchorGravity="start|bottom"
+        app:srcCompat="@android:drawable/ic_menu_share"
+        tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

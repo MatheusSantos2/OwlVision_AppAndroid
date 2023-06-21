@@ -13,11 +13,12 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="171e0032-8938-43c8-b95a-e91b7fa23100" name="Changes" comment="Subindo alteração para salvar os dados no sql lite e compartilhamento de dados">
-      <change afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/DataAccess/ImageDriveHelper.java" afterDir="false" />
+    <list default="true" id="171e0032-8938-43c8-b95a-e91b7fa23100" name="Changes" comment="Subindo alteração para  compartilhamento de dados em arquivo zip">
+      <change afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Sensors/KalmanSensors.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/Main/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/Main/MainActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/DataAccess/DataExportHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/DataAccess/DataExportHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Sensors/SensorsListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Sensors/SensorsListener.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -275,7 +276,14 @@
       <option name="project" value="LOCAL" />
       <updated>1687101288224</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="Subindo alteração para  compartilhamento de dados em arquivo zip">
+      <created>1687310662470</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1687310662470</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -330,7 +338,8 @@
     <MESSAGE value="Subindo melhoria para obtermos a estimativa de profundidade com maior acertividade" />
     <MESSAGE value="Subindo alteração para salvar os dados no sql lite" />
     <MESSAGE value="Subindo alteração para salvar os dados no sql lite e envio de dados do sensor" />
-    <option name="LAST_COMMIT_MESSAGE" value="Subindo alteração para salvar os dados no sql lite e envio de dados do sensor" />
+    <MESSAGE value="Subindo alteração para  compartilhamento de dados em arquivo zip" />
+    <option name="LAST_COMMIT_MESSAGE" value="Subindo alteração para  compartilhamento de dados em arquivo zip" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -355,6 +364,23 @@
           <line>78</line>
           <option name="timeStamp" value="34" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/DataAccess/DataExportHelper.java</url>
+          <line>62</line>
+          <option name="timeStamp" value="44" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/Main/MainActivity.kt</url>
+          <line>133</line>
+          <option name="timeStamp" value="47" />
+        </line-breakpoint>
+        <breakpoint enabled="true" suspend="THREAD" type="OCSymbolicBreakpointType">
+          <properties>
+            <option name="moduleName" value="libart.so" />
+            <option name="symbolPattern" value="art_sigsegv_fault" />
+          </properties>
+          <option name="timeStamp" value="51" />
+        </breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <watches-manager>
@@ -363,6 +389,7 @@
         <watch expression="getColorForLabel(&quot;Road&quot;)" />
         <watch expression="serverSocket" />
         <watch expression="canSendPosition" />
+        <watch expression="estimated.get(1, 0)[0]" />
       </configuration>
     </watches-manager>
   </component>

@@ -25,7 +25,6 @@ public class SensorsListener implements SensorEventListener
     private int bufferIndex = 0;
     DecimalFormat decimalFormat = new DecimalFormat("#.##");
 
-
     private SensorUpdateCallback sensorUpdateCallback;
 
     public interface SensorUpdateCallback {

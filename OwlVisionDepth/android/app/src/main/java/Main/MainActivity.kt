@@ -4,6 +4,7 @@ import Infraestructure.DataAccess.DataExportHelper
 import Infraestructure.DataAccess.ImageDriveHelper
 import Infraestructure.DataAccess.MonitoringSqlLiteHelper
 import Infraestructure.Senders.TcpIpClient
+import Infraestructure.Sensors.KalmanSensors
 import Infraestructure.Sensors.SensorsListener
 import Interpreter.MLDepthEstimation.DepthEstimationModelExecutor
 import Interpreter.MLSemanticSegmentation.SemanticSegmentationModelExecutor
@@ -61,6 +62,7 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
 
   private lateinit var sensorManager: SensorManager
   private lateinit var sensorListener: SensorsListener
+  private lateinit var kalmanSensors: KalmanSensors
   private lateinit var captureHandlerThread: HandlerThread
   private lateinit var captureHandler: Handler
   private lateinit var messageHandler: Handler
@@ -105,9 +107,8 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
     exportButton = findViewById(R.id.export_button)
 
     sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
-    sensorListener = SensorsListener(sensorManager)
-
-    sensorListener.register()
+    kalmanSensors = KalmanSensors(sensorManager)
+    kalmanSensors.register()
 
     if (allPermissionsGranted()) {
       addCameraFragment()
@@ -128,7 +129,7 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
           updateUIWithResults(result)
           saveImages(result)
 
-          sensorListener.setSensorUpdateCallback { positions ->
+          kalmanSensors.setSensorUpdateCallback{ positions ->
             var message = StringHelper().convertFloatArrayToString(positions)
             database.insert(message)
 
@@ -308,12 +309,12 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
 
   override fun onResume() {
     super.onResume()
-    sensorListener.register()
+    kalmanSensors.register()
   }
 
   override fun onPause() {
     super.onPause()
-    sensorListener.unregister()
+    kalmanSensors.unregister()
   }
 
   private fun startDataReceiver()

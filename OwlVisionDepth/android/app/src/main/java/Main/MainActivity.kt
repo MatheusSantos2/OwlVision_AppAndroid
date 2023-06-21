@@ -1,6 +1,7 @@
 package Main
 
 import Infraestructure.DataAccess.DataExportHelper
+import Infraestructure.DataAccess.ImageDriveHelper
 import Infraestructure.DataAccess.MonitoringSqlLiteHelper
 import Infraestructure.Senders.TcpIpClient
 import Infraestructure.Sensors.SensorsListener
@@ -47,6 +48,7 @@ private const val TAG = "MainActivity"
 
 class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
 {
+  private lateinit var imageDrive: ImageDriveHelper
   private lateinit var cameraFragment: CameraFragment
   private lateinit var viewModel: MLExecutionViewModel
   private lateinit var viewFinder: FrameLayout
@@ -64,6 +66,8 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
   private lateinit var messageHandler: Handler
 
   private var lastSavedFile = ""
+  private val folderPath = "owlvision/images"
+
   private var depthEstimationExecutor: DepthEstimationModelExecutor? = null
   private var semanticSegmentationExecutor: SemanticSegmentationModelExecutor? = null
   private var inferenceThread = Executors.newSingleThreadExecutor().asCoroutineDispatcher()
@@ -113,6 +117,7 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
     }
 
     database = MonitoringSqlLiteHelper(this)
+    imageDrive = ImageDriveHelper(this, folderPath)
 
     viewModel = AndroidViewModelFactory(application).create(MLExecutionViewModel::class.java)
     viewModel.resultingBitmap.observe(
@@ -121,6 +126,7 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
         if (resultImage != null) {
           var result = resultImage as ModelViewResult
           updateUIWithResults(result)
+          saveImages(result)
 
           sensorListener.setSensorUpdateCallback { positions ->
             var message = StringHelper().convertFloatArrayToString(positions)
@@ -163,7 +169,7 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
 
     exportButton.setOnClickListener{
       it.clearAnimation()
-      exportDatabase()
+      exportData()
     }
 
     findViewById<ImageButton>(R.id.toggle_button).setOnClickListener {
@@ -375,7 +381,16 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
     thread.start()
   }
 
-  private fun exportDatabase() {
-    DataExportHelper.exportDatabase(this)
+  private fun saveImages(modelViewResult: ModelViewResult)
+  {
+    val images = arrayOf(modelViewResult.bitmapResult, modelViewResult.bitmapResult2, modelViewResult.bitmapOriginal)
+
+    for (image in images) {
+      imageDrive.saveBitmap(image)
+    }
+  }
+
+  private fun exportData() {
+    DataExportHelper(this, folderPath).export()
   }
 }

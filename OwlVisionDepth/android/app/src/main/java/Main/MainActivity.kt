@@ -73,7 +73,7 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
   private var depthEstimationExecutor: DepthEstimationModelExecutor? = null
   private var semanticSegmentationExecutor: SemanticSegmentationModelExecutor? = null
   private var inferenceThread = Executors.newSingleThreadExecutor().asCoroutineDispatcher()
-  private var client = TcpIpClient()
+  private var client = TcpIpClient(this)
 
   private var lensFacing = CameraCharacteristics.LENS_FACING_FRONT
   private var isCapturing = false
@@ -127,18 +127,19 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
         if (resultImage != null) {
           var result = resultImage as ModelViewResult
           updateUIWithResults(result)
-          saveImages(result)
 
-          kalmanSensors.setSensorUpdateCallback{ positions ->
-            var message = StringHelper().convertFloatArrayToString(positions)
-            database.insert(message)
-
-            message = "Position;" + message + ";Trajectory;" + result.message
-            sendMessage(message)
+          if(!result.message.isNullOrEmpty()) {
+            saveImages(result)
+            sendMessage("Trajectory" , result.message)
           }
         }
       }
     )
+
+    kalmanSensors.setSensorUpdateCallback{ positions ->
+      var positionsMessage = StringHelper().convertFloatArrayToString(positions)
+      sendMessage("Position",  positionsMessage)
+    }
 
     createModelExecutor()
     animateCameraButton()
@@ -277,7 +278,7 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
     captureHandler.postDelayed({
       runBlocking {
         capturePhoto()
-        delay(10000) // Delay for 3 seconds
+        delay(10000) // Delay
         if (isCapturing) {
           startCaptureTimer() // Repeat the process
         }
@@ -292,7 +293,6 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
   private fun stopCaptureTimer()
   {
     isCapturing = false
-
     captureHandler.removeCallbacksAndMessages(null)
     captureHandlerThread.quitSafely()
     enableControls(true)
@@ -358,8 +358,7 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
     }
   }
 
-  private fun sendMessage(message: String)
-  {
+  private fun sendMessage(label:String, message: String){
     var thread = Thread {
 
       var serverSocket = client
@@ -371,7 +370,7 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
           serverSocket.connect()
 
           if(serverSocket.hasConnected()){
-            client.sendMessage(message)
+            client.sendMessage(label, message)
           }
         }
         catch (e: IOException){

@@ -9,7 +9,7 @@ open class SegmentColors
         private const val NUM_CLASSES = 23
 
         private val colorMap = mapOf(
-                "Unlabeled" to Color.TRANSPARENT,
+                "Unlabeled" to Color.WHITE,
                 "Building" to Color.parseColor("#bdc3c7"), // silver
                 "Fence" to Color.parseColor("#f39c12"), // orange
                 "Other" to Color.parseColor("#7f8c8d"), // gray

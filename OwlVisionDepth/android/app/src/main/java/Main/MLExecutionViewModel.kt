@@ -1,8 +1,8 @@
 package Main
 
 import Infraestructure.VehicleTrafficZone.BufferListHelper
-import Infraestructure.VehicleTrafficZone.TrafficableTrajectoryEstimator
-import Infraestructure.VehicleTrafficZone.TrajectoryEstimationValidator
+import Infraestructure.VehicleTrafficZone.TrajectoryEstimator
+import Infraestructure.VehicleTrafficZone.TrajectoryValidator
 import Interpreter.MLDepthEstimation.DepthEstimationModelExecutor
 import Interpreter.MLSemanticSegmentation.SemanticSegmentationModelExecutor
 import Interpreter.Models.ModelViewResult
@@ -46,16 +46,15 @@ class MLExecutionViewModel : ViewModel()
         logResult.append("DepthResult: ${depthResult?.executionLog}")
         logResult.append("SemanticResult: ${semanticResult?.executionLog}" )
 
-        var imageResult = TrafficableTrajectoryEstimator(semanticResult!!.bitmapResult, depthResult!!.bitmapResult, 7)
-                .getTraversableZone(semanticResult.bitmapOriginal, 0.001F, 0.001F)
+        var imageResult = TrajectoryEstimator()
+                .getTraversableZone(semanticResult!!.bitmapResult, depthResult!!.bitmapResult)
 
-        if (!TrajectoryEstimationValidator().isTraversableInCenter(imageResult.first)){
-          imageResult = TrajectoryEstimationValidator().processTraversablePixels(depthResult.bitmapOriginal, semanticResult.bitmapResult, depthResult.bitmapResult,0.001F, 0.001F)
+        if (!TrajectoryValidator().isTraversableInCenter(imageResult.first)){
+          imageResult = TrajectoryValidator().processTraversablePixels(depthResult.bitmapOriginal, semanticResult.bitmapResult, depthResult.bitmapResult)
         }
 
         var trajectoryList = TrajectoryGenerator().generateTrajectory(imageResult.second)
-        var bufferList =  BufferListHelper().getBufferedPoint(trajectoryList)
-        var message = StringHelper().convertPointsToString(bufferList)
+        var message = StringHelper().convertPointsToString(trajectoryList)
 
         var result =  ModelViewResult(semanticResult.bitmapResult, depthResult.bitmapResult, imageResult.first, message)
         _resultingBitmap.postValue(result)

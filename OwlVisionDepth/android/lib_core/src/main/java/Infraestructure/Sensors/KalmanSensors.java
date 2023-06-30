@@ -8,6 +8,9 @@ import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.video.KalmanFilter;
 
+import java.text.DecimalFormat;
+import java.text.ParseException;
+
 public class KalmanSensors implements SensorEventListener {
     private SensorManager sensorManager;
     private static final int SENSOR_BUFFER_SIZE = 20;
@@ -23,6 +26,7 @@ public class KalmanSensors implements SensorEventListener {
     private float[][] accelerometerBuffer = new float[3][SENSOR_BUFFER_SIZE];
     private float[][] gyroscopeBuffer = new float[3][SENSOR_BUFFER_SIZE];
     private float[][] magneticFieldBuffer = new float[3][SENSOR_BUFFER_SIZE];
+    DecimalFormat decimalFormat = new DecimalFormat("#.##");
     private int bufferIndex = 0;
 
     private KalmanFilter kalmanFilter;
@@ -143,11 +147,24 @@ public class KalmanSensors implements SensorEventListener {
                 currentPosition[1] = (float) estimated.get(1, 0)[0];
                 currentPosition[2] = (float) estimated.get(2, 0)[0];
 
+                formatCurrentPosition();
+
                 // Notify callback with updated position
                 if (sensorUpdateCallback != null) {
                     sensorUpdateCallback.onSensorUpdate(currentPosition);
                 }
             }
+        }
+    }
+
+    private void formatCurrentPosition()
+    {
+        try {
+            currentPosition[0] =  decimalFormat.parse(decimalFormat.format(currentPosition[0])).floatValue();
+            currentPosition[1] =  decimalFormat.parse(decimalFormat.format(currentPosition[1])).floatValue();
+            currentPosition[2] =  decimalFormat.parse(decimalFormat.format(currentPosition[2])).floatValue();
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
     }
 

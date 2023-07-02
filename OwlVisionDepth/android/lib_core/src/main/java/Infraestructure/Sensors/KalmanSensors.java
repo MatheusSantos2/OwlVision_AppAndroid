@@ -47,8 +47,8 @@ public class KalmanSensors implements SensorEventListener {
     }
 
     private void initKalmanFilter() {
-        int stateSize = 6;  // Extend state size to include velocity
-        int measurementSize = 3;  // Extend measurement size to include Y and Z
+        int stateSize = 6;
+        int measurementSize = 3;
         int controlSize = 0;
 
         kalmanFilter = new KalmanFilter(stateSize, measurementSize, controlSize, CvType.CV_32F);

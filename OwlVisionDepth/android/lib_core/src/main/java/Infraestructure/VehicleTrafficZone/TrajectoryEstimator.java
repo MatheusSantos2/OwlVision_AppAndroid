@@ -44,8 +44,11 @@ public class TrajectoryEstimator extends SegmentColors {
         generateListPointsTraversable();
 
         Bitmap newImage = imageGenerator.createBitmapImageXZ(coordinateDictionary, resizedWidth, 200);
+
         Bitmap newImage2 = imageGenerator.mapColors(newImage, Color.WHITE);
+
         imageGenerator.createMagentaStain(newImage2, 1, Color.MAGENTA, 2);
+
         Pair<List<PointF>, Bitmap> result = generateListTrajectory(newImage2, coordinateDictionary);
 
         return new Pair(result.second, result.first);

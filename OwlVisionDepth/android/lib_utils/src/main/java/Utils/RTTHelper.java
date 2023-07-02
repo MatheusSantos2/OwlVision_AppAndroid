@@ -177,7 +177,7 @@ public class RTTHelper {
             float adjustedX = x - imageCenter;
             float scaledX = (adjustedX / imageCenter) * sceneCenter;
 
-            PointF position = new PointF(scaledX, z);
+            PointF position = new PointF(scaledX, -1*(z/2));
             positionList.add(position);
         }
 

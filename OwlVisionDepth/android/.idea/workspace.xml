@@ -13,13 +13,10 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="171e0032-8938-43c8-b95a-e91b7fa23100" name="Changes" comment="Implementando logica de rrt eficiente">
-      <change afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/AStar.java" afterDir="false" />
+    <list default="true" id="171e0032-8938-43c8-b95a-e91b7fa23100" name="Changes" comment="Implementando AStar e convertendo as posições para posições reais">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/DistanceEstimator.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/DistanceEstimator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/RRT.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/RRT.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Sensors/KalmanSensors.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Sensors/KalmanSensors.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/TrajectoryEstimator.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/TrajectoryEstimator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_utils/src/main/java/Utils/ImageGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib_utils/src/main/java/Utils/ImageGenerator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib_utils/src/main/java/Utils/RTTHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib_utils/src/main/java/Utils/RTTHelper.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -306,7 +303,14 @@
       <option name="project" value="LOCAL" />
       <updated>1688266275708</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="Implementando AStar e convertendo as posições para posições reais">
+      <created>1688275281591</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1688275281591</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -367,7 +371,8 @@
     <MESSAGE value="Criando estrutura de criação de imagem 3d e visualização do plano superior" />
     <MESSAGE value="Corrigindo falha de envio de dados do sensor" />
     <MESSAGE value="Implementando logica de rrt eficiente" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implementando logica de rrt eficiente" />
+    <MESSAGE value="Implementando AStar e convertendo as posições para posições reais" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implementando AStar e convertendo as posições para posições reais" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -403,29 +408,9 @@
           <option name="timeStamp" value="223" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
-          <url>file://$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/TrajectoryEstimator.java</url>
-          <line>104</line>
-          <option name="timeStamp" value="310" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
-          <url>file://$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/TrajectoryEstimator.java</url>
-          <line>98</line>
-          <option name="timeStamp" value="366" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
-          <url>file://$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/TrajectoryEstimator.java</url>
-          <line>95</line>
-          <option name="timeStamp" value="369" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/AStar.java</url>
           <line>59</line>
           <option name="timeStamp" value="372" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
-          <url>file://$PROJECT_DIR$/lib_utils/src/main/java/Utils/RTTHelper.java</url>
-          <line>169</line>
-          <option name="timeStamp" value="375" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/lib_utils/src/main/java/Utils/RTTHelper.java</url>
@@ -439,21 +424,21 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/lib_utils/src/main/java/Utils/RTTHelper.java</url>
-          <line>183</line>
-          <option name="timeStamp" value="381" />
+          <line>172</line>
+          <option name="timeStamp" value="384" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/Main/MLExecutionViewModel.kt</url>
+          <line>51</line>
+          <option name="timeStamp" value="382" />
         </line-breakpoint>
         <breakpoint enabled="true" suspend="THREAD" type="OCSymbolicBreakpointType">
           <properties>
             <option name="moduleName" value="libart.so" />
             <option name="symbolPattern" value="art_sigsegv_fault" />
           </properties>
-          <option name="timeStamp" value="379" />
+          <option name="timeStamp" value="383" />
         </breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/Main/MLExecutionViewModel.kt</url>
-          <line>51</line>
-          <option name="timeStamp" value="382" />
-        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <pin-to-top-manager>

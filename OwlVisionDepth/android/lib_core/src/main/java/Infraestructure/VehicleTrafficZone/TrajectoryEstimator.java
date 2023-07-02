@@ -24,6 +24,7 @@ public class TrajectoryEstimator extends SegmentColors {
     private double vehicleWidth = 15F;
     private double vehicleHeight = 15F;
     private RTTHelper rrtHelper = new RTTHelper();
+    private AStar aStar = new AStar();
 
     private Pair imageSize = rrtHelper.getVehicleSize(192, 200, 500, 1200, vehicleHeight, vehicleWidth);
 
@@ -86,17 +87,18 @@ public class TrajectoryEstimator extends SegmentColors {
             Node root = rrtHelper.getMidpointOfFirstWhiteLine(image);
             Node goal = rrtHelper.getMidpointOfFirstWhiteLineTop(image);
 
-            Pair<List<Node>, Bitmap> pairRtt = rrt.findPath(image, root, goal,4000);
+            Pair<List<Node>, Bitmap> pairRtt = rrt.findPath(image, root, goal,10000);
 
             if (!pairRtt.first.isEmpty())
             {
                 List<Node> first = pairRtt.first;
 
+                first = aStar.findShortestPath(first);
                 first = rrtHelper.getEquidistantNodes(first,5);
 
                 if(!first.isEmpty())
                 {
-                    return new Pair<>(rrtHelper.convertNodesToPositions(first, coordinateDictionary), pairRtt.second);
+                    return new Pair<>(rrtHelper.convertNodesToPositions(first, coordinateDictionary, resizedWidth, 200), pairRtt.second);
                 }
             }
         } catch (Exception e) {

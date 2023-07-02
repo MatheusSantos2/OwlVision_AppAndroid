@@ -148,7 +148,7 @@ public class RTTHelper {
         return (double) whiteCount / totalCount;
     }
 
-    public List<PointF> convertNodesToPositions(List<Node> nodeList, List<Pair<Boolean, Point3D>> positions) {
+    public List<PointF> convertNodesToPositions(List<Node> nodeList, List<Pair<Boolean, Point3D>> positions, float imageWidth, float sceneWidthCm) {
         List<PointF> positionList = new ArrayList<>();
 
         float xMin = Float.MAX_VALUE;
@@ -167,14 +167,17 @@ public class RTTHelper {
             zMax = Math.max(zMax, z);
         }
 
+        float imageCenter = imageWidth / 2.0f;
+        float sceneCenter = sceneWidthCm / 2.0f;
+
         for (Node node : nodeList) {
             float x = (float) node.getX();
             float z = (float) node.getY();
 
-            float denormalizedX = x * (xMax - xMin) + xMin;
-            float denormalizedZ = z * (zMax - zMin) + zMin;
+            float adjustedX = x - imageCenter;
+            float scaledX = (adjustedX / imageCenter) * sceneCenter;
 
-            PointF position = new PointF(denormalizedX, denormalizedZ);
+            PointF position = new PointF(scaledX, z);
             positionList.add(position);
         }
 
@@ -204,48 +207,43 @@ public class RTTHelper {
     public List<Node> getEquidistantNodes(List<Node> nodes, int numPoints) {
         List<Node> equidistantNodes = new ArrayList<>();
 
-        if (nodes.isEmpty()) {
+        if (nodes.isEmpty() || numPoints < 2) {
             return equidistantNodes;
         }
 
-        Node root = nodes.get(0);
-        Node goal = nodes.get(nodes.size() - 1);
-        double totalDistance = calculateDistance(root, goal);
-
+        double totalDistance = calculateTotalDistance(nodes);
         double spacing = totalDistance / (numPoints - 1);
+
+        equidistantNodes.add(nodes.get(0));
+
         double currentDistance = 0.0;
+        double accumulatedDistance = 0.0;
 
-        equidistantNodes.add(root);
+        for (int i = 1; i < nodes.size(); i++) {
+            Node currentNode = nodes.get(i);
+            Node previousNode = nodes.get(i - 1);
 
-        Node currentNode = goal;
-        double distanceFromGoal = 0.0;
-
-        while (currentNode.getParent() != null) {
-            Node parent = currentNode.getParent();
-            double segmentDistance = calculateDistance(currentNode, parent);
+            double segmentDistance = calculateDistance(previousNode, currentNode);
 
             if (currentDistance + segmentDistance >= spacing) {
                 double remainingDistance = spacing - currentDistance;
                 double ratio = remainingDistance / segmentDistance;
-                double newX = parent.getX() + ratio * (currentNode.getX() - parent.getX());
-                double newY = parent.getY() + ratio * (currentNode.getY() - parent.getY());
+                double newX = previousNode.getX() + ratio * (currentNode.getX() - previousNode.getX());
+                double newY = previousNode.getY() + ratio * (currentNode.getY() - previousNode.getY());
                 Node equidistantNode = new Node(newX, newY);
                 equidistantNodes.add(equidistantNode);
-                currentDistance = spacing;
+                accumulatedDistance += spacing;
+                currentDistance = segmentDistance - remainingDistance;
+
+                if (accumulatedDistance >= totalDistance) {
+                    break;
+                }
+            } else {
+                currentDistance += segmentDistance;
             }
-
-            currentDistance += segmentDistance;
-            distanceFromGoal += segmentDistance;
-
-            if (distanceFromGoal >= spacing) {
-                equidistantNodes.add(currentNode);
-                distanceFromGoal = 0.0;
-            }
-
-            currentNode = parent;
         }
 
-        equidistantNodes.add(goal);
+        equidistantNodes.add(nodes.get(nodes.size() - 1));
 
         return equidistantNodes;
     }
@@ -254,5 +252,19 @@ public class RTTHelper {
         double dx = node2.getX() - node1.getX();
         double dy = node2.getY() - node1.getY();
         return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    private double calculateTotalDistance(List<Node> path) {
+        double totalDistance = 0.0;
+        int pathSize = path.size();
+
+        for (int i = 0; i < pathSize - 1; i++) {
+            Node currentNode = path.get(i);
+            Node nextNode = path.get(i + 1);
+            double distance = calculateDistance(currentNode, nextNode);
+            totalDistance += distance;
+        }
+
+        return totalDistance;
     }
 }

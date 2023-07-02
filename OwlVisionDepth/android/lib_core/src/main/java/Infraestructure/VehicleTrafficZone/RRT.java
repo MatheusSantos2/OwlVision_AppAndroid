@@ -25,7 +25,7 @@ public class RRT {
     private int targetColor = Color.GREEN;
 
     private RTTHelper rrtHelper = new RTTHelper();
-    private double proximityRadius = 10;
+    private double proximityRadius = 5;
 
     public RRT(double stepSize, double goalThreshold, double vehicleWidth, double vehicleHeight)
     {
@@ -65,7 +65,7 @@ public class RRT {
 
                 double distanceToTarget = calculateDistance(newNode, target);
                 if (distanceToTarget <= proximityRadius) {
-                    goal = target;
+                    goal = newNode;
 
                     break;
                 }
@@ -186,60 +186,9 @@ public class RRT {
         return path;
     }
 
-    private boolean isReachedGoal(Node node, Node target) {
-        double distance = calculateDistance(node, target);
-        return distance <= goalThreshold;
-    }
-
     private int randomInt(int min, int max) {
         Random random = new Random();
         return random.nextInt(max - min + 1) + min;
-    }
-
-    public List<Node> equidistantPath(List<Node> nodes, int numPoints) {
-        List<Node> equidistantNodes = new ArrayList<>();
-
-        if (nodes.size() < 2) {
-            return equidistantNodes;
-        }
-
-        double totalDistance = 0.0;
-        for (int i = 0; i < nodes.size() - 1; i++) {
-            totalDistance += calculateDistance(nodes.get(i), nodes.get(i + 1));
-        }
-
-        double targetSpacing = totalDistance / (numPoints - 1);
-
-        equidistantNodes.add(nodes.get(0));
-
-        int currentNodeIndex = 0;
-        double currentDistance = 0.0;
-        for (int i = 1; i < numPoints - 1; i++) {
-            double targetDistance = i * targetSpacing;
-
-            while (currentDistance < targetDistance) {
-                Node currentNode = nodes.get(currentNodeIndex);
-                Node nextNode = nodes.get(currentNodeIndex + 1);
-                double segmentDistance = calculateDistance(currentNode, nextNode);
-
-                if (currentDistance + segmentDistance <= targetDistance) {
-                    currentDistance += segmentDistance;
-                    currentNodeIndex++;
-                } else {
-                    double remainingDistance = targetDistance - currentDistance;
-                    double ratio = remainingDistance / segmentDistance;
-                    double newX = currentNode.getX() + ratio * (nextNode.getX() - currentNode.getX());
-                    double newY = currentNode.getY() + ratio * (nextNode.getY() - currentNode.getY());
-                    Node equidistantNode = new Node(newX, newY);
-                    equidistantNodes.add(equidistantNode);
-                    currentDistance = targetDistance;
-                }
-            }
-        }
-
-        equidistantNodes.add(nodes.get(nodes.size() - 1));
-
-        return equidistantNodes;
     }
 
     private double calculateDistance(Node node1, Node node2) {

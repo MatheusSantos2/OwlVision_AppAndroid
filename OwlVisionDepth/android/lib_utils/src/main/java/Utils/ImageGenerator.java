@@ -267,7 +267,6 @@ public class ImageGenerator {
             for (int y = 0; y < height; y++) {
                 int pixel = resultBitmap.getPixel(x, y);
 
-                // Verificar se o pixel é preto
                 if (pixel == Color.BLACK) {
                     resultBitmap.setPixel(x, y, color);
                 }

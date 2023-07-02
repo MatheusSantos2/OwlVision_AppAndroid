@@ -93,12 +93,10 @@ public class DistanceEstimator {
         int redG = 0;
         int redB = 0;
 
-        // Converter os valores dos canais de cor para o intervalo de 0 a 255
         double rNormalized = r / 255.0;
         double gNormalized = g / 255.0;
         double bNormalized = b / 255.0;
 
-        // Ajustar a distância para refletir a proximidade da cor vermelha
         double distanceBlue = Math.sqrt(Math.pow(rNormalized - blueR, 2) + Math.pow(gNormalized - blueG, 2) + Math.pow(bNormalized - blueB, 2));
         double distanceRed = Math.sqrt(Math.pow(rNormalized - redR, 2) + Math.pow(gNormalized - redG, 2) + Math.pow(bNormalized - redB, 2)) * 0.8;
 

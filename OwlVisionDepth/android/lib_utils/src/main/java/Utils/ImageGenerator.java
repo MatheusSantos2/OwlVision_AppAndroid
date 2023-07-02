@@ -256,4 +256,163 @@ public class ImageGenerator {
         Bitmap resizedBitmap = Bitmap.createScaledBitmap(inputBitmap, newWidth, newHeight, false);
         return resizedBitmap;
     }
+
+    public Bitmap mapColors(Bitmap bitmap, int color) {
+        Bitmap resultBitmap = bitmap.copy(bitmap.getConfig(), true);
+
+        int width = resultBitmap.getWidth();
+        int height = resultBitmap.getHeight();
+
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                int pixel = resultBitmap.getPixel(x, y);
+
+                // Verificar se o pixel é preto
+                if (pixel == Color.BLACK) {
+                    resultBitmap.setPixel(x, y, color);
+                }
+            }
+        }
+
+        return resultBitmap;
+    }
+
+    public Bitmap fillWhiteWithMagenta(Bitmap bitmap, int threshold) {
+        Bitmap resultBitmap = bitmap.copy(bitmap.getConfig(), true);
+
+        int width = resultBitmap.getWidth();
+        int height = resultBitmap.getHeight();
+
+        int magentaColor = Color.parseColor("#FF00FF"); // Cor magenta (hexadecimal)
+        int whiteColor = Color.WHITE;
+
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                int pixel = resultBitmap.getPixel(x, y);
+
+                if (pixel == whiteColor) {
+                    boolean hasMagentaNeighbor = false;
+
+                    for (int offsetX = -1; offsetX <= 1; offsetX++) {
+                        for (int offsetY = -1; offsetY <= 1; offsetY++) {
+                            int neighborX = x + offsetX;
+                            int neighborY = y + offsetY;
+
+                            if (neighborX >= 0 && neighborX < width && neighborY >= 0 && neighborY < height) {
+                                int neighborPixel = resultBitmap.getPixel(neighborX, neighborY);
+
+                                if (calculateColorDistance(neighborPixel, magentaColor) <= threshold) {
+                                    hasMagentaNeighbor = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if (hasMagentaNeighbor) {
+                            break;
+                        }
+                    }
+
+                    if (hasMagentaNeighbor) {
+                        resultBitmap.setPixel(x, y, magentaColor);
+                    }
+                }
+            }
+        }
+
+        return resultBitmap;
+    }
+
+    private int calculateColorDistance(int color1, int color2) {
+        int r1 = Color.red(color1);
+        int g1 = Color.green(color1);
+        int b1 = Color.blue(color1);
+
+        int r2 = Color.red(color2);
+        int g2 = Color.green(color2);
+        int b2 = Color.blue(color2);
+
+        return Math.abs(r1 - r2) + Math.abs(g1 - g2) + Math.abs(b1 - b2);
+    }
+
+    public void createMagentaStain(Bitmap image, int threshold, int stainColor, int stainRadius) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+        boolean[][] visited = new boolean[width][height];
+
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                if (!visited[x][y] && isMagentaPixel(image.getPixel(x, y), threshold)) {
+                    List<Point> region = new ArrayList<>();
+                    floodFill(image, visited, x, y, threshold, region);
+
+                    applyStainToRegion(image, region, stainColor, stainRadius);
+                }
+            }
+        }
+    }
+
+    private void applyStainToRegion(Bitmap image, List<Point> region, int stainColor, int stainRadius) {
+        for (Point point : region) {
+            int centerX = (int)point.x;
+            int centerY = (int)point.y;
+
+            for (int dx = -stainRadius; dx <= stainRadius; dx++) {
+                for (int dy = -stainRadius; dy <= stainRadius; dy++) {
+                    int nx = centerX + dx;
+                    int ny = centerY + dy;
+
+                    if (nx >= 0 && nx < image.getWidth() && ny >= 0 && ny < image.getHeight()) {
+                        double distance = Math.sqrt(dx * dx + dy * dy);
+                        double intensity = 1.0 - (distance / stainRadius);
+
+                        int pixel = image.getPixel(nx, ny);
+                        int newColor = blendColors(pixel, stainColor, intensity);
+                        image.setPixel(nx, ny, newColor);
+                    }
+                }
+            }
+        }
+    }
+
+    private int blendColors(int color1, int color2, double ratio) {
+        int alpha = (int) (Color.alpha(color1) * (1.0 - ratio) + Color.alpha(color2) * ratio);
+        int red = (int) (Color.red(color1) * (1.0 - ratio) + Color.red(color2) * ratio);
+        int green = (int) (Color.green(color1) * (1.0 - ratio) + Color.green(color2) * ratio);
+        int blue = (int) (Color.blue(color1) * (1.0 - ratio) + Color.blue(color2) * ratio);
+        return Color.argb(alpha, red, green, blue);
+    }
+
+    private void floodFill(Bitmap image, boolean[][] visited, int x, int y, int threshold, List<Point> region) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+        int targetColor = image.getPixel(x, y);
+
+        if (visited[x][y] || !isMagentaPixel(targetColor, threshold)) {
+            return;
+        }
+
+        visited[x][y] = true;
+        region.add(new Point(x, y));
+
+        int[] dx = {0, 0, -1, 1};
+        int[] dy = {-1, 1, 0, 0};
+
+        for (int i = 0; i < 4; i++) {
+            int nx = x + dx[i];
+            int ny = y + dy[i];
+
+            if (nx >= 0 && nx < width && ny >= 0 && ny < height) {
+                floodFill(image, visited, nx, ny, threshold, region);
+            }
+        }
+    }
+
+    private boolean isMagentaPixel(int pixel, int threshold) {
+        int red = Color.red(pixel);
+        int green = Color.green(pixel);
+        int blue = Color.blue(pixel);
+        int magentaThreshold = threshold;
+
+        return (red >= 255 - magentaThreshold) && (green <= magentaThreshold) && (blue >= 255 - magentaThreshold);
+    }
 }

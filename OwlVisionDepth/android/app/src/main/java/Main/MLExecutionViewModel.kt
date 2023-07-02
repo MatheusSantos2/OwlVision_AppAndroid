@@ -49,15 +49,22 @@ class MLExecutionViewModel : ViewModel()
         var imageResult = TrajectoryEstimator()
                 .getTraversableZone(semanticResult!!.bitmapResult, depthResult!!.bitmapResult)
 
-        if (!TrajectoryValidator().isTraversableInCenter(imageResult.first)){
-          imageResult = TrajectoryValidator().processTraversablePixels(depthResult.bitmapOriginal, semanticResult.bitmapResult, depthResult.bitmapResult)
+        if(imageResult != null)
+        {
+          if (!TrajectoryValidator().isTraversableInCenter(imageResult.first)){
+            imageResult = TrajectoryValidator().processTraversablePixels(depthResult.bitmapOriginal, semanticResult.bitmapResult, depthResult.bitmapResult)
+          }
+
+          var trajectoryList = TrajectoryGenerator().generateTrajectory(imageResult.second)
+          var message = StringHelper().convertPointsToString(trajectoryList)
+
+          var result =  ModelViewResult(semanticResult.bitmapResult, depthResult.bitmapResult, imageResult.first, message)
+          _resultingBitmap.postValue(result)
         }
-
-        var trajectoryList = TrajectoryGenerator().generateTrajectory(imageResult.second)
-        var message = StringHelper().convertPointsToString(trajectoryList)
-
-        var result =  ModelViewResult(semanticResult.bitmapResult, depthResult.bitmapResult, imageResult.first, message)
-        _resultingBitmap.postValue(result)
+        else{
+          Log.w(TAG, "Fail in Trajectory Estimator Process")
+          _resultingBitmap.postValue(null)
+        }
       }
       catch (e: Exception)
       {

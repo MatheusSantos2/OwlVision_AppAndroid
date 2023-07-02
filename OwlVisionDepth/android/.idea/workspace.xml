@@ -13,26 +13,14 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="171e0032-8938-43c8-b95a-e91b7fa23100" name="Changes" comment="Criando estrutura de criação de imagem 3d e visualização do plano superior">
-      <change afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/DistanceEstimator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/RRT.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/TrajectoryEstimator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib_utils/src/main/java/Models/Node.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib_utils/src/main/java/Utils/ImageGenerator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib_utils/src/main/java/Utils/Point3DHelper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib_utils/src/main/java/Utils/RTTHelper.java" afterDir="false" />
+    <list default="true" id="171e0032-8938-43c8-b95a-e91b7fa23100" name="Changes" comment="Corrigindo falha de envio de dados do sensor">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/assets/model_semantic.tflite" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/assets/model_semantic.tflite" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/Main/MLExecutionViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/Main/MLExecutionViewModel.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/Main/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/Main/MainActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Entities/Point2D.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib_utils/src/main/java/Models/Point2D.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Entities/Point3D.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib_utils/src/main/java/Models/Point3D.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Senders/TcpIpClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Senders/TcpIpClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Sensors/KalmanSensors.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Sensors/KalmanSensors.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/TrafficableTrajectoryEstimator.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/TrajectoryEstimationValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/TrajectoryValidator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_utils/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/lib_utils/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_utils/src/main/java/Utils/SegmentColors.kt" beforeDir="false" afterPath="$PROJECT_DIR$/lib_utils/src/main/java/Utils/SegmentColors.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/RRT.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/RRT.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/TrajectoryEstimator.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/TrajectoryEstimator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib_utils/src/main/java/Utils/ImageGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib_utils/src/main/java/Utils/ImageGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib_utils/src/main/java/Utils/RTTHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib_utils/src/main/java/Utils/RTTHelper.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -304,7 +292,14 @@
       <option name="project" value="LOCAL" />
       <updated>1687373332991</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Criando estrutura de criação de imagem 3d e visualização do plano superior">
+      <created>1688105989279</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1688105989279</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -363,7 +358,8 @@
     <MESSAGE value="Atualizando a obetenção dos valores de posição para passar a utilizar varios sensores e o filtro de kalman" />
     <MESSAGE value="Criando pop-up para indicar que a conexão tcp foi realizada" />
     <MESSAGE value="Criando estrutura de criação de imagem 3d e visualização do plano superior" />
-    <option name="LAST_COMMIT_MESSAGE" value="Criando estrutura de criação de imagem 3d e visualização do plano superior" />
+    <MESSAGE value="Corrigindo falha de envio de dados do sensor" />
+    <option name="LAST_COMMIT_MESSAGE" value="Corrigindo falha de envio de dados do sensor" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -395,14 +391,51 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Senders/TcpIpClient.java</url>
-          <line>90</line>
-          <option name="timeStamp" value="77" />
+          <line>78</line>
+          <option name="timeStamp" value="223" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/TrajectoryEstimator.java</url>
-          <line>72</line>
-          <option name="timeStamp" value="167" />
+          <line>94</line>
+          <option name="timeStamp" value="302" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/TrajectoryEstimator.java</url>
+          <line>102</line>
+          <option name="timeStamp" value="310" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/lib_utils/src/main/java/Utils/RTTHelper.java</url>
+          <line>206</line>
+          <option name="timeStamp" value="312" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/TrajectoryEstimator.java</url>
+          <line>90</line>
+          <option name="timeStamp" value="333" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/RRT.java</url>
+          <line>67</line>
+          <option name="timeStamp" value="338" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/RRT.java</url>
+          <line>74</line>
+          <option name="timeStamp" value="339" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/lib_utils/src/main/java/Utils/RTTHelper.java</url>
+          <line>249</line>
+          <option name="timeStamp" value="349" />
+        </line-breakpoint>
+        <breakpoint enabled="true" suspend="THREAD" type="OCSymbolicBreakpointType">
+          <properties>
+            <option name="moduleName" value="libart.so" />
+            <option name="symbolPattern" value="art_sigsegv_fault" />
+          </properties>
+          <option name="timeStamp" value="350" />
+        </breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <pin-to-top-manager>

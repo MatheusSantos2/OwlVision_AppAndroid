@@ -363,19 +363,16 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
 
       var serverSocket = client
 
-      while (true)
+      try
       {
-        try
-        {
-          serverSocket.connect()
+        serverSocket.connect()
 
-          if(serverSocket.hasConnected()){
-            client.sendMessage(label, message)
-          }
+        if(serverSocket.hasConnected()){
+          client.sendMessage(label, message)
         }
-        catch (e: IOException){
-          Log.e(TAG, "Fail to send message - Exception: ${e.message}")
-        }
+      }
+      catch (e: IOException){
+        Log.e(TAG, "Fail to send message - Exception: ${e.message}")
       }
     }
     thread.start()

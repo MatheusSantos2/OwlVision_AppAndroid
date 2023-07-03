@@ -7,26 +7,30 @@ import android.graphics.PointF;
 import android.graphics.Rect;
 import android.util.Pair;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import Utils.ImageGenerator;
 
 public class TrajectoryValidator
 {
+    ImageGenerator imageGenerator = new ImageGenerator();
     public Pair<Bitmap, List<PointF>> processTraversablePixels(Bitmap originalImage, Bitmap segmentationImage, Bitmap depthImage)
     {
-        Pair<Bitmap, Bitmap> images = divideImage(originalImage);
-        int countLeftBlackPoints = countBlackPixels(images.first);
-        int countRightBlackPoints = countBlackPixels(images.second);
+        Pair<Bitmap, Bitmap> images = divideImage(depthImage);
+        int countLeftPoints = countBlockedPixels(images.first);
+        int countRightPoints = countBlockedPixels(images.second);
         boolean isLeft = true;
+        int region = 1;
 
-        if (countRightBlackPoints > countLeftBlackPoints) {
+        if (countRightPoints > countLeftPoints) {
             isLeft = false;
+            region  = 2;
         }
-        Bitmap imageSideSelected = getPartialImage(segmentationImage, isLeft);
+        Bitmap imageSideSelected = imageGenerator.getPartialImage(segmentationImage, isLeft);
 
         TrajectoryEstimator traffic = new TrajectoryEstimator();
 
-        Pair<Bitmap, List<PointF>> newResult = traffic.getTraversableZone(imageSideSelected, depthImage);
+        Pair<Bitmap, List<PointF>> newResult = traffic.getTraversableZone(imageSideSelected, depthImage, region);
         Bitmap newImage = newResult.first;
         List<PointF> newPoints = newResult.second;
         return new Pair<>(newImage, newPoints);
@@ -36,46 +40,72 @@ public class TrajectoryValidator
         int width = image.getWidth();
         int height = image.getHeight();
 
-        int centerX = width / 2;
         int centerY = height / 2;
-        int frameWidth = (int) (width * 0.2f);
-        int frameHeight = (int) (height * 0.2f);
-        int startX = centerX - frameWidth / 2;
-        int startY = centerY - frameHeight / 2;
+        int startY = centerY;
+        int endY = height;
 
-        int endX = startX + frameWidth;
-        int endY = startY + frameHeight;
+        int count = 0;
+        int totalPixels = 0;
 
         for (int y = startY; y < endY; y++) {
-            for (int x = startX; x < endX; x++) {
-                if (x >= 0 && x < width && y >= 0 && y < height) {
-                    int pixelColor = image.getPixel(x, y);
-                    if (pixelColor == Color.WHITE) {
-                        return true;
-                    }
+            for (int x = 0; x < width; x++) {
+                int pixelColor = image.getPixel(x, y);
+                int color = getColor(pixelColor);
+
+                if (color == Color.BLUE) {
+                    count++;
                 }
+
+                totalPixels++;
             }
         }
-        return false;
+
+        double blockedPercentage = (double) count / totalPixels;
+
+        if (blockedPercentage > 0.4) {
+            return false;
+        }
+
+        return true;
     }
 
-    public int countBlackPixels(Bitmap image) {
-        int count = 0;
+    public int getColor(int pixelColor) {
+        int red = Color.red(pixelColor);
+        int green = Color.green(pixelColor);
+        int blue = Color.blue(pixelColor);
+
+        if (red >= green && red >= blue) {
+            return red;
+        } else if (green >= red && green >= blue) {
+            return green;
+        } else {
+            return blue;
+        }
+    }
+
+    private int countBlockedPixels(Bitmap image) {
         int width = image.getWidth();
         int height = image.getHeight();
+
+        int blueIntensity = 0;
+        int greenIntensity = 0;
 
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 int pixelColor = image.getPixel(x, y);
-                if (pixelColor == Color.BLACK) {
-                    count++;
-                }
+
+                int blue = Color.blue(pixelColor);
+                int green = Color.green(pixelColor);
+
+                blueIntensity += blue;
+                greenIntensity += green;
             }
         }
-        return count;
+
+        return blueIntensity + greenIntensity;
     }
 
-    public Pair<Bitmap, Bitmap> divideImage(Bitmap image)
+    private Pair<Bitmap, Bitmap> divideImage(Bitmap image)
     {
         int width = image.getWidth();
         int height = image.getHeight();
@@ -93,31 +123,5 @@ public class TrajectoryValidator
         rightCanvas.drawBitmap(image, new Rect(halfWidth, 0, width, height), new Rect(0, 0, halfWidth, height), null);
 
         return new Pair<>(leftImage, rightImage);
-    }
-
-    public Bitmap getPartialImage(Bitmap originalImage, boolean desiredSide) {
-        int width = originalImage.getWidth();
-        int height = originalImage.getHeight();
-        int centerX = width / 2;
-
-        Bitmap partialImage = originalImage.copy(Bitmap.Config.ARGB_8888, true);
-
-        if (desiredSide) {
-            for (int y = 0; y < height; y++) {
-                for (int x = 0; x < centerX; x++) {
-                    partialImage.setPixel(x, y, Color.BLUE);
-                }
-            }
-        }
-        else
-        {
-            for (int y = 0; y < height; y++) {
-                for (int x = centerX; x < width; x++) {
-                    partialImage.setPixel(x, y, Color.BLUE);
-                }
-            }
-        }
-
-        return partialImage;
     }
 }

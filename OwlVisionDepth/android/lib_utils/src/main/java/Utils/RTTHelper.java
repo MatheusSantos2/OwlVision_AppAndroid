@@ -151,22 +151,6 @@ public class RTTHelper {
     public List<PointF> convertNodesToPositions(List<Node> nodeList, List<Pair<Boolean, Point3D>> positions, float imageWidth, float sceneWidthCm) {
         List<PointF> positionList = new ArrayList<>();
 
-        float xMin = Float.MAX_VALUE;
-        float xMax = Float.MIN_VALUE;
-        float zMin = Float.MAX_VALUE;
-        float zMax = Float.MIN_VALUE;
-
-        for (Pair<Boolean, Point3D> entry : positions) {
-            Point3D point = entry.second;
-            float x = point.getX();
-            float z = point.getZ();
-
-            xMin = Math.min(xMin, x);
-            xMax = Math.max(xMax, x);
-            zMin = Math.min(zMin, z);
-            zMax = Math.max(zMax, z);
-        }
-
         float imageCenter = imageWidth / 2.0f;
         float sceneCenter = sceneWidthCm / 2.0f;
 

@@ -5,7 +5,6 @@ import Infraestructure.DataAccess.ImageDriveHelper
 import Infraestructure.DataAccess.MonitoringSqlLiteHelper
 import Infraestructure.Senders.TcpIpClient
 import Infraestructure.Sensors.KalmanSensors
-import Infraestructure.Sensors.SensorsListener
 import Interpreter.MLDepthEstimation.DepthEstimationModelExecutor
 import Interpreter.MLSemanticSegmentation.SemanticSegmentationModelExecutor
 import Interpreter.Models.ModelViewResult
@@ -61,7 +60,6 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
   private lateinit var exportButton: ImageButton
 
   private lateinit var sensorManager: SensorManager
-  private lateinit var sensorListener: SensorsListener
   private lateinit var kalmanSensors: KalmanSensors
   private lateinit var captureHandlerThread: HandlerThread
   private lateinit var captureHandler: Handler

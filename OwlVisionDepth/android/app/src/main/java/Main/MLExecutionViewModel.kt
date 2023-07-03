@@ -1,6 +1,5 @@
 package Main
 
-import Infraestructure.VehicleTrafficZone.BufferListHelper
 import Infraestructure.VehicleTrafficZone.TrajectoryEstimator
 import Infraestructure.VehicleTrafficZone.TrajectoryValidator
 import Interpreter.MLDepthEstimation.DepthEstimationModelExecutor
@@ -13,6 +12,8 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import android.graphics.Bitmap
+import android.graphics.PointF
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExecutorCoroutineDispatcher
 import kotlinx.coroutines.Job
@@ -23,11 +24,17 @@ private const val TAG = "MLExecutionViewModel"
 
 class MLExecutionViewModel : ViewModel()
 {
+  private lateinit var message: String
   private val viewModelJob = Job()
   private val viewModelScope = CoroutineScope(viewModelJob)
   private val _resultingBitmap = MutableLiveData<ModelViewResult>()
   val resultingBitmap: LiveData<ModelViewResult>
   get() = _resultingBitmap
+
+  private var imageResult: Pair<Bitmap, MutableList<PointF>>? = null
+    set(value) {
+      field = value?.let { kotlin.Pair(value.first, value.second) }
+    }
 
   fun onApplyModel(filePath: String, depthEstimationModel: DepthEstimationModelExecutor?,
                    semanticSegmentation: SemanticSegmentationModelExecutor?,
@@ -46,28 +53,30 @@ class MLExecutionViewModel : ViewModel()
         logResult.append("DepthResult: ${depthResult?.executionLog}")
         logResult.append("SemanticResult: ${semanticResult?.executionLog}" )
 
-        var imageResult = TrajectoryEstimator()
-                .getTraversableZone(semanticResult!!.bitmapResult, depthResult!!.bitmapResult)
+        imageResult = Pair(ImageHelper.createEmptyBitmap(100, 100),mutableListOf())!!
 
-        if(imageResult != null)
-        {
-          if (!TrajectoryValidator().isTraversableInCenter(imageResult.first)){
-            imageResult = TrajectoryValidator().processTraversablePixels(depthResult.bitmapOriginal, semanticResult.bitmapResult, depthResult.bitmapResult)
-          }
+        imageResult = if (!TrajectoryValidator().isTraversableInCenter(depthResult!!.bitmapResult)){
+          var imageResult2 = TrajectoryValidator()
+                  .processTraversablePixels(depthResult.bitmapOriginal, semanticResult!!.bitmapResult, depthResult.bitmapResult)
+          Pair(imageResult2.first, imageResult2.second.toMutableList())
 
-          var trajectoryList = TrajectoryGenerator().generateTrajectory(imageResult.second)
-          var message = StringHelper().convertPointsToString(trajectoryList)
-
-          var result =  ModelViewResult(semanticResult.bitmapResult, depthResult.bitmapResult, imageResult.first, message)
-          _resultingBitmap.postValue(result)
+        }else {
+          var imageResult2 = TrajectoryEstimator()
+                  .getTraversableZone(semanticResult!!.bitmapResult, depthResult.bitmapResult, 0)
+          Pair(imageResult2.first, imageResult2.second.toMutableList())
         }
-        else{
+
+        if (imageResult!!.second.size != 0) {
+          message = StringHelper().convertPointsToString(imageResult!!.second)
+        }
+        else {
           Log.w(TAG, "Fail in Trajectory Estimator Process")
-          _resultingBitmap.postValue(null)
         }
+
+        var result =  ModelViewResult(semanticResult.bitmapResult, depthResult.bitmapResult, imageResult!!.first, message)
+        _resultingBitmap.postValue(result)
       }
-      catch (e: Exception)
-      {
+      catch (e: Exception) {
         Log.e(TAG, "Fail to execute ImageSegmentationModelExecutor: ${e.message}")
         _resultingBitmap.postValue(null)
       }

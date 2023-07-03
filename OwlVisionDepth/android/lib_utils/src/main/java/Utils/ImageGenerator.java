@@ -414,4 +414,30 @@ public class ImageGenerator {
 
         return (red >= 255 - magentaThreshold) && (green <= magentaThreshold) && (blue >= 255 - magentaThreshold);
     }
+
+    public Bitmap getPartialImage(Bitmap originalImage, boolean desiredSide) {
+        int width = originalImage.getWidth();
+        int height = originalImage.getHeight();
+        int centerX = width / 2;
+
+        Bitmap partialImage = originalImage.copy(Bitmap.Config.ARGB_8888, true);
+
+        if (desiredSide) {
+            for (int y = 0; y < height; y++) {
+                for (int x = 0; x < centerX; x++) {
+                    partialImage.setPixel(x, y, Color.MAGENTA);
+                }
+            }
+        }
+        else
+        {
+            for (int y = 0; y < height; y++) {
+                for (int x = centerX; x < width; x++) {
+                    partialImage.setPixel(x, y, Color.MAGENTA);
+                }
+            }
+        }
+
+        return partialImage;
+    }
 }

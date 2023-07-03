@@ -1,8 +1,6 @@
-package Infraestructure.VehicleTrafficZone;
+package Utils;
 
 import android.graphics.PointF;
-
-import org.ejml.simple.SimpleMatrix;
 
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -26,11 +24,11 @@ public class BufferListHelper {
     private List<PointF> getBufferedPoints(List<PointF> points) throws ParseException {
         List<PointF> bufferedPoints = new ArrayList<>();
         int bufferSize = 5;
-        int startIndex = Math.max(0, points.size() - bufferSize); // Início do buffer
+        int startIndex = Math.max(0, points.size() - bufferSize);
 
         for (int i = startIndex; i < points.size(); i++) {
-            int endIndex = Math.min(i + bufferSize, points.size()); // Fim do buffer
-            int numPoints = endIndex - i; // Número de pontos no buffer
+            int endIndex = Math.min(i + bufferSize, points.size());
+            int numPoints = endIndex - i;
 
             float sumX = 0;
             float sumY = 0;

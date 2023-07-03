@@ -36,13 +36,13 @@ public class KalmanSensors implements SensorEventListener {
         initKalmanFilter();
     }
 
-    private SensorsListener.SensorUpdateCallback sensorUpdateCallback;
+    private SensorUpdateCallback sensorUpdateCallback;
 
     public interface SensorUpdateCallback {
         void onSensorUpdate(float[] positions);
     }
 
-    public void setSensorUpdateCallback(SensorsListener.SensorUpdateCallback callback) {
+    public void setSensorUpdateCallback(SensorUpdateCallback callback) {
         sensorUpdateCallback = callback;
     }
 

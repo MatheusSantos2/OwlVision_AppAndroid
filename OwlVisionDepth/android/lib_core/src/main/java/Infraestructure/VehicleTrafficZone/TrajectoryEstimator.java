@@ -6,6 +6,8 @@ import android.graphics.Paint;
 import android.graphics.PointF;
 import android.util.Pair;
 
+import org.opencv.core.Point;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +15,7 @@ import Models.Node;
 import Models.Point2D;
 import Models.Point3D;
 import Utils.ImageGenerator;
+import Utils.ImageHelper;
 import Utils.RTTHelper;
 import Utils.SegmentColors;
 
@@ -37,24 +40,30 @@ public class TrajectoryEstimator extends SegmentColors {
     private int resizedWidth = 0;
     private List<Pair<Boolean, Point3D>> coordinateDictionary;
 
-    public Pair<Bitmap, List<PointF>> getTraversableZone(Bitmap semanticMap, Bitmap depthMap ) {
+    public Pair<Bitmap, List<PointF>> getTraversableZone(Bitmap semanticMap, Bitmap depthMap, int region) {
         this.semanticMap = semanticMap;
         this.depthMap = depthMap;
 
-        generateListPointsTraversable();
+        generateListPointsTraversable(region);
 
         Bitmap newImage = imageGenerator.createBitmapImageXZ(coordinateDictionary, resizedWidth, 200);
 
         Bitmap newImage2 = imageGenerator.mapColors(newImage, Color.WHITE);
 
-        imageGenerator.createMagentaStain(newImage2, 1, Color.MAGENTA, 2);
+        if(region == 1){
+            newImage2 = imageGenerator.getPartialImage(newImage2, true);
+        }else if(region == 2){
+            newImage2 =  imageGenerator.getPartialImage(newImage2, false);
+        }else{
+            imageGenerator.createMagentaStain(newImage2, 1, Color.MAGENTA, 2);
+        }
 
         Pair<List<PointF>, Bitmap> result = generateListTrajectory(newImage2, coordinateDictionary);
 
         return new Pair(result.second, result.first);
     }
 
-    private void generateListPointsTraversable(){
+    private void generateListPointsTraversable(int region) {
         Bitmap resizedSemantic = imageGenerator.resizeBitmap(semanticMap, 192, 640);
         Bitmap resizedDepth = imageGenerator.resizeBitmap(depthMap, 192, 640);
 
@@ -64,19 +73,31 @@ public class TrajectoryEstimator extends SegmentColors {
         Pair<Boolean, Point3D> pairCoordinates;
         coordinateDictionary = new ArrayList<>();
 
+        int start;
+        int end;
+
+        if (region == 2) {
+            start = 0;
+            end = resizedWidth / 2;
+        } else if (region == 1) {
+            start = resizedWidth / 2;
+            end = resizedWidth;
+        } else {
+            start = 0;
+            end = resizedWidth;
+        }
+
         for (int y = 0; y < height; y++) {
-            for (int x = 0; x < resizedWidth; x++) {
+            for (int x = start; x < end; x++) {
 
                 Point2D pointPixel = new Point2D(x, y);
                 int semanticPixel = resizedSemantic.getPixel(x, y);
-
                 int depthPixel = resizedDepth.getPixel(x, y);
-                Point3D realCoordinates = distanceEstimator.
-                        getRealPositions(pointPixel, depthPixel, resizedWidth, height);
+                Point3D realCoordinates = distanceEstimator.getRealPositions(pointPixel, depthPixel, resizedWidth, height);
 
                 if (semanticPixel == roadColor) {
                     pairCoordinates = new Pair<>(isTraversable, realCoordinates);
-                }else {
+                } else {
                     pairCoordinates = new Pair(!isTraversable, realCoordinates);
                 }
 
@@ -99,13 +120,15 @@ public class TrajectoryEstimator extends SegmentColors {
                 first = aStar.findShortestPath(first);
                 first = rrtHelper.getEquidistantNodes(first,5);
 
-                if(!first.isEmpty())
-                {
+                if(!first.isEmpty()) {
                     return new Pair<>(rrtHelper.convertNodesToPositions(first, coordinateDictionary, resizedWidth, 200), pairRtt.second);
+                }
+                else{
+                    return new Pair<>(new ArrayList<PointF>(), imageGenerator.createEmptyImage(100, 100));
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            return null;
         }
         return null;
     }

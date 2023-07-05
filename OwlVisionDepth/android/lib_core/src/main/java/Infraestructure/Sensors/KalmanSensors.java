@@ -66,12 +66,12 @@ public class KalmanSensors implements SensorEventListener {
 
         // Process noise covariance matrix Q
         Mat processNoiseCov = Mat.eye(stateSize, stateSize, CvType.CV_32F);
-        processNoiseCov = processNoiseCov.mul(processNoiseCov, 0.01);
+        processNoiseCov = processNoiseCov.mul(processNoiseCov, 2);
         kalmanFilter.set_processNoiseCov(processNoiseCov);
 
         // Measurement noise covariance matrix R
         Mat measurementNoiseCov = Mat.eye(measurementSize, measurementSize, CvType.CV_32F);
-        measurementNoiseCov = measurementNoiseCov.mul(measurementNoiseCov, 0.1);
+        measurementNoiseCov = measurementNoiseCov.mul(measurementNoiseCov, 2);
         kalmanFilter.set_measurementNoiseCov(measurementNoiseCov);
 
         // Initial state estimate
@@ -85,12 +85,12 @@ public class KalmanSensors implements SensorEventListener {
 
     public void register() {
         Sensor gyroSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
-        Sensor accelSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        Sensor accelSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
         Sensor magneticFieldSensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
 
-        sensorManager.registerListener(this, gyroSensor, SensorManager.SENSOR_DELAY_NORMAL);
-        sensorManager.registerListener(this, accelSensor, SensorManager.SENSOR_DELAY_NORMAL);
-        sensorManager.registerListener(this, magneticFieldSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(this, gyroSensor, SensorManager.SENSOR_DELAY_FASTEST);
+        sensorManager.registerListener(this, accelSensor, SensorManager.SENSOR_DELAY_FASTEST);
+        sensorManager.registerListener(this, magneticFieldSensor, SensorManager.SENSOR_DELAY_FASTEST);
     }
 
     public void unregister() {

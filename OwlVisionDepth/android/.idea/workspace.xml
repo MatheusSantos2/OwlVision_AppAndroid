@@ -14,23 +14,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="171e0032-8938-43c8-b95a-e91b7fa23100" name="Changes" comment="Implementando a regra de metade da imagem">
+      <change afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Sensors/KalmanSensorsLite.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/Main/MLExecutionViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/Main/MLExecutionViewModel.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/Main/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/Main/MainActivity.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Sensors/KalmanSensors.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Sensors/KalmanSensors.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Sensors/SensorsListener.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/BufferListHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib_utils/src/main/java/Utils/BufferListHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/TrajectoryEstimator.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/TrajectoryEstimator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/TrajectoryValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/TrajectoryValidator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_utils/src/main/java/Utils/ImageGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib_utils/src/main/java/Utils/ImageGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_utils/src/main/java/Utils/RTTHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib_utils/src/main/java/Utils/RTTHelper.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[e54c42aa]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -417,43 +411,18 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/TrajectoryEstimator.java</url>
-          <line>113</line>
-          <option name="timeStamp" value="502" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
-          <url>file://$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/TrajectoryEstimator.java</url>
           <line>122</line>
           <option name="timeStamp" value="503" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
-          <url>file://$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/TrajectoryValidator.java</url>
-          <line>62</line>
-          <option name="timeStamp" value="505" />
+          <url>file://$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Sensors/KalmanSensors.java</url>
+          <line>153</line>
+          <option name="timeStamp" value="521" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/Main/MLExecutionViewModel.kt</url>
-          <line>79</line>
-          <option name="timeStamp" value="465" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/Main/MLExecutionViewModel.kt</url>
-          <line>68</line>
-          <option name="timeStamp" value="487" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/Main/MLExecutionViewModel.kt</url>
-          <line>60</line>
-          <option name="timeStamp" value="493" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/Main/MLExecutionViewModel.kt</url>
-          <line>65</line>
-          <option name="timeStamp" value="494" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/Main/MLExecutionViewModel.kt</url>
-          <line>51</line>
-          <option name="timeStamp" value="498" />
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Sensors/KalmanSensorsLite.java</url>
+          <line>119</line>
+          <option name="timeStamp" value="533" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -5,6 +5,7 @@ import Infraestructure.DataAccess.ImageDriveHelper
 import Infraestructure.DataAccess.MonitoringSqlLiteHelper
 import Infraestructure.Senders.TcpIpClient
 import Infraestructure.Sensors.KalmanSensors
+import Infraestructure.Sensors.KalmanSensorsLite
 import Interpreter.MLDepthEstimation.DepthEstimationModelExecutor
 import Interpreter.MLSemanticSegmentation.SemanticSegmentationModelExecutor
 import Interpreter.Models.ModelViewResult
@@ -61,6 +62,7 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
 
   private lateinit var sensorManager: SensorManager
   private lateinit var kalmanSensors: KalmanSensors
+  private lateinit var kalmanSensorsLite: KalmanSensorsLite
   private lateinit var captureHandlerThread: HandlerThread
   private lateinit var captureHandler: Handler
   private lateinit var messageHandler: Handler
@@ -105,8 +107,8 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
     exportButton = findViewById(R.id.export_button)
 
     sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
-    kalmanSensors = KalmanSensors(sensorManager)
-    kalmanSensors.register()
+    kalmanSensorsLite = KalmanSensorsLite(sensorManager)
+    kalmanSensorsLite.register()
 
     if (allPermissionsGranted()) {
       addCameraFragment()
@@ -134,7 +136,7 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
       }
     )
 
-    kalmanSensors.setSensorUpdateCallback{ positions ->
+    kalmanSensorsLite.setSensorUpdateCallback{ positions ->
       var positionsMessage = StringHelper().convertFloatArrayToString(positions)
       sendMessage("Position",  positionsMessage)
     }
@@ -307,12 +309,12 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
 
   override fun onResume() {
     super.onResume()
-    kalmanSensors.register()
+    kalmanSensorsLite.register()
   }
 
   override fun onPause() {
     super.onPause()
-    kalmanSensors.unregister()
+    kalmanSensorsLite.unregister()
   }
 
   private fun startDataReceiver()

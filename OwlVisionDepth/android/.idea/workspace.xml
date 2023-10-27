@@ -17,29 +17,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="171e0032-8938-43c8-b95a-e91b7fa23100" name="Changes" comment="Implementando kalman lite">
-      <change afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Sensors/DistanceCalculator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Sensors/FilterSensorsLite.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Sensors/PositionEstimator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Sensors/SensorDataProcessor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib_utils/src/main/java/Models/CircularBuffer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/deploymentTargetDropDown.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/Main/Camera/AutoFitSurfaceView.kt" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Camera/AutoFitSurfaceView.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/Main/Camera/CameraFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Camera/CameraFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/Main/Camera/CameraSizes.kt" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Camera/CameraSizes.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/Main/Camera/OrientationLiveData.kt" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Camera/OrientationLiveData.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/Main/MLExecutionViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/Main/MLExecutionViewModel.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/Main/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/Main/MainActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/tfe_is_activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/tfe_is_activity_main.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Sensors/KalmanSensors.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Sensors/KalmanSensors.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Sensors/KalmanSensorsLite.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/DistanceEstimator.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/DistanceEstimator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_interpreter/src/main/java/Interpreter/MLDepthEstimation/DepthEstimationModelExecutor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/lib_interpreter/src/main/java/Interpreter/MLExecutors/DepthEstimationModelExecutor.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_interpreter/src/main/java/Interpreter/MLSemanticSegmentation/SemanticSegmentationModelExecutor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/lib_interpreter/src/main/java/Interpreter/MLExecutors/SemanticSegmentationModelExecutor.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_interpreter/src/main/java/Interpreter/Models/ModelExecutionResult.kt" beforeDir="false" afterPath="$PROJECT_DIR$/lib_interpreter/src/main/java/Interpreter/Models/ModelExecutionResult.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_interpreter/src/main/java/Interpreter/OpenCV/OpenCVGenerateTrajectory.kt" beforeDir="false" />
-    </list>
+    <list default="true" id="171e0032-8938-43c8-b95a-e91b7fa23100" name="Changes" comment="Commite de alterações de estrutura" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -349,7 +327,14 @@
       <option name="project" value="LOCAL" />
       <updated>1688599338539</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="Commite de alterações de estrutura">
+      <created>1698450652989</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1698450652989</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -414,7 +399,8 @@
     <MESSAGE value="Implementando a conversão de profundidade" />
     <MESSAGE value="Implementando a regra de metade da imagem" />
     <MESSAGE value="Implementando kalman lite" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implementando kalman lite" />
+    <MESSAGE value="Commite de alterações de estrutura" />
+    <option name="LAST_COMMIT_MESSAGE" value="Commite de alterações de estrutura" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

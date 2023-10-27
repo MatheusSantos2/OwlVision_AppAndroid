@@ -1,4 +1,4 @@
-package Main.Camera
+package Infraestructure.Camera
 
 import android.content.Context
 import android.util.AttributeSet

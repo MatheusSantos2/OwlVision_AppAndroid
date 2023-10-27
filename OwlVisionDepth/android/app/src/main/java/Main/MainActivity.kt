@@ -4,12 +4,11 @@ import Infraestructure.DataAccess.DataExportHelper
 import Infraestructure.DataAccess.ImageDriveHelper
 import Infraestructure.DataAccess.MonitoringSqlLiteHelper
 import Infraestructure.Senders.TcpIpClient
-import Infraestructure.Sensors.KalmanSensors
-import Infraestructure.Sensors.KalmanSensorsLite
-import Interpreter.MLDepthEstimation.DepthEstimationModelExecutor
-import Interpreter.MLSemanticSegmentation.SemanticSegmentationModelExecutor
+import Infraestructure.Sensors.DistanceCalculator
+import Interpreter.MLExecutors.DepthEstimationModelExecutor
+import Interpreter.MLExecutors.SemanticSegmentationModelExecutor
 import Interpreter.Models.ModelViewResult
-import Main.Camera.CameraFragment
+import Infraestructure.Camera.CameraFragment
 import Utils.StringHelper
 import android.Manifest
 import android.content.Context
@@ -61,8 +60,7 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
   private lateinit var exportButton: ImageButton
 
   private lateinit var sensorManager: SensorManager
-  private lateinit var kalmanSensors: KalmanSensors
-  private lateinit var kalmanSensorsLite: KalmanSensorsLite
+  private lateinit var distanceCalculator: DistanceCalculator
   private lateinit var captureHandlerThread: HandlerThread
   private lateinit var captureHandler: Handler
   private lateinit var messageHandler: Handler
@@ -107,8 +105,13 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
     exportButton = findViewById(R.id.export_button)
 
     sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
-    kalmanSensorsLite = KalmanSensorsLite(sensorManager)
-    kalmanSensorsLite.register()
+    //filterSensorsLite = FilterSensorsLite(sensorManager)
+    //filterSensorsLite.register()
+
+    distanceCalculator = DistanceCalculator(sensorManager)
+    distanceCalculator.start()
+    //kalmanSensors = KalmanSensors(sensorManager)
+    //kalmanSensors.register()
 
     if (allPermissionsGranted()) {
       addCameraFragment()
@@ -125,19 +128,18 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
       this,
       Observer { resultImage ->
         if (resultImage != null) {
-          var result = resultImage as ModelViewResult
-          updateUIWithResults(result)
+          updateUIWithResults(resultImage)
 
-          if(!result.message.isNullOrEmpty()) {
-            saveImages(result)
-            sendMessage("Trajectory" , result.message)
+          if(!resultImage.message.isNullOrEmpty()) {
+            saveImages(resultImage)
+            sendMessage("Trajectory", resultImage.message)
           }
         }
       }
     )
 
-    kalmanSensorsLite.setSensorUpdateCallback{ positions ->
-      var positionsMessage = StringHelper().convertFloatArrayToString(positions)
+    distanceCalculator.setSensorUpdateCallback{ positions ->
+      val positionsMessage = StringHelper().convertFloatArrayToString(positions)
       sendMessage("Position",  positionsMessage)
     }
 
@@ -270,17 +272,15 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
     isCapturing = true
     enableControls(false)
 
-    // Start a new HandlerThread for capturing photos
     captureHandlerThread = HandlerThread("CaptureThread").apply { start() }
     captureHandler = Handler(captureHandlerThread.looper)
 
-    // Start capturing photos every 3 seconds
     captureHandler.postDelayed({
       runBlocking {
         capturePhoto()
-        delay(10000) // Delay
+        delay(10000)
         if (isCapturing) {
-          startCaptureTimer() // Repeat the process
+          startCaptureTimer()
         }
       }
     }, 0)
@@ -309,20 +309,22 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
 
   override fun onResume() {
     super.onResume()
-    kalmanSensorsLite.register()
+    //filterSensorsLite.register()
+    distanceCalculator.start()
   }
 
   override fun onPause() {
     super.onPause()
-    kalmanSensorsLite.unregister()
+    //filterSensorsLite.unregister()
+    distanceCalculator.stop()
   }
 
   private fun startDataReceiver()
   {
-    var thread = Thread {
+    val thread = Thread {
       try
       {
-        var serverSocket = client
+        val serverSocket = client
 
         var message :String
         while (true)
@@ -359,9 +361,9 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
   }
 
   private fun sendMessage(label:String, message: String){
-    var thread = Thread {
+    val thread = Thread {
 
-      var serverSocket = client
+      val serverSocket = client
 
       try
       {

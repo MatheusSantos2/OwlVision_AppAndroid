@@ -1,4 +1,4 @@
-package Main.Camera
+package Infraestructure.Camera
 
 import android.graphics.Point
 import android.hardware.camera2.CameraCharacteristics

@@ -1,4 +1,4 @@
-package Interpreter.MLSemanticSegmentation
+package Interpreter.MLExecutors
 
 import Interpreter.Models.ModelExecutionResult
 import Utils.ImageHelper
@@ -29,13 +29,11 @@ class SemanticSegmentationModelExecutor(context: Context)
 
   companion object
   {
-    public const val TAG = "SegmentationInterpreter"
+    private const val TAG = "SegmentationInterpreter"
     private const val imageSegmentationModel = "model_semantic.tflite"
     private const val imageWidthSize = 128
     private const val imageHeightSize = 96
     const val NUM_CLASSES = 23
-    private const val IMAGE_MEAN = 127.5f
-    private const val IMAGE_STD = 127.5f
 
     val segmentColors = SegmentColors().getColors()
     val labelsArrays = SegmentColors().getLabels()
@@ -63,14 +61,6 @@ class SemanticSegmentationModelExecutor(context: Context)
     return Interpreter(loadModelFile(context, modelName), tfliteOptions)
   }
 
-  private fun formatExecutionLog(): String {
-    val sb = StringBuilder()
-    sb.append("Input Image Size: $imageWidthSize x $imageHeightSize\n")
-    sb.append("Number of threads: $numberThreads\n")
-    sb.append("Full execution time: $fullTimeExecutionTime ms\n")
-    return sb.toString()
-  }
-
   fun close() {
     interpreter.close()
   }
@@ -92,7 +82,7 @@ class SemanticSegmentationModelExecutor(context: Context)
       val (maskImageApplied, maskOnly, itemsFound) = convertBytebufferMaskToBitmap(outputData, imageWidthSize, imageHeightSize, scaledBitmap, segmentColors)
       fullTimeExecutionTime = SystemClock.uptimeMillis() - fullTimeExecutionTime
 
-      return ModelExecutionResult(maskImageApplied, scaledBitmap, formatExecutionLog())
+      return ModelExecutionResult(maskImageApplied, scaledBitmap)
     }
     catch (e: Exception)
     {
@@ -100,7 +90,7 @@ class SemanticSegmentationModelExecutor(context: Context)
       Log.d(TAG, exceptionLog)
 
       val emptyBitmap = ImageHelper.createEmptyBitmap(imageWidthSize, imageHeightSize)
-      return ModelExecutionResult(emptyBitmap, emptyBitmap, exceptionLog)
+      return ModelExecutionResult(emptyBitmap, emptyBitmap)
     }
   }
 

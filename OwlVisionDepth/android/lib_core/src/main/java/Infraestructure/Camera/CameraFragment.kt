@@ -1,4 +1,4 @@
-package Main.Camera
+package Infraestructure.Camera
 
 import android.annotation.SuppressLint
 import android.content.Context

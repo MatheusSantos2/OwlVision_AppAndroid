@@ -2,10 +2,9 @@ package Main
 
 import Infraestructure.VehicleTrafficZone.TrajectoryEstimator
 import Infraestructure.VehicleTrafficZone.TrajectoryValidator
-import Interpreter.MLDepthEstimation.DepthEstimationModelExecutor
-import Interpreter.MLSemanticSegmentation.SemanticSegmentationModelExecutor
+import Interpreter.MLExecutors.DepthEstimationModelExecutor
+import Interpreter.MLExecutors.SemanticSegmentationModelExecutor
 import Interpreter.Models.ModelViewResult
-import Interpreter.OpenCV.TrajectoryGenerator
 import Utils.ImageHelper
 import Utils.StringHelper
 import android.util.Log
@@ -42,44 +41,62 @@ class MLExecutionViewModel : ViewModel()
   {
     viewModelScope.launch(inferenceThread)
     {
-      var contentImage = ImageHelper.decodeBitmap(File(filePath))
-      var contentImage2 = ImageHelper.decodeBitmap(File(filePath))
+
       try
       {
-        var semanticResult = semanticSegmentation?.execute(contentImage)
-        var depthResult = depthEstimationModel?.execute(contentImage2)
+        var bitmapsResult = getMLResult(filePath, semanticSegmentation!!, depthEstimationModel!!)
 
-        var logResult = StringBuilder()
-        logResult.append("DepthResult: ${depthResult?.executionLog}")
-        logResult.append("SemanticResult: ${semanticResult?.executionLog}" )
+        fillImageResult(bitmapsResult.first, bitmapsResult.second, bitmapsResult.third)
+        fillPointList()
 
-        imageResult = Pair(ImageHelper.createEmptyBitmap(100, 100),mutableListOf())!!
-
-        imageResult = if (!TrajectoryValidator().isTraversableInCenter(depthResult!!.bitmapResult)){
-          var imageResult2 = TrajectoryValidator()
-                  .processTraversablePixels(depthResult.bitmapOriginal, semanticResult!!.bitmapResult, depthResult.bitmapResult)
-          Pair(imageResult2.first, imageResult2.second.toMutableList())
-
-        }else {
-          var imageResult2 = TrajectoryEstimator()
-                  .getTraversableZone(semanticResult!!.bitmapResult, depthResult.bitmapResult, 0)
-          Pair(imageResult2.first, imageResult2.second.toMutableList())
-        }
-
-        if (imageResult!!.second.size != 0) {
-          message = StringHelper().convertPointsToString(imageResult!!.second)
-        }
-        else {
-          Log.w(TAG, "Fail in Trajectory Estimator Process")
-        }
-
-        var result =  ModelViewResult(semanticResult.bitmapResult, depthResult.bitmapResult, imageResult!!.first, message)
+        var result =  ModelViewResult(bitmapsResult.first, bitmapsResult.second, imageResult!!.first, message)
         _resultingBitmap.postValue(result)
       }
       catch (e: Exception) {
         Log.e(TAG, "Fail to execute ImageSegmentationModelExecutor: ${e.message}")
         _resultingBitmap.postValue(null)
       }
+    }
+  }
+
+  private fun getMLResult(filePath: String, semanticSegmentation : SemanticSegmentationModelExecutor, depthEstimationModel : DepthEstimationModelExecutor):  Triple<Bitmap, Bitmap, Bitmap>
+  {
+    var contentImage = ImageHelper.decodeBitmap(File(filePath))
+    var contentImage2 = ImageHelper.decodeBitmap(File(filePath))
+
+    var semanticResult = semanticSegmentation?.execute(contentImage)
+    var depthResult = depthEstimationModel?.execute(contentImage2)
+
+    return Triple(depthResult.bitmapResult, semanticResult.bitmapResult, depthResult.bitmapOriginal)
+  }
+
+  private fun fillImageResult(depthBitmap : Bitmap, semanticBitmap : Bitmap, originalBitmap: Bitmap)
+  {
+    imageResult = Pair(ImageHelper.createEmptyBitmap(100, 100),mutableListOf())!!
+
+    imageResult = if (!TrajectoryValidator().isTraversableInCenter(depthBitmap))
+    {
+      var imageResult2 = TrajectoryValidator()
+              .processTraversablePixels(originalBitmap, semanticBitmap, depthBitmap)
+      Pair(imageResult2.first, imageResult2.second.toMutableList())
+    }
+    else
+    {
+      var imageResult2 = TrajectoryEstimator()
+              .getTraversableZone(semanticBitmap, depthBitmap, 0)
+      Pair(imageResult2.first, imageResult2.second.toMutableList())
+    }
+  }
+
+  private fun fillPointList()
+  {
+    if (imageResult!!.second.size != 0)
+    {
+      message = StringHelper().convertPointsToString(imageResult!!.second)
+    }
+    else
+    {
+      Log.w(TAG, "Fail in Trajectory Estimator Process")
     }
   }
 }

@@ -13,6 +13,7 @@ import java.text.ParseException;
 
 public class KalmanSensors implements SensorEventListener {
     private SensorManager sensorManager;
+    private PositionEstimator positionEstimate = new PositionEstimator();
     private static final int SENSOR_BUFFER_SIZE = 20;
 
     private float[] currentPosition = {0f, 0f, 0f};
@@ -85,7 +86,7 @@ public class KalmanSensors implements SensorEventListener {
 
     public void register() {
         Sensor gyroSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
-        Sensor accelSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
+        Sensor accelSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         Sensor magneticFieldSensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
 
         sensorManager.registerListener(this, gyroSensor, SensorManager.SENSOR_DELAY_FASTEST);
@@ -136,9 +137,9 @@ public class KalmanSensors implements SensorEventListener {
 
                 // Incorporate gyroscope and magnetic field data
                 Mat control = new Mat(3, 1, CvType.CV_32F);
-                control.put(0, 0, avgGyroscope[1] * deltaTime);  // Y-axis rotation rate
-                control.put(1, 0, avgGyroscope[2] * deltaTime);  // Z-axis rotation rate
-                control.put(2, 0, avgMagneticField[0]);  // Magnetic field along X-axis
+                control.put(0, 0, avgGyroscope[1] * deltaTime);
+                control.put(1, 0, avgGyroscope[2] * deltaTime);
+                control.put(2, 0, avgMagneticField[0]);
                 kalmanFilter.set_controlMatrix(control);
 
                 Mat estimated = kalmanFilter.correct(measurement);
@@ -148,10 +149,10 @@ public class KalmanSensors implements SensorEventListener {
                 currentPosition[2] = (float) estimated.get(2, 0)[0];
 
                 formatCurrentPosition();
+                float[] currentPos = positionEstimate.getCurrentPosition(currentPosition[0], currentPosition[1], currentPosition[2], deltaTime);
 
-                // Notify callback with updated position
                 if (sensorUpdateCallback != null) {
-                    sensorUpdateCallback.onSensorUpdate(currentPosition);
+                    sensorUpdateCallback.onSensorUpdate(currentPos);
                 }
             }
         }

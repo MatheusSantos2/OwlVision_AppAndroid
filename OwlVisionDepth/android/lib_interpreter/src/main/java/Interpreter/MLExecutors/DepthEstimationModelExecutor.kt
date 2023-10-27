@@ -1,4 +1,4 @@
-package Interpreter.MLDepthEstimation
+package Interpreter.MLExecutors
 
 import Interpreter.Models.ModelExecutionResult
 import Interpreter.OpenCV.OpenCVHelper
@@ -102,7 +102,7 @@ class DepthEstimationModelExecutor(context: Context)
       fullTimeExecutionTime = SystemClock.uptimeMillis() - fullTimeExecutionTime
       Log.d(TAG, "Total time execution $fullTimeExecutionTime")
 
-      return ModelExecutionResult(output, originalBitmapResized, formatExecutionLog())
+      return ModelExecutionResult(output, originalBitmapResized)
     }
     catch (e: Exception)
     {
@@ -110,16 +110,7 @@ class DepthEstimationModelExecutor(context: Context)
       Log.d(TAG, exceptionLog)
 
       val emptyBitmap = ImageHelper.createEmptyBitmap(imageInputSizeWidth, imageInputSizeHeight)
-      return ModelExecutionResult(emptyBitmap, emptyBitmap, exceptionLog)
+      return ModelExecutionResult(emptyBitmap, emptyBitmap)
     }
-  }
-
-  private fun formatExecutionLog(): String
-  {
-    val sb = StringBuilder()
-    sb.append("Input Image Size: $imageInputSizeWidth x $imageInputSizeHeight\n")
-    sb.append("Number of threads: $numberThreads\n")
-    sb.append("Full execution time: $fullTimeExecutionTime ms\n")
-    return sb.toString()
   }
 }

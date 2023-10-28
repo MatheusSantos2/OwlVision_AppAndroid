@@ -8,9 +8,9 @@ import org.opencv.imgproc.Imgproc.applyColorMap
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.image.TensorImage
 
-public class OpenCVHelper {
+class OpenCVHelper {
 
-    public fun depthEstimationVisualization(originalImage: Bitmap, resultImage: Bitmap): Bitmap
+    fun depthEstimationVisualization(originalImage: Bitmap, resultImage: Bitmap): Bitmap
     {
         val originalTensorImage = TensorImage(DataType.FLOAT32)
         val resultTensorImage = TensorImage(DataType.FLOAT32)

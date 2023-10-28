@@ -17,7 +17,15 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="171e0032-8938-43c8-b95a-e91b7fa23100" name="Changes" comment="Commite de alterações de estrutura" />
+    <list default="true" id="171e0032-8938-43c8-b95a-e91b7fa23100" name="Changes" comment="Commite de alterações de estrutura">
+      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Senders/MqttClient.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Sensors/FilterSensorsLite.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Sensors/KalmanSensors.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Sensors/PositionEstimator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Sensors/SensorDataProcessor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib_interpreter/src/main/java/Interpreter/OpenCV/OpenCVHelper.kt" beforeDir="false" afterPath="$PROJECT_DIR$/lib_interpreter/src/main/java/Interpreter/OpenCV/OpenCVHelper.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib_utils/src/main/java/Models/CircularBuffer.java" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -334,7 +342,14 @@
       <option name="project" value="LOCAL" />
       <updated>1698450652989</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="Commite de alterações de estrutura">
+      <created>1698451042711</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1698451042711</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -424,16 +439,6 @@
           <url>file://$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/AStar.java</url>
           <line>59</line>
           <option name="timeStamp" value="372" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
-          <url>file://$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Sensors/FilterSensorsLite.java</url>
-          <line>46</line>
-          <option name="timeStamp" value="393" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
-          <url>file://$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Sensors/KalmanSensors.java</url>
-          <line>154</line>
-          <option name="timeStamp" value="408" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Sensors/DistanceCalculator.java</url>

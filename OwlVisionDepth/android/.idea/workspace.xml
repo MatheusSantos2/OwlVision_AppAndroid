@@ -17,15 +17,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="171e0032-8938-43c8-b95a-e91b7fa23100" name="Changes" comment="Commite de alterações de estrutura">
-      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Senders/MqttClient.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Sensors/FilterSensorsLite.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Sensors/KalmanSensors.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Sensors/PositionEstimator.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Sensors/SensorDataProcessor.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_interpreter/src/main/java/Interpreter/OpenCV/OpenCVHelper.kt" beforeDir="false" afterPath="$PROJECT_DIR$/lib_interpreter/src/main/java/Interpreter/OpenCV/OpenCVHelper.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_utils/src/main/java/Models/CircularBuffer.java" beforeDir="false" />
-    </list>
+    <list default="true" id="171e0032-8938-43c8-b95a-e91b7fa23100" name="Changes" comment="Commite de classes não utilizadas" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -349,7 +341,14 @@
       <option name="project" value="LOCAL" />
       <updated>1698451042711</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="Commite de classes não utilizadas">
+      <created>1698451763278</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1698451763278</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -415,7 +414,8 @@
     <MESSAGE value="Implementando a regra de metade da imagem" />
     <MESSAGE value="Implementando kalman lite" />
     <MESSAGE value="Commite de alterações de estrutura" />
-    <option name="LAST_COMMIT_MESSAGE" value="Commite de alterações de estrutura" />
+    <MESSAGE value="Commite de classes não utilizadas" />
+    <option name="LAST_COMMIT_MESSAGE" value="Commite de classes não utilizadas" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

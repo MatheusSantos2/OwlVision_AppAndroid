@@ -3,30 +3,20 @@
 ## 1. Introdução
 O OwlVision é o projeto de conclusão de curso que foi divido em três repositorios: 
 
-
-## 2. Estrutura
-![](OwlVisionApp.png)
-
-   ### 2.1. Interface de Usuário
-   ![](Botoes.png)
-   * Botões
-     
-   * Imagens Resultantes
-     
-   ### 2.2. Interpretadores
-
-   * O interpretador do modelo de estimação de profundidade
-     
-   * O interpretador do modelo de segmentação semântica
-     
-   ### 2.3. Geração de Trajetória
+    * OwlVision_AppAndroid : Aplicativo android com função de captura de imagens, interpretação das imagens e geração de trajetórias, desenvolvido majoritariamente em Java.
+    * OwlVision_MLVisions: Conjunto de pipelines de processamento de imagens, como por exemplo, pipeline de geração dos modelos de estimação de profundidade e segmentação semantica, também a geração dos parametros intrinsecos da camera e outras pipelines auxiliares.
+    * OwlVision_VehicleController: Serviço que recebe os dados de trajetória e faz o controle do veiculo, atráves dos atuardores (motores).
    
-   * Banco de Dados
-     
-   * Exportar Dados
-     
-   * Salvar Imagens
-     
-   ### 2.4. Recursos Auxiliares
+## 2. Estrutura do App
    
+![Alt text](image.png)
    
+## 3. Fluxograma processo principal
+   
+![Alt text](image-1.png)
+
+## 4. Referências de Projeto
+https://www.tensorflow.org/lite/examples/segmentation/overview 
+http://robots.stanford.edu/cs223b04/JeanYvesCalib/
+https://www.mathworks.com/help/vision/ug/camera-calibration.html
+https://msl.cs.illinois.edu/~lavalle/papers/Lav98c.pdf 

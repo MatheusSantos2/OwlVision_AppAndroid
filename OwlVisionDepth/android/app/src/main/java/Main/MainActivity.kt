@@ -4,7 +4,6 @@ import Infraestructure.DataAccess.DataExportHelper
 import Infraestructure.DataAccess.ImageDriveHelper
 import Infraestructure.DataAccess.MonitoringSqlLiteHelper
 import Infraestructure.Senders.TcpIpClient
-import Infraestructure.Sensors.DistanceCalculator
 import Interpreter.MLExecutors.DepthEstimationModelExecutor
 import Interpreter.MLExecutors.SemanticSegmentationModelExecutor
 import Interpreter.Models.ModelViewResult
@@ -59,8 +58,6 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
   private lateinit var pauseButton: ImageButton
   private lateinit var exportButton: ImageButton
 
-  private lateinit var sensorManager: SensorManager
-  private lateinit var distanceCalculator: DistanceCalculator
   private lateinit var captureHandlerThread: HandlerThread
   private lateinit var captureHandler: Handler
   private lateinit var messageHandler: Handler
@@ -71,7 +68,7 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
   private var depthEstimationExecutor: DepthEstimationModelExecutor? = null
   private var semanticSegmentationExecutor: SemanticSegmentationModelExecutor? = null
   private var inferenceThread = Executors.newSingleThreadExecutor().asCoroutineDispatcher()
-  private var client = TcpIpClient(this)
+  private var tcpIpClient = TcpIpClient(this)
 
   private var lensFacing = CameraCharacteristics.LENS_FACING_FRONT
   private var isCapturing = false
@@ -104,15 +101,6 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
     pauseButton = findViewById(R.id.pause_button)
     exportButton = findViewById(R.id.export_button)
 
-    sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
-    //filterSensorsLite = FilterSensorsLite(sensorManager)
-    //filterSensorsLite.register()
-
-    distanceCalculator = DistanceCalculator(sensorManager)
-    distanceCalculator.start()
-    //kalmanSensors = KalmanSensors(sensorManager)
-    //kalmanSensors.register()
-
     if (allPermissionsGranted()) {
       addCameraFragment()
     }
@@ -137,11 +125,6 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
         }
       }
     )
-
-    distanceCalculator.setSensorUpdateCallback{ positions ->
-      val positionsMessage = StringHelper().convertFloatArrayToString(positions)
-      sendMessage("Position",  positionsMessage)
-    }
 
     createModelExecutor()
     animateCameraButton()
@@ -309,14 +292,10 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
 
   override fun onResume() {
     super.onResume()
-    //filterSensorsLite.register()
-    distanceCalculator.start()
   }
 
   override fun onPause() {
     super.onPause()
-    //filterSensorsLite.unregister()
-    distanceCalculator.stop()
   }
 
   private fun startDataReceiver()
@@ -324,16 +303,15 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
     val thread = Thread {
       try
       {
-        val serverSocket = client
+        if(!tcpIpClient.hasConnected())
+          tcpIpClient.connect()
 
         var message :String
         while (true)
         {
-          serverSocket.connect()
-
-          if(serverSocket.hasConnected())
+          if(tcpIpClient.hasConnected())
           {
-            message = serverSocket.receiveMessage()
+            message = tcpIpClient.receiveMessage()
             if(!TextUtils.isEmpty(message))
               messageBuffer.add(message)
           }
@@ -363,14 +341,13 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
   private fun sendMessage(label:String, message: String){
     val thread = Thread {
 
-      val serverSocket = client
+      if(!tcpIpClient.hasConnected())
+        tcpIpClient.connect()
 
       try
       {
-        serverSocket.connect()
-
-        if(serverSocket.hasConnected()){
-          client.sendMessage(label, message)
+        if(tcpIpClient.hasConnected()){
+          tcpIpClient.sendMessage(label, message)
         }
       }
       catch (e: IOException){
@@ -382,10 +359,12 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
 
   private fun saveImages(modelViewResult: ModelViewResult)
   {
-    val images = arrayOf(modelViewResult.bitmapResult, modelViewResult.bitmapResult2, modelViewResult.bitmapOriginal)
+    val images = arrayOf(modelViewResult.bitmapResult, modelViewResult.bitmapResult2, modelViewResult.bitmapOriginal, modelViewResult.bitmapRRT)
+    var count = 0
 
     for (image in images) {
-      imageDrive.saveBitmap(image)
+      imageDrive.saveBitmap(image, count)
+      count += 1
     }
   }
 

@@ -14,21 +14,17 @@ import java.net.Socket;
 
 
 public class TcpIpClient {
-
     private final Context context;
     private BufferedReader in;
     private boolean isConnected = false;
-    private int timeout = 500000;
+    private int timeout = 50000000;
     private long retryDelayMillis = 2000L;
     private int port = 80;
-    private int port2 = 90;
     private String ipAddress = "192.168.3.114";
     private Socket socket;
-    private Socket socket2;
     private PrintWriter out;
-    private PrintWriter out2;
 
-    public TcpIpClient(Context context){
+    public TcpIpClient(Context context) {
         this.context = context;
     }
 
@@ -41,12 +37,8 @@ public class TcpIpClient {
                 socket.setSoTimeout(timeout);
                 out = new PrintWriter(socket.getOutputStream(), true);
 
-                socket2 = new Socket(ipAddress, port2);
-                socket2.setSoTimeout(timeout);
-                out2 = new PrintWriter(socket2.getOutputStream(), true);
-
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                isConnected = true;
+                isConnected = socket.isConnected();
 
                 showPopUpHandler("Conectado", "Conexao estabelecida com a cadeira de rodas");
             }
@@ -85,12 +77,6 @@ public class TcpIpClient {
                 out.println(result);
             }
         }
-        else if (label.contains("Position"))
-        {
-            if (out2 != null) {
-                out2.println(result);
-            }
-        }
     }
 
     public String receiveMessage() {
@@ -115,12 +101,6 @@ public class TcpIpClient {
             }
             if (socket != null) {
                 socket.close();
-            }
-            if (out2 != null) {
-                out2.close();
-            }
-            if (socket2 != null) {
-                socket2.close();
             }
 
             showPopUpHandler("Desconectado", "Conexao encerrada com a cadeira de rodas");

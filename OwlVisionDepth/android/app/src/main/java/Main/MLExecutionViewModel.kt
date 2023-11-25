@@ -49,7 +49,7 @@ class MLExecutionViewModel : ViewModel()
         fillImageResult(bitmapsResult.first, bitmapsResult.second, bitmapsResult.third)
         fillPointList()
 
-        var result =  ModelViewResult(bitmapsResult.first, bitmapsResult.second, imageResult!!.first, message)
+        var result =  ModelViewResult(bitmapsResult.first, bitmapsResult.second, imageResult!!.first, ImageHelper.decodeBitmap(File(filePath)),message)
         _resultingBitmap.postValue(result)
       }
       catch (e: Exception) {

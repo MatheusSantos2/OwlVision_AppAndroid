@@ -2,11 +2,8 @@ package Infraestructure.VehicleTrafficZone;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.PointF;
 import android.util.Pair;
-
-import org.opencv.core.Point;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +12,6 @@ import Models.Node;
 import Models.Point2D;
 import Models.Point3D;
 import Utils.ImageGenerator;
-import Utils.ImageHelper;
 import Utils.RTTHelper;
 import Utils.SegmentColors;
 
@@ -111,7 +107,7 @@ public class TrajectoryEstimator extends SegmentColors {
             Node root = rrtHelper.getMidpointOfFirstWhiteLine(image);
             Node goal = rrtHelper.getMidpointOfFirstWhiteLineTop(image);
 
-            Pair<List<Node>, Bitmap> pairRtt = rrt.findPath(image, root, goal,10000);
+            Pair<List<Node>, Bitmap> pairRtt = rrt.findPath(image, root, goal,8000);
 
             if (!pairRtt.first.isEmpty())
             {

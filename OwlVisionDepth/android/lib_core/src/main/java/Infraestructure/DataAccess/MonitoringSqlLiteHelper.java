@@ -24,8 +24,8 @@ public class MonitoringSqlLiteHelper extends SQLiteOpenHelper
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "data TEXT," +
                 "label TEXT," +
-                "velocidadeAtual REAL," +
-                "velocidadeAlmejada REAL," +
+                "velocidadeRodaEsq REAL," +
+                "velocidadeRodaDir REAL," +
                 "posicaoXAlmejada REAL," +
                 "posicaoYAlmejada REAL," +
                 "posicaoXAtual REAL," +
@@ -53,8 +53,8 @@ public class MonitoringSqlLiteHelper extends SQLiteOpenHelper
             ContentValues values = new ContentValues();
             values.put("data", getDateTime());
             values.put("label", "Trajetory");
-            values.put("velocidadeAtual", messageArray[0]);
-            values.put("velocidadeAlmejada", messageArray[1]);
+            values.put("velocidadeRodaEsq", messageArray[0]);
+            values.put("velocidadeRodaDir", messageArray[1]);
             values.put("posicaoXAlmejada", messageArray[2]);
             values.put("posicaoYAlmejada", messageArray[3]);
             values.put("posicaoXAtual", messageArray[4]);

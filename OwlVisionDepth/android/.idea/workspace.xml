@@ -17,13 +17,28 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="171e0032-8938-43c8-b95a-e91b7fa23100" name="Changes" comment="Commite de classes não utilizadas" />
+    <list default="true" id="171e0032-8938-43c8-b95a-e91b7fa23100" name="Changes" comment="Correção de bug no armazenamento de imagens&#10;Remoção de código de UMI">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/Main/MLExecutionViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/Main/MLExecutionViewModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/Main/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/Main/MainActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/DataAccess/ImageDriveHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/DataAccess/ImageDriveHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/DataAccess/MonitoringSqlLiteHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/DataAccess/MonitoringSqlLiteHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Entities/Monitoring.kt" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Entities/Monitoring.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Senders/TcpIpClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Senders/TcpIpClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Sensors/DistanceCalculator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/TrajectoryEstimator.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/TrajectoryEstimator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib_interpreter/src/main/java/Interpreter/Models/ModelViewResult.kt" beforeDir="false" afterPath="$PROJECT_DIR$/lib_interpreter/src/main/java/Interpreter/Models/ModelViewResult.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib_utils/src/main/java/Utils/RTTHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib_utils/src/main/java/Utils/RTTHelper.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[C:\Users\Mathe\.android\avd\Pixel_2_API_30.avd]" />
+  <component name="CodeInsightWorkspaceSettings">
+    <option name="optimizeImportsOnTheFly" value="true" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -64,7 +79,7 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
+    <option name="selectedTabId" value="ProjectErrors" />
     <option name="showPreview" value="true" />
   </component>
   <component name="ProjectId" id="2P8K4Y8R2srxPLIDafEzit0D0TL" />
@@ -75,6 +90,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="PROJECT_TRUSTED_KEY" value="true" />
+    <property name="ResourceManagerPrefKey.ResourceType" value="DRAWABLE" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
@@ -348,7 +364,14 @@
       <option name="project" value="LOCAL" />
       <updated>1698451763278</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="Commite de classes não utilizadas">
+      <created>1698451957468</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1698451957468</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -362,7 +385,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="origin/main" />
+                        <option value="main" />
                       </list>
                     </value>
                   </entry>
@@ -390,7 +413,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Subindo a alteração da saída do modelo estimativa de profundidade para aplicar a fusão com a imagem original e o mapeamento do espectro de cores usando OpenCV" />
     <MESSAGE value="Subindo o OpenCV" />
     <MESSAGE value="Subindo a alteração da classe de interpretação do modelo de segmentação semantica" />
     <MESSAGE value="Subindo a alteração para utilização dos metodos que determinam a zona transitavel" />
@@ -415,7 +437,8 @@
     <MESSAGE value="Implementando kalman lite" />
     <MESSAGE value="Commite de alterações de estrutura" />
     <MESSAGE value="Commite de classes não utilizadas" />
-    <option name="LAST_COMMIT_MESSAGE" value="Commite de classes não utilizadas" />
+    <MESSAGE value="Correção de bug no armazenamento de imagens&#10;Remoção de código de UMI" />
+    <option name="LAST_COMMIT_MESSAGE" value="Correção de bug no armazenamento de imagens&#10;Remoção de código de UMI" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -431,32 +454,40 @@
           <option name="timeStamp" value="25" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
-          <url>file://$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Senders/TcpIpClient.java</url>
-          <line>78</line>
-          <option name="timeStamp" value="223" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/AStar.java</url>
           <line>59</line>
           <option name="timeStamp" value="372" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
-          <url>file://$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Sensors/DistanceCalculator.java</url>
-          <line>106</line>
-          <option name="timeStamp" value="419" />
+          <url>file://$PROJECT_DIR$/lib_utils/src/main/java/Utils/ImageGenerator.java</url>
+          <line>418</line>
+          <option name="timeStamp" value="435" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
-          <url>file://$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Sensors/DistanceCalculator.java</url>
-          <line>105</line>
-          <option name="timeStamp" value="420" />
+          <url>file://$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/TrajectoryValidator.java</url>
+          <line>28</line>
+          <option name="timeStamp" value="436" />
         </line-breakpoint>
-        <breakpoint enabled="true" suspend="THREAD" type="OCSymbolicBreakpointType">
-          <properties>
-            <option name="moduleName" value="libart.so" />
-            <option name="symbolPattern" value="art_sigsegv_fault" />
-          </properties>
-          <option name="timeStamp" value="416" />
-        </breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/DataAccess/MonitoringSqlLiteHelper.java</url>
+          <line>46</line>
+          <option name="timeStamp" value="457" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/DataAccess/ImageDriveHelper.java</url>
+          <line>38</line>
+          <option name="timeStamp" value="459" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/DataAccess/ImageDriveHelper.java</url>
+          <line>24</line>
+          <option name="timeStamp" value="460" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/DataAccess/ImageDriveHelper.java</url>
+          <line>29</line>
+          <option name="timeStamp" value="464" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <pin-to-top-manager>

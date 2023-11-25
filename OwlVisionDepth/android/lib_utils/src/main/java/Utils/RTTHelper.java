@@ -1,15 +1,12 @@
 package Utils;
+
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.util.Pair;
 
-import org.opencv.core.Point;
-
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import Models.Node;
 import Models.Point3D;
@@ -33,7 +30,7 @@ public class RTTHelper {
                     double whitePercentageLeft = calculateWhitePercentage(image, x - 1, y);
                     double whitePercentageRight = calculateWhitePercentage(image, x + 1, y);
 
-                    if (whitePercentageLeft >= 0.2 && whitePercentageRight >= 0.2) {
+                    if (whitePercentageLeft >= 0.3 && whitePercentageRight >= 0.3) {
                         midpointX = x;
                         midpointY = y;
                         foundWhiteLine = true;
@@ -77,8 +74,8 @@ public class RTTHelper {
                     double whitePercentageLeft = calculateWhitePercentage(image, x - 1, y);
                     double whitePercentageRight = calculateWhitePercentage(image, x + 1, y);
 
-                    if (whitePercentageLeft >= 0.2 && whitePercentageRight >= 0.2) {
-                        boolean hasMagentaColor = hasMagentaColorInRadius(image, x, y, 10);
+                    if (whitePercentageLeft >= 0.5 && whitePercentageRight >= 0.5) {
+                        boolean hasMagentaColor = hasMagentaColorInRadius(image, x, y, 20);
                         if (!hasMagentaColor) {
                             midpointX = x;
                             midpointY = y;
@@ -161,7 +158,7 @@ public class RTTHelper {
             float adjustedX = x - imageCenter;
             float scaledX = (adjustedX / imageCenter) * sceneCenter;
 
-            PointF position = new PointF(scaledX, -1*(z/2));
+            PointF position = new PointF(scaledX, (z/2));
             positionList.add(position);
         }
 

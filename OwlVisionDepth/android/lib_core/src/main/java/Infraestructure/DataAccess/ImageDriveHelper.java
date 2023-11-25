@@ -20,14 +20,14 @@ public class ImageDriveHelper {
         imagesDir.mkdirs();
     }
 
-    public void saveBitmap(Bitmap bitmap) {
+    public void saveBitmap(Bitmap bitmap, int count) {
 
-        File file = createImageFile();
+        File file = createImageFile(count);
         saveBitmapToFile(bitmap, file);
     }
 
-    private File createImageFile() {
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+    private File createImageFile(int count) {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss" + "_" + count, Locale.getDefault()).format(new Date());
         String imageFileName = "IMG_" + timeStamp + ".jpg";
         File imageFile = new File(imagesDir, imageFileName);
         return imageFile;

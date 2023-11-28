@@ -12,6 +12,5 @@ data class Monitoring(
         val velocidadeRodaDir: Double,
         val posicaoXAlmejada: Double,
         val posicaoYAlmejada: Double,
-        val posicaoXAtual: Double,
-        val posicaoYAtual: Double
+        val pontoEvento: Int
 )

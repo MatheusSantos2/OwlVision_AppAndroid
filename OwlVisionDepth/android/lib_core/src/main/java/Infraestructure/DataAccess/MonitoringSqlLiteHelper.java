@@ -28,8 +28,7 @@ public class MonitoringSqlLiteHelper extends SQLiteOpenHelper
                 "velocidadeRodaDir REAL," +
                 "posicaoXAlmejada REAL," +
                 "posicaoYAlmejada REAL," +
-                "posicaoXAtual REAL," +
-                "posicaoYAtual REAL)";
+                "pontoEvento INTEGER)";
 
         db.execSQL(createTableQuery);
     }
@@ -46,7 +45,7 @@ public class MonitoringSqlLiteHelper extends SQLiteOpenHelper
 
         String[] messageArray = stringToArray(message);
 
-        if (messageArray.length == 6)
+        if (messageArray.length == 5)
         {
             SQLiteDatabase db = getWritableDatabase();
 
@@ -57,8 +56,8 @@ public class MonitoringSqlLiteHelper extends SQLiteOpenHelper
             values.put("velocidadeRodaDir", messageArray[1]);
             values.put("posicaoXAlmejada", messageArray[2]);
             values.put("posicaoYAlmejada", messageArray[3]);
-            values.put("posicaoXAtual", messageArray[4]);
-            values.put("posicaoYAtual", messageArray[5]);
+            values.put("pontoEvento", messageArray[4]);
+
 
             long newRowId = db.insert("Monitoring", null, values);
 

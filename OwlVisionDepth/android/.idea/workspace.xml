@@ -19,7 +19,9 @@
   <component name="ChangeListManager">
     <list default="true" id="171e0032-8938-43c8-b95a-e91b7fa23100" name="Changes" comment="Correção de bug no armazenamento de imagens&#10;Remoção de código de UMI">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/assets/model_semantic.tflite" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/assets/model_semantic.tflite" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/Main/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/Main/MainActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/DataAccess/MonitoringSqlLiteHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/DataAccess/MonitoringSqlLiteHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Entities/Monitoring.kt" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Entities/Monitoring.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -442,16 +444,6 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
-          <url>file://$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/DataAccess/ImageDriveHelper.java</url>
-          <line>41</line>
-          <option name="timeStamp" value="24" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
-          <url>file://$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/DataAccess/ImageDriveHelper.java</url>
-          <line>48</line>
-          <option name="timeStamp" value="25" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/AStar.java</url>
           <line>59</line>
           <option name="timeStamp" value="372" />
@@ -465,26 +457,6 @@
           <url>file://$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/TrajectoryValidator.java</url>
           <line>28</line>
           <option name="timeStamp" value="436" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
-          <url>file://$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/DataAccess/MonitoringSqlLiteHelper.java</url>
-          <line>46</line>
-          <option name="timeStamp" value="457" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
-          <url>file://$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/DataAccess/ImageDriveHelper.java</url>
-          <line>38</line>
-          <option name="timeStamp" value="459" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
-          <url>file://$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/DataAccess/ImageDriveHelper.java</url>
-          <line>24</line>
-          <option name="timeStamp" value="460" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
-          <url>file://$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/DataAccess/ImageDriveHelper.java</url>
-          <line>29</line>
-          <option name="timeStamp" value="464" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

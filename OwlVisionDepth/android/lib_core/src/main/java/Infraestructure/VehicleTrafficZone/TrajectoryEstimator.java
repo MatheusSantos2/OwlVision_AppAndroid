@@ -25,7 +25,7 @@ public class TrajectoryEstimator extends SegmentColors {
     private RTTHelper rrtHelper = new RTTHelper();
     private AStar aStar = new AStar();
 
-    private Pair imageSize = rrtHelper.getVehicleSize(192, 200, 500, 1200, vehicleHeight, vehicleWidth);
+    private Pair imageSize = rrtHelper.getVehicleSize(192, 200, 1000, 1000, vehicleHeight, vehicleWidth);
 
     private DistanceEstimator distanceEstimator = new DistanceEstimator();
     private ImageGenerator imageGenerator = new ImageGenerator();

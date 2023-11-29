@@ -261,7 +261,7 @@ class MainActivity : AppCompatActivity(), CameraFragment.OnCaptureFinished
     captureHandler.postDelayed({
       runBlocking {
         capturePhoto()
-        delay(500)
+        delay(5000)
         if (isCapturing) {
           startCaptureTimer()
         }

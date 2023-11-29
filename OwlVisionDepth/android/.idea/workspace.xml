@@ -17,11 +17,12 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="171e0032-8938-43c8-b95a-e91b7fa23100" name="Changes" comment="Correção de bug no armazenamento de imagens&#10;Remoção de código de UMI">
+    <list default="true" id="171e0032-8938-43c8-b95a-e91b7fa23100" name="Changes" comment="Correção de armazenamento de registros">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/assets/model_semantic.tflite" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/assets/model_semantic.tflite" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/assets/model_semantic2.tflite" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/Main/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/Main/MainActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/DataAccess/MonitoringSqlLiteHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/DataAccess/MonitoringSqlLiteHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Entities/Monitoring.kt" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Entities/Monitoring.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/TrajectoryEstimator.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/TrajectoryEstimator.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -371,7 +372,14 @@
       <option name="project" value="LOCAL" />
       <updated>1700945082082</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="Correção de armazenamento de registros">
+      <created>1701166823656</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1701166823656</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -413,7 +421,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Subindo o OpenCV" />
     <MESSAGE value="Subindo a alteração da classe de interpretação do modelo de segmentação semantica" />
     <MESSAGE value="Subindo a alteração para utilização dos metodos que determinam a zona transitavel" />
     <MESSAGE value="Subindo as alterações de bufferização da lista de pontos de trajetoria e remoção do filtro de kalman, e adição de estrutura para obtenção de dados de sensores de movimento e criação de estrura de captura automatica de fotos" />
@@ -438,7 +445,8 @@
     <MESSAGE value="Commite de alterações de estrutura" />
     <MESSAGE value="Commite de classes não utilizadas" />
     <MESSAGE value="Correção de bug no armazenamento de imagens&#10;Remoção de código de UMI" />
-    <option name="LAST_COMMIT_MESSAGE" value="Correção de bug no armazenamento de imagens&#10;Remoção de código de UMI" />
+    <MESSAGE value="Correção de armazenamento de registros" />
+    <option name="LAST_COMMIT_MESSAGE" value="Correção de armazenamento de registros" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

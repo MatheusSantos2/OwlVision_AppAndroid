@@ -54,7 +54,8 @@ class MLExecutionViewModel : ViewModel()
       }
       catch (e: Exception) {
         Log.e(TAG, "Fail to execute ImageSegmentationModelExecutor: ${e.message}")
-        _resultingBitmap.postValue(null)
+        var result =  ModelViewResult(ImageHelper.createEmptyBitmap(100, 100), ImageHelper.createEmptyBitmap(100, 100), ImageHelper.createEmptyBitmap(100, 100), ImageHelper.decodeBitmap(File(filePath)),"Fail to execute ImageSegmentationModelExecutor")
+        _resultingBitmap.postValue(result)
       }
     }
   }

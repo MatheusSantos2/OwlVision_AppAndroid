@@ -74,8 +74,8 @@ public class RTTHelper {
                     double whitePercentageLeft = calculateWhitePercentage(image, x - 1, y);
                     double whitePercentageRight = calculateWhitePercentage(image, x + 1, y);
 
-                    if (whitePercentageLeft >= 0.5 && whitePercentageRight >= 0.5) {
-                        boolean hasMagentaColor = hasMagentaColorInRadius(image, x, y, 20);
+                    if (whitePercentageLeft >= 0.4 && whitePercentageRight >= 0.4) {
+                        boolean hasMagentaColor = hasMagentaColorInRadius(image, x, y, 10);
                         if (!hasMagentaColor) {
                             midpointX = x;
                             midpointY = y;
@@ -151,20 +151,20 @@ public class RTTHelper {
         float imageCenter = imageWidth / 2.0f;
         float sceneCenter = sceneWidthCm / 2.0f;
 
+        float firstNodeY = (float) nodeList.get(0).getY();
+
         for (Node node : nodeList) {
-            float x = (float) node.getX();
-            float z = (float) node.getY();
+            float adjustedY = firstNodeY - (float) node.getY();
 
-            float adjustedX = x - imageCenter;
-            float scaledX = (adjustedX / imageCenter) * sceneCenter;
+            float scaledX = ((float) node.getX() - imageCenter) / imageCenter * sceneCenter;
+            float scaledY = adjustedY / imageCenter * sceneCenter;
 
-            PointF position = new PointF(scaledX, (z/2));
+            PointF position = new PointF(scaledX, scaledY);
             positionList.add(position);
         }
 
         return positionList;
     }
-
     public Pair<Double, Double> getVehicleSize(double imageWidht, double imageHeight, double sceneWidth, double sceneHeight, double vehicleWidth, double vehicleHeight) {
         double scaleX = vehicleWidth / sceneWidth;
         double scaleY = vehicleHeight / sceneHeight;

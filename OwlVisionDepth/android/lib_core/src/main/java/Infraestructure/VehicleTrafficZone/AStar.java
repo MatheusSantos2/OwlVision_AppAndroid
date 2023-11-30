@@ -22,8 +22,8 @@ public class AStar {
         PriorityQueue<Node> openSet = new PriorityQueue<>((n1, n2) -> Double.compare(fScore.getOrDefault(n1, Double.MAX_VALUE), fScore.getOrDefault(n2, Double.MAX_VALUE)));
         List<Node> closedSet = new ArrayList<>();
         this.tree = tree;
-        start = tree.get(0);
-        goal = tree.get(tree.size() - 1);
+        start = tree.get(tree.size() - 1);
+        goal = tree.get(0);
 
         gScore.put(start, 0.0);
         fScore.put(start, calculateHeuristicCostEstimate(start, goal));

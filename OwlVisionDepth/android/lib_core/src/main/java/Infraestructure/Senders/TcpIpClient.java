@@ -20,7 +20,7 @@ public class TcpIpClient {
     private int timeout = 50000000;
     private long retryDelayMillis = 2000L;
     private int port = 80;
-    private String ipAddress = "192.168.3.114";
+    private String ipAddress = "192.168.137.52";
     private Socket socket;
     private PrintWriter out;
 

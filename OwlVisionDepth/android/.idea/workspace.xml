@@ -17,12 +17,14 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="171e0032-8938-43c8-b95a-e91b7fa23100" name="Changes" comment="Correção de armazenamento de registros">
+    <list default="true" id="171e0032-8938-43c8-b95a-e91b7fa23100" name="Changes" comment="correção de bug nos nodes da geração de trajetória">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/assets/model_semantic.tflite" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/assets/model_semantic.tflite" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/assets/model_semantic2.tflite" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/Main/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/Main/MainActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/Main/MLExecutionViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/Main/MLExecutionViewModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Senders/TcpIpClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/Senders/TcpIpClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/AStar.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/AStar.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/RRT.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/RRT.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/TrajectoryEstimator.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/TrajectoryEstimator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib_utils/src/main/java/Utils/RTTHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib_utils/src/main/java/Utils/RTTHelper.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -379,7 +381,14 @@
       <option name="project" value="LOCAL" />
       <updated>1701166823656</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="Correção de variaveis da cena com valores errados">
+      <created>1701231713628</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1701231713628</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -421,8 +430,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Subindo a alteração da classe de interpretação do modelo de segmentação semantica" />
-    <MESSAGE value="Subindo a alteração para utilização dos metodos que determinam a zona transitavel" />
     <MESSAGE value="Subindo as alterações de bufferização da lista de pontos de trajetoria e remoção do filtro de kalman, e adição de estrutura para obtenção de dados de sensores de movimento e criação de estrura de captura automatica de fotos" />
     <MESSAGE value="subindo ic laucher atualizado" />
     <MESSAGE value="subindo alteração da classe de envio de posições" />
@@ -446,7 +453,9 @@
     <MESSAGE value="Commite de classes não utilizadas" />
     <MESSAGE value="Correção de bug no armazenamento de imagens&#10;Remoção de código de UMI" />
     <MESSAGE value="Correção de armazenamento de registros" />
-    <option name="LAST_COMMIT_MESSAGE" value="Correção de armazenamento de registros" />
+    <MESSAGE value="Correção de variaveis da cena com valores errados" />
+    <MESSAGE value="correção de bug nos nodes da geração de trajetória" />
+    <option name="LAST_COMMIT_MESSAGE" value="correção de bug nos nodes da geração de trajetória" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -465,6 +474,26 @@
           <url>file://$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/TrajectoryValidator.java</url>
           <line>28</line>
           <option name="timeStamp" value="436" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/TrajectoryEstimator.java</url>
+          <line>126</line>
+          <option name="timeStamp" value="447" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/TrajectoryEstimator.java</url>
+          <line>113</line>
+          <option name="timeStamp" value="450" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/AStar.java</url>
+          <line>25</line>
+          <option name="timeStamp" value="455" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/lib_core/src/main/java/Infraestructure/VehicleTrafficZone/TrajectoryEstimator.java</url>
+          <line>58</line>
+          <option name="timeStamp" value="468" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

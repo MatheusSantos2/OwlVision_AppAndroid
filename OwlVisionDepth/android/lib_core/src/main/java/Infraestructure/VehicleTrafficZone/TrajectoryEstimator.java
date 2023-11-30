@@ -117,7 +117,7 @@ public class TrajectoryEstimator extends SegmentColors {
                 first = rrtHelper.getEquidistantNodes(first,5);
 
                 if(!first.isEmpty()) {
-                    return new Pair<>(rrtHelper.convertNodesToPositions(first, coordinateDictionary, resizedWidth, 200), pairRtt.second);
+                    return new Pair<>(rrtHelper.convertNodesToPositions(first, coordinateDictionary, resizedWidth, 100), pairRtt.second);
                 }
                 else{
                     return new Pair<>(new ArrayList<PointF>(), imageGenerator.createEmptyImage(100, 100));

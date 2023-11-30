@@ -18,6 +18,7 @@ public class RRT {
     private List<Node> tree;
     private double vehicleWidth;
     private double vehicleHeight;
+    private double scaleVehicleSize = 4; //considere que se o tamanho da zona de projeção é 1 m^2, e a imagem é 192X200, então o vehicle na imagem tem seguir a escala
     private int imageWidth;
     private int imageHeight;
     private int[][] imagePixels;
